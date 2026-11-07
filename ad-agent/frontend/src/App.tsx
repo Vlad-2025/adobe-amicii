@@ -128,8 +128,8 @@ export default function App() {
             <Flex alignItems="center" gap="size-100" marginBottom="size-200">
               <div style={{ width: 28, height: 28, borderRadius: 7, background: "linear-gradient(135deg,#f5a623,#e34850)", display: "grid", placeItems: "center", fontWeight: 800, color: "#111" }}>A</div>
               <Flex direction="column">
-                <Text UNSAFE_style={{ fontWeight: 700 }}>Ad Fatigue Agent</Text>
-                <Text UNSAFE_style={{ fontSize: 11, opacity: 0.6 }}>for marketing teams</Text>
+                <Text UNSAFE_style={{ fontWeight: 700 }}>Adwise</Text>
+                <Text UNSAFE_style={{ fontSize: 11, opacity: 0.6 }}>AI ad health for marketing teams</Text>
               </Flex>
             </Flex>
           </a>
