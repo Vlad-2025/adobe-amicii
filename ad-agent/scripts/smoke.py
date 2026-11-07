@@ -74,6 +74,12 @@ def main() -> int:
         print(f"new company channel {r['channel_id']}: {len(ads)} ads live")
         if not ads:
             problems.append("new channel has no ads")
+        tv = c.get("/api/ch/volt-ig/voices").json()
+        print(f"top voices on volt-ig: {sum(len(x) for x in tv['communities'].values())} profiles in {len(tv['communities'])} communities")
+        if not tv["available"] or not any(tv["communities"].values()):
+            problems.append("no top voices on volt-ig")
+        if "community" not in c.get("/api/ch/volt-ig/voices.csv").text[:20]:
+            problems.append("voices csv broken")
         for chan in ("kin-meta", r["channel_id"]):
             maps = c.get(f"/api/ch/{chan}/campaigns").json()
             print(f"campaign maps on {chan}: " + "; ".join(f"{m['name']}: +{m['summary']['expand']} -{m['summary']['retreat']}" for m in maps))

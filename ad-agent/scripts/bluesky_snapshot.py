@@ -5,7 +5,9 @@
 
 Writes data/bluesky/{accounts,follows,interactions,posts}.parquet + snapshot_meta.json.
 Polite: ~5 requests/second, exponential backoff on 429/5xx, resumable (per-account cache in
-data/bluesky/cache/). Privacy: DIDs are hashed with a salt; handles and display names are dropped.
+data/bluesky/cache/). Privacy: DIDs are hashed with a salt; handles and display names are dropped,
+except for the most-followed public accounts of each starter pack (influencers.parquet: handle,
+display name, bio, follower count), which the Audiences page lists as "top voices" for outreach.
 Run it once before the event and commit the output, so the demo never needs the network."""
 from __future__ import annotations
 
@@ -144,6 +146,33 @@ def crawl_account(c: Client, did: str) -> dict:
     return data
 
 
+TOP_PER_PACK = 15
+MIN_FOLLOWERS = 500  # only clearly public accounts (creators, publications, brands) are named
+
+
+def save_influencers(c: Client, dids: list[str], members: dict[str, str], f_rows: list[dict], h) -> None:
+    """Public profile of the best-connected accounts per pack. Everyone else stays pseudonymous."""
+    indeg = pd.DataFrame(f_rows, columns=["src", "dst", "weight"]).groupby("dst").size()
+    by_hash = {h(d): d for d in dids}
+    cand = []
+    for pack in set(members.values()):
+        ids = sorted((h(d) for d in dids if members[d] == pack), key=lambda u: -indeg.get(u, 0))[: TOP_PER_PACK * 2]
+        cand += [by_hash[u] for u in ids]
+    rows = []
+    for i in range(0, len(cand), 25):
+        d = c.get("app.bsky.actor.getProfiles", actors=cand[i:i + 25]) or {}
+        for pr in d.get("profiles", []):
+            if (pr.get("followersCount") or 0) < MIN_FOLLOWERS:
+                continue
+            rows.append({"user_id": h(pr["did"]), "handle": pr.get("handle"), "display_name": (pr.get("displayName") or "").strip(),
+                         "bio": (pr.get("description") or "").strip()[:300], "followers": pr.get("followersCount") or 0,
+                         "posts": pr.get("postsCount") or 0, "pack": members.get(pr["did"])})
+    df = pd.DataFrame(rows, columns=["user_id", "handle", "display_name", "bio", "followers", "posts", "pack"])
+    df = df.sort_values("followers", ascending=False).groupby("pack").head(TOP_PER_PACK)
+    df.to_parquet(OUT / "influencers.parquet", index=False)
+    print(f"{len(df)} public top-voice profiles saved")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--max", type=int, default=None, help="max accounts (default from config)")
@@ -200,6 +229,7 @@ def main() -> None:
     pd.DataFrame(f_rows, columns=["src", "dst", "weight"]).to_parquet(OUT / "follows.parquet", index=False)
     inter.to_parquet(OUT / "interactions.parquet", index=False)
     posts.to_parquet(OUT / "posts.parquet", index=False)
+    save_influencers(c, dids, members, f_rows, h)
     meta = {"source": "bluesky", "date": time.strftime("%Y-%m-%d"), "packs": used_packs,
             "counts": {"accounts": len(acc_rows), "follows": len(f_rows), "interactions": len(inter), "posts": len(posts)}, "requests": c.calls}
     (OUT / "snapshot_meta.json").write_text(json.dumps(meta, indent=1), encoding="utf-8")

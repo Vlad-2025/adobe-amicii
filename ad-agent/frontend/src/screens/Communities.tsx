@@ -5,6 +5,60 @@ import { COMMUNITY_COLORS, pct, useApi , C } from "../api";
 import { go } from "../App";
 import { AiTag, Card, td, th, Th, Info, withTerms } from "../components/ui";
 
+function TopVoices({ comms, sel, setSel }: { comms: any[]; sel: number | null; setSel: (c: number | null) => void }) {
+  const v = useApi<any>("voices", C("/voices"));
+  if (!v.data) return null;
+  if (!v.data.available)
+    return (
+      <Card title="Top voices" info="Influencer lists need a public follow graph. Ad platforms report segments only, never who is in them.">
+        <div style={{ fontSize: 14, color: "var(--muted)", lineHeight: 1.6 }}>
+          Not available for ad-platform segments. In production, creators for these segments come from the platforms' creator marketplaces (TikTok, Instagram) or paid tools such as Modash or HypeAuditor.
+        </div>
+      </Card>
+    );
+  const cur = sel ?? comms[0]?.community_id;
+  const rows: any[] = v.data.communities[String(cur)] ?? [];
+  const synthetic = rows.some((r) => r.synthetic);
+  return (
+    <Card title="Top voices" info={<>The accounts each community follows and replies to most: who it actually listens to.<br /><br />Only public profiles are named; everyone else stays anonymous.{synthetic && <><br /><br />These are made-up demo profiles (.example handles). Run the Bluesky snapshot for real ones.</>}</>}
+      right={<a href={C("/voices.csv")} download style={{ fontSize: 13, color: "var(--blue)", textDecoration: "none" }}>Download CSV (all communities)</a>}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 12 }}>
+        {comms.map((c) => (
+          <button key={c.community_id} onClick={() => setSel(c.community_id)}
+            style={{ cursor: "pointer", border: "1px solid var(--line)", borderRadius: 16, padding: "4px 12px", fontSize: 13, color: "#ddd",
+              background: c.community_id === cur ? "rgba(255,255,255,.1)" : "transparent", display: "inline-flex", alignItems: "center", gap: 6 }}>
+            <span style={{ width: 8, height: 8, borderRadius: 4, background: COMMUNITY_COLORS[c.community_id % COMMUNITY_COLORS.length] }} />
+            {c.name}
+          </button>
+        ))}
+      </div>
+      {rows.length === 0 ? <div style={{ color: "var(--muted)", fontSize: 14 }}>No public profiles in this community yet.</div> : (
+        <table className="dtable">
+          <thead>
+            <tr><Th left>#</Th><Th left>Who</Th><Th left>Bio</Th><Th>Followers</Th><Th>Followed by</Th><Th>Replies + reposts</Th><Th>Profile</Th></tr>
+          </thead>
+          <tbody>
+            {rows.map((r, i) => (
+              <tr key={r.handle}>
+                <td className="l" style={{ color: "var(--muted)" }}>{i + 1}</td>
+                <td className="l">
+                  <div style={{ fontWeight: 650 }}>{r.display_name}</div>
+                  <div style={{ fontSize: 12, color: "var(--muted)" }}>@{r.handle}</div>
+                </td>
+                <td className="l" style={{ fontSize: 13, color: "#c8c8d0", maxWidth: 360 }}>{r.bio || "–"}</td>
+                <td>{r.followers.toLocaleString()}</td>
+                <td>{(r.followed_by_share * 100).toFixed(0)}% <span style={{ fontSize: 12, color: "var(--muted)" }}>of community</span></td>
+                <td>{r.engagement}</td>
+                <td>{r.url ? <a href={r.url} target="_blank" rel="noreferrer" style={{ color: "var(--blue)" }}>Open ↗</a> : <span style={{ fontSize: 12, color: "var(--muted)" }}>demo</span>}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </Card>
+  );
+}
+
 export default function Communities() {
   const q = useApi("communities", C("/communities"));
   const hm = useApi<any[]>("heatmap", C("/heatmap"));
@@ -68,6 +122,7 @@ export default function Communities() {
           </div>
         </Card>
       </Grid>}
+      <TopVoices comms={comms} sel={sel} setSel={setSel} />
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 16 }}>
         {comms.filter((c) => sel == null || c.community_id === sel).map((c) => (

@@ -13,6 +13,37 @@ MAX_NODES = 1200
 MAX_EDGES = 5000
 
 
+@router.get("/voices")
+def voices(ch: str):
+    """Top voices per community (public profiles only), for influencer outreach."""
+    from app.analytics.influencers import top_voices
+
+    aud = registry.channel(ch)["config"]["audience"]
+    if aud["type"] != "bluesky":
+        return {"available": False, "communities": {}}
+    rt(ch)
+    return {"available": True, "communities": top_voices(ch)}
+
+
+@router.get("/voices.csv")
+def voices_csv(ch: str):
+    import csv
+    import io
+
+    from fastapi.responses import Response
+
+    from app.analytics.influencers import top_voices
+
+    names = rt(ch).names
+    buf = io.StringIO()
+    w = csv.writer(buf)
+    w.writerow(["community", "rank", "display_name", "handle", "profile_url", "followers", "share_of_community_following", "replies_reposts_from_community", "bio", "synthetic"])
+    for cid, rows in top_voices(ch).items():
+        for i, v in enumerate(rows, 1):
+            w.writerow([names.get(cid, cid), i, v["display_name"], v["handle"], v["url"] or "", v["followers"], v["followed_by_share"], v["engagement"], v["bio"], v["synthetic"]])
+    return Response(buf.getvalue(), media_type="text/csv", headers={"Content-Disposition": f'attachment; filename="{ch}-top-voices.csv"'})
+
+
 @router.get("/communities")
 def communities(ch: str):
     r = rt(ch)

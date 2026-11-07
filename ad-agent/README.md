@@ -30,6 +30,10 @@ You can create your own company in the UI and connect a channel:
   red = recommended to retreat (ROAS under target, lagging the campaign's other countries, demand
   falling). Hover a country for its name and the reason. Each company has two planted market shifts
   (e.g. Volt: Spain heatwave up, France price war down).
+- **Top voices (Audiences page):** for Bluesky-based audiences, the 10 accounts each community
+  follows and replies to most, with bio, follower count and profile link, plus a CSV for outreach.
+  Only public accounts (500+ followers, in public starter packs) are named; everyone else stays
+  hashed. Without a snapshot these are made-up `.example` profiles.
 - **Live API:** the channel shows which credentials and approvals that platform needs. The live
   connectors are stubs with real field mappings.
 
@@ -40,6 +44,7 @@ You can create your own company in the UI and connect a channel:
 | Daily stats per ad and segment | Meta Marketing API Insights, TikTok Reporting API, X Ads API stats, LinkedIn adAnalytics: all aggregated per campaign / ad set / ad, with demographic or targeting breakdowns. Never per person. |
 | Purchases / signups / wishlists | The pixel / Conversions API of each platform, or the shop / CRM |
 | Audience communities | Bluesky public graph (open). Closed platforms give follower demographics to the account owner only, never follower lists, so communities come from open networks or paid social-listening tools. |
+| Influencers per community | Bluesky: public profiles from the snapshot. Instagram/TikTok: their creator marketplaces or paid tools (Modash, HypeAuditor), since follower lists are not available |
 | Ad-platform segments | Your ad sets' targeting definitions (interests, job functions, ages) |
 | Budget changes, new creatives | The same ads APIs with write permission (e.g. ads_management on Meta), after human approval |
 | Country results per campaign | Insights with a country breakdown (Meta `breakdowns=country`, TikTok `country_code`, X / LinkedIn geo pivots) |
