@@ -2,7 +2,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Flex, Heading, ProgressCircle, Text, Grid } from "@adobe/react-spectrum";
 import ForceGraph2D from "react-force-graph-2d";
 import { COMMUNITY_COLORS, pct, useApi , C } from "../api";
-import { AiTag, Card, td, th } from "../components/ui";
+import { go } from "../App";
+import { AiTag, Card, td, th, Th, Info, withTerms } from "../components/ui";
 
 export default function Communities() {
   const q = useApi("communities", C("/communities"));
@@ -25,16 +26,19 @@ export default function Communities() {
 
   return (
     <Flex direction="column" gap="size-250">
-      <Flex alignItems="baseline" gap="size-200" wrap>
+      <Flex alignItems="center" gap="size-150" justifyContent="center" wrap>
         <Heading level={2} margin={0}>{segmentsOnly ? "Audience segments" : "Audience communities"}</Heading>
-        <Text UNSAFE_style={{ opacity: 0.7 }}>
-          {segmentsOnly
-            ? `${comms.length} targeting segments. The ad platform only reports results per segment (never per person), so each segment is modeled with ${meta.accounts?.toLocaleString()} synthetic twins; their posts stand in for social-listening samples.`
-            : `${meta.accounts?.toLocaleString()} ${meta.source === "bluesky" ? "real Bluesky accounts" : "accounts (synthetic stand-in until you run the Bluesky snapshot)"}${q.data.audience_source ? ` from ${q.data.audience_source.handle}` : ""} · ${comms.length} communities found by ${meta.community_method} on the follow graph`}
-        </Text>
+        <span style={{ fontSize: 14, color: "var(--muted)", display: "inline-flex", alignItems: "center" }}>
+          {segmentsOnly ? `${comms.length} segments` : `${meta.accounts?.toLocaleString()} accounts · ${comms.length} communities`}
+          <Info>
+            {segmentsOnly
+              ? <>Ad platforms report results per targeting segment, never per person. Each segment is modeled with {meta.accounts?.toLocaleString()} synthetic accounts.</>
+              : <>{meta.source === "bluesky" ? "Real Bluesky accounts" : "Synthetic stand-in until you run the Bluesky snapshot"}{q.data.audience_source ? ` around ${q.data.audience_source.handle}` : ""}. Communities found with the {meta.community_method} algorithm on who-follows-whom.</>}
+          </Info>
+        </span>
       </Flex>
       {graph && <Grid columns={["3fr", "2fr"]} gap="size-200">
-        <Card title="Follow graph, colored by community" padding="size-100">
+        <Card title="Follow graph" info={`Sample of ${graph.nodes.length} accounts, one color per community. Click a node or a community to focus it.`} padding="size-150">
           <div ref={box} style={{ height: 460, overflow: "hidden", borderRadius: 6 }}>
             <ForceGraph2D
               graphData={graph}
@@ -51,9 +55,8 @@ export default function Communities() {
               onNodeClick={(n: any) => setSel(sel === n.c ? null : n.c)}
             />
           </div>
-          <Text UNSAFE_style={{ fontSize: 12, opacity: 0.6 }}>Sample of {graph.nodes.length} accounts. Click a node or a card to focus a community.</Text>
         </Card>
-        <Card title="Who is in each community">
+        <Card title="Communities" info={meta.nmi_vs_seed != null ? <>Match with the starter packs we seeded from: {withTerms("NMI")} {meta.nmi_vs_seed.toFixed(2)}</> : undefined}>
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
             {comms.map((c) => (
               <div key={c.community_id} onClick={() => setSel(sel === c.community_id ? null : c.community_id)} style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 8, padding: "6px 8px", borderRadius: 6, background: sel === c.community_id ? "rgba(255,255,255,.08)" : undefined }}>
@@ -63,7 +66,6 @@ export default function Communities() {
               </div>
             ))}
           </div>
-          {meta.nmi_vs_seed != null && <Text UNSAFE_style={{ fontSize: 12, opacity: 0.6, display: "block", marginTop: 10 }}>Overlap with the starter packs we seeded from: NMI {meta.nmi_vs_seed.toFixed(2)}</Text>}
         </Card>
       </Grid>}
 
@@ -75,7 +77,6 @@ export default function Communities() {
               <>
                 <div style={{ fontSize: 14, marginBottom: 8 }}>{c.persona.one_liner}</div>
                 <div style={{ fontSize: 13, lineHeight: 1.6 }}>
-                  <div><b>Interests:</b> {c.persona.interests.join(", ")}</div>
                   <div><b>Tone:</b> {c.persona.tone}</div>
                   <div><b>Best hours:</b> {c.persona.best_hours}</div>
                   <div><b>Do:</b> {c.persona.do.join("; ")}</div>
@@ -98,18 +99,18 @@ export default function Communities() {
         ))}
       </div>
 
-      <Card title="Ad × community heatmap: CTR change (last 3 days vs healthy baseline)">
+      <Card title="CTR change per ad and community" info="Last 3 days vs the ad's healthy baseline. Red = clicks dropping in that community. Hover a cell for details.">
         <table style={{ borderCollapse: "collapse" }}>
           <thead>
             <tr>
-              <th style={th}>Ad</th>
+              <Th>Ad</Th>
               {comms.map((c) => <th key={c.community_id} style={{ ...th, opacity: sel == null || sel === c.community_id ? 0.8 : 0.3 }}>{c.name}</th>)}
             </tr>
           </thead>
           <tbody>
             {ads.map((ad) => (
               <tr key={ad}>
-                <td style={{ ...td, fontWeight: 700 }}><a href={`#/ad/${ad}`} style={{ color: "inherit" }}>{ad}</a></td>
+                <td style={{ ...td, fontWeight: 700 }}><a onClick={() => go("ad", ad)} style={{ color: "inherit", cursor: "pointer" }}>{ad}</a></td>
                 {comms.map((c) => {
                   const r = hm.data!.find((x) => x.ad_id === ad && x.community_id === c.community_id);
                   if (!r) return <td key={c.community_id} style={{ ...td, opacity: 0.25, textAlign: "center" }}>·</td>;

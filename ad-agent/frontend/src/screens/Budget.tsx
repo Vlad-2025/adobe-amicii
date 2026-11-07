@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, ButtonGroup, Flex, Heading, ProgressCircle, Text } from "@adobe/react-spectrum";
 import { HYPO_LABEL, eur, post, queryClient, useApi , C } from "../api";
-import { Card, Kpi } from "../components/ui";
+import { Card, Kpi, Info, withTerms } from "../components/ui";
 
 export default function Budget() {
   const q = useApi<any[]>("budget", C("/budget/actions"));
@@ -26,7 +26,7 @@ export default function Budget() {
     <Flex direction="column" gap="size-250">
       <Flex alignItems="center" gap="size-200" wrap>
         <Heading level={2} margin={0}>Budget Autopilot</Heading>
-        <Text UNSAFE_style={{ opacity: 0.7 }}>Proposals stay inside each campaign's max CPA, min ROAS and total budget. Nothing changes without approval.</Text>
+        <Info>Proposals stay inside each campaign's max {withTerms("CPA")}, min {withTerms("ROAS")} and total budget. Nothing changes without your approval.<br /><br /><b>€ protected</b> = wasted spend without the action minus wasted spend with it, over the same 7 simulated days (average of 5 runs).</Info>
         <div style={{ flex: 1 }} />
         <Button variant="cta" onPress={propose} isPending={busy}>Find budget actions</Button>
       </Flex>
@@ -63,9 +63,6 @@ export default function Budget() {
           ))}
         </Card>
       )}
-      <Text UNSAFE_style={{ fontSize: 12, opacity: 0.6 }}>
-        € protected = wasted spend in the no-action counterfactual minus wasted spend with the action, over the same 7 simulated days, averaged over 5 paired forks with fixed seeds. Wasted spend = spend not covered by conversions at the campaign's max CPA.
-      </Text>
     </Flex>
   );
 }

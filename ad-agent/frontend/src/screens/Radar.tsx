@@ -1,35 +1,33 @@
 import { Flex, Heading, Text, ProgressCircle } from "@adobe/react-spectrum";
 import { useApi, eur, pct, STATUS_COLOR , C } from "../api";
 import { go } from "../App";
-import { Card, Health, Kpi, Sparkline, td, th } from "../components/ui";
+import { Card, Health, Kpi, Sparkline, Th, Info, withTerms } from "../components/ui";
 import { CampaignMap, MapLegend, MAP_COLOR } from "../components/CampaignMap";
 
 function Campaigns() {
   const q = useApi<any[]>("campaigns", C("/campaigns"));
   if (!q.data?.length) return null;
   return (
-    <Card title="Campaigns by country" right={<MapLegend />}>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(322px, 1fr))", gap: 14 }}>
+    <Card title="Campaigns by country" right={<MapLegend />}
+      info={<>Hover a country for details.<br /><b>Expand</b>: demand for the category up 20%+ in a market you sell in but don't target.<br /><b>Retreat</b>: ROAS under target and behind the campaign's other countries.<br />Demand here is simulated; in production it comes from Google Trends / GDELT news volume.</>}>
+      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 16 }}>
         {q.data.map((m) => (
-          <div key={m.campaign_id} style={{ border: "1px solid var(--spectrum-global-color-gray-300)", borderRadius: 8, padding: 10, display: "flex", flexDirection: "column", gap: 8 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8 }}>
-              <span style={{ fontWeight: 700, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{m.name}</span>
-              <span style={{ fontSize: 12, opacity: 0.7, whiteSpace: "nowrap" }}>
-                {eur(m.spend_7d)} · ROAS <b style={{ color: m.roas_7d < m.min_roas ? "#e34850" : undefined }}>{m.roas_7d?.toFixed(2)}</b>
+          <div key={m.campaign_id} style={{ width: 322, boxSizing: "border-box", border: "1px solid var(--line)", borderRadius: 10, padding: 10, display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+            <div style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8 }}>
+              <span style={{ fontWeight: 650, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{m.name}</span>
+              <span style={{ fontSize: 12, color: "var(--muted)", whiteSpace: "nowrap" }}>
+                {eur(m.spend_7d)} · {withTerms("ROAS")} <b style={{ color: m.roas_7d < m.min_roas ? "var(--red)" : "#ddd" }}>{m.roas_7d?.toFixed(2)}</b>
               </span>
             </div>
             <CampaignMap countries={m.countries} />
-            <div style={{ fontSize: 12, lineHeight: 1.5 }}>
-              {m.summary.expand.length > 0 && <div><span style={{ color: MAP_COLOR.expand, fontWeight: 700 }}>Expand:</span> {m.summary.expand.join(", ")}</div>}
-              {m.summary.retreat.length > 0 && <div><span style={{ color: MAP_COLOR.retreat, fontWeight: 700 }}>Retreat:</span> {m.summary.retreat.join(", ")}</div>}
-              {!m.summary.expand.length && !m.summary.retreat.length && <div style={{ opacity: 0.6 }}>No country changes recommended</div>}
+            <div style={{ fontSize: 12, lineHeight: 1.5, minHeight: 36, textAlign: "center" }}>
+              {m.summary.expand.length > 0 && <div><span style={{ color: MAP_COLOR.expand, fontWeight: 700 }}>Expand</span> {m.summary.expand.join(", ")}</div>}
+              {m.summary.retreat.length > 0 && <div><span style={{ color: MAP_COLOR.retreat, fontWeight: 700 }}>Retreat</span> {m.summary.retreat.join(", ")}</div>}
+              {!m.summary.expand.length && !m.summary.retreat.length && <div style={{ color: "var(--muted)" }}>No changes suggested</div>}
             </div>
           </div>
         ))}
       </div>
-      <Text UNSAFE_style={{ fontSize: 12, opacity: 0.6, display: "block", marginTop: 10 }}>
-        Hover a country for details. Retreat = ROAS below the campaign target while local demand falls. Expand = category demand up 20%+ (last 3 days vs 2–4 weeks ago) in a market with no campaign yet. Demand is a Trends-style index; in production it comes from Google Trends / GDELT news volume.
-      </Text>
     </Card>
   );
 }
@@ -37,69 +35,69 @@ function Campaigns() {
 export default function Radar() {
   const ov = useApi("overview", C("/overview"));
   const ads = useApi<any[]>("ads", C("/ads"));
+  const camps = useApi<any[]>("campaigns", C("/campaigns"));
   if (!ov.data || !ads.data) return <ProgressCircle isIndeterminate aria-label="loading" />;
   const k = ov.data.kpi_7d;
   const p = ov.data.kpi_prev_7d;
   const d = (a: number, b: number) => (b ? (a - b) / b : null);
   const hc = ov.data.health_counts;
+  const campName: Record<string, string> = Object.fromEntries((camps.data ?? []).map((m: any) => [m.campaign_id, m.name]));
   return (
     <Flex direction="column" gap="size-300">
-      <Flex alignItems="baseline" gap="size-200">
+      <Flex alignItems="baseline" gap="size-200" justifyContent="center" wrap>
         <Heading level={2} margin={0}>Ads Radar</Heading>
-        <Text UNSAFE_style={{ opacity: 0.7 }}>
-          {hc.failing} failing · {hc.at_risk} at risk · {hc.watch} watch · {hc.healthy} healthy — last 7 days
-        </Text>
+        <span style={{ fontSize: 14, color: "var(--muted)" }}>
+          <b style={{ color: STATUS_COLOR.failing }}>{hc.failing} failing</b> · <b style={{ color: STATUS_COLOR.at_risk }}>{hc.at_risk} at risk</b> · {hc.watch} watch · {hc.healthy} healthy
+        </span>
       </Flex>
       <Flex gap="size-200" wrap>
-        <Kpi label="Spend (7 days)" value={eur(k.spend)} delta={d(k.spend, p.spend)} goodWhenUp={false} />
-        <Kpi label="ROAS (revenue ÷ spend)" value={k.roas.toFixed(2)} delta={d(k.roas, p.roas)} />
-        <Kpi label={`CPA (€ per ${ov.data.conversion_name ?? "purchase"})`} value={eur(k.cpa, 2)} delta={d(k.cpa, p.cpa)} goodWhenUp={false} />
-        <Kpi label="€ at risk (next 7 days)" value={eur(ov.data.eur_at_risk)} accent="#e68619" />
+        <Kpi label="Spend · 7 days" value={eur(k.spend)} delta={d(k.spend, p.spend)} goodWhenUp={false} />
+        <Kpi label="ROAS" value={k.roas.toFixed(2)} delta={d(k.roas, p.roas)} />
+        <Kpi label="CPA" value={eur(k.cpa, 2)} delta={d(k.cpa, p.cpa)} goodWhenUp={false} info={`€ per ${ov.data.conversion_name ?? "purchase"}`} />
+        <Kpi label="€ at risk" value={eur(ov.data.eur_at_risk)} accent="var(--amber)" />
       </Flex>
       <Campaigns />
-      <Card title="Ads, sorted by health and € at risk" right={<Text UNSAFE_style={{ fontSize: 12, opacity: 0.6 }}>Click an ad to diagnose it</Text>}>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+      <Card title="Ads" right={<span style={{ fontSize: 12, color: "var(--muted)" }}>click a row to diagnose</span>}
+        info="Sorted by health, then € at risk. Forecasts come from a LightGBM model; every number is computed by code, not the AI.">
+        <table className="dtable">
           <thead>
             <tr>
-              <th style={th}>Health</th>
-              <th style={th}>Ad</th>
-              <th style={th}>CTR, last 21 days</th>
-              <th style={th}>CTR 7d</th>
-              <th style={th}>Frequency (7d)</th>
-              <th style={th}>Days to fatigue</th>
-              <th style={th}>ROAS 7d</th>
-              <th style={th}>€ at risk</th>
-              <th style={th}>Anomalies</th>
+              <Th left>Health</Th>
+              <Th left>Ad</Th>
+              <Th>CTR · 21 days</Th>
+              <Th>CTR</Th>
+              <Th>Frequency</Th>
+              <Th>Days to fatigue</Th>
+              <Th>ROAS</Th>
+              <Th>€ at risk</Th>
+              <Th>Alerts</Th>
             </tr>
           </thead>
           <tbody>
             {ads.data.map((a) => (
-              <tr key={a.ad_id} onClick={() => go("ad", a.ad_id)} style={{ cursor: "pointer" }}>
-                <td style={td}><Health status={a.status} /></td>
-                <td style={td}>
-                  <div style={{ fontWeight: 700 }}>{a.ad_id} <span style={{ fontWeight: 400, opacity: 0.6, fontSize: 12 }}>{a.campaign_id.replace("camp_", "Campaign ")} · {a.ad_set_id}</span></div>
-                  <div style={{ opacity: 0.75, fontSize: 13 }}>{a.hook}</div>
+              <tr key={a.ad_id} className="click" onClick={() => go("ad", a.ad_id)}>
+                <td className="l"><Health status={a.status} /></td>
+                <td className="l">
+                  <div style={{ fontWeight: 650 }}>{a.ad_id} <span style={{ fontWeight: 400, color: "var(--muted)", fontSize: 12 }}>{campName[a.campaign_id] ?? a.campaign_id}</span></div>
+                  <div style={{ color: "#c8c8d0", fontSize: 13 }}>{a.hook}</div>
                 </td>
-                <td style={td}><Sparkline values={a.sparkline} color={STATUS_COLOR[a.status]} /></td>
-                <td style={td}>{pct(a.ctr, 2)}</td>
-                <td style={td}>{a.frequency?.toFixed(1)}</td>
-                <td style={td}>
-                  {a.days_to_fatigue == null ? "–" : a.days_to_fatigue <= 0 ? <b style={{ color: "#e34850" }}>fatigued</b> : (
-                    <span>{a.days_to_fatigue.toFixed(0)} <span style={{ opacity: 0.6, fontSize: 12 }}>({a.dtf_low.toFixed(0)}–{a.dtf_high.toFixed(0)})</span></span>
+                <td><Sparkline values={a.sparkline} color={STATUS_COLOR[a.status]} /></td>
+                <td>{pct(a.ctr, 2)}</td>
+                <td>{a.frequency?.toFixed(1)}</td>
+                <td>
+                  {a.days_to_fatigue == null ? "–" : a.days_to_fatigue <= 0 ? <span style={{ color: "var(--red)", fontWeight: 600 }}>now</span> : (
+                    <span>{a.days_to_fatigue.toFixed(0)} <span style={{ color: "var(--muted)", fontSize: 12 }}>({a.dtf_low.toFixed(0)}–{a.dtf_high.toFixed(0)})</span></span>
                   )}
                 </td>
-                <td style={td}>{a.roas.toFixed(2)}</td>
-                <td style={{ ...td, fontWeight: 700, color: a.eur_at_risk > 50 ? "#e68619" : undefined }}>{eur(a.eur_at_risk)}</td>
-                <td style={{ ...td, fontSize: 12 }}>
-                  {a.anomalies.length ? a.anomalies.map((x: any) => `${x.metric.toUpperCase()} ${x.z > 0 ? "+" : ""}${x.z}σ`).join(", ") : <span style={{ opacity: 0.4 }}>none</span>}
+                <td>{a.roas.toFixed(2)}</td>
+                <td style={{ fontWeight: 650, color: a.eur_at_risk > 50 ? "var(--amber)" : undefined }}>{eur(a.eur_at_risk)}</td>
+                <td style={{ fontSize: 12 }}>
+                  {a.anomalies.length ? a.anomalies.map((x: any, i: number) => <div key={i}>{withTerms(x.metric.toUpperCase())} {x.z > 0 ? "▲" : "▼"} {withTerms(`${Math.abs(x.z).toFixed(1)}σ`)}</div>) : <span style={{ color: "var(--muted)" }}>–</span>}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        <Text UNSAFE_style={{ fontSize: 12, opacity: 0.6, display: "block", marginTop: 10 }}>
-          Days to fatigue: LightGBM forecast of days until 3-day CTR falls below 70% of its peak (10th–90th percentile in brackets). € at risk = 7 days of spend × forecast efficiency loss. All numbers computed by code.
-        </Text>
       </Card>
     </Flex>
   );

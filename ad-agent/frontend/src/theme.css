@@ -1,0 +1,32 @@
+/* Calmer dark theme on top of React Spectrum */
+:root {
+  --bg: #17171b; --panel: #1f1f25; --line: #2c2c34; --line-soft: #26262d; --muted: #9a9aa6;
+  --red: #e5737a; --amber: #e8a65a; --green: #5cc29b; --blue: #6fb3e8;
+}
+html, body, #root { background: var(--bg) !important; }
+body { -webkit-font-smoothing: antialiased; }
+
+/* hover tooltips for acronyms and ⓘ icons */
+.tip { position: relative; display: inline; cursor: help; }
+.tip-icon { display: inline-flex; align-items: center; vertical-align: middle; }
+.tip-term { border-bottom: 1px dotted rgba(255,255,255,.45); }
+.tip-icon { width: 15px; height: 15px; border-radius: 50%; font-size: 10px; font-weight: 700; justify-content: center;
+  border: 1px solid rgba(255,255,255,.3); color: var(--muted); margin-left: 6px; font-style: normal; }
+.tip-box { display: none; position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); z-index: 100;
+  width: max-content; max-width: 260px; padding: 8px 10px; border-radius: 8px; background: #2a2a32; border: 1px solid #3a3a44;
+  color: #e6e6ea; font-size: 12px; font-weight: 400; line-height: 1.45; text-align: left; white-space: normal; letter-spacing: 0;
+  text-transform: none; opacity: 1; box-shadow: 0 6px 20px rgba(0,0,0,.45); pointer-events: none; }
+.tip-box b { color: #fff; }
+.tip:hover > .tip-box { display: block; }
+
+/* tables */
+.dtable { width: 100%; border-collapse: collapse; }
+.dtable th { font-size: 12px; font-weight: 600; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; text-align: center; }
+.dtable td { padding: 11px 10px; border-bottom: 1px solid var(--line-soft); font-size: 14px; text-align: center; vertical-align: middle; }
+.dtable th.l, .dtable td.l { text-align: left; }
+.dtable tbody tr { transition: background .12s; }
+.dtable tbody tr.click { cursor: pointer; }
+.dtable tbody tr.click:hover { background: rgba(255,255,255,.035); }
+.dtable tbody tr:last-child td { border-bottom: none; }
+.dtable td:last-child .tip-box, .dtable th:last-child .tip-box { left: auto; right: 0; transform: none; }
+.dtable td:first-child .tip-box, .dtable th:first-child .tip-box { left: 0; transform: none; }

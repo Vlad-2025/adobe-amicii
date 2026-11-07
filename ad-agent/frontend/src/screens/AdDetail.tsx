@@ -3,13 +3,13 @@ import { Button, Flex, Heading, ProgressCircle, Text, Grid } from "@adobe/react-
 import { CartesianGrid, Line, LineChart, ReferenceArea, ReferenceDot, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { HYPO_LABEL, eur, pct, post, postStream, useApi , C } from "../api";
 import { go } from "../App";
-import { AiTag, Card, Health, chartTheme, td, th } from "../components/ui";
+import { AiTag, Card, Health, Kpi, chartTheme, td, th, Th } from "../components/ui";
 
-function Metric({ data, k, label, fmt, markers, forecast, color }: any) {
+function Metric({ data, k, label, info, fmt, markers, forecast, color }: any) {
   const ms = (markers || []).filter((m: any) => m.metric === k);
   const xmax = forecast ? Math.max(data[data.length - 1]?.day ?? 0, Math.min(forecast.fatigue_day_high, (data[data.length - 1]?.day ?? 0) + 14)) : undefined;
   return (
-    <Card title={label} padding="size-150">
+    <Card title={label} info={info} padding="size-150">
       <ResponsiveContainer width="100%" height={170}>
         <LineChart data={data} margin={{ left: 0, right: 12, top: 6, bottom: 0 }}>
           <CartesianGrid stroke={chartTheme.grid} />
@@ -35,6 +35,7 @@ function Metric({ data, k, label, fmt, markers, forecast, color }: any) {
 
 export default function AdDetail({ adId }: { adId: string }) {
   const q = useApi("ad", C(`/ads/${adId}`));
+  const camps = useApi<any[]>("campaigns", C("/campaigns"));
   const [diag, setDiag] = useState<any>(null);
   const [busy, setBusy] = useState(false);
   const [story, setStory] = useState("");
@@ -64,34 +65,34 @@ export default function AdDetail({ adId }: { adId: string }) {
   return (
     <Flex direction="column" gap="size-250">
       <Flex alignItems="center" gap="size-200" wrap>
-        <a href="#/radar" style={{ color: "inherit", opacity: 0.6, fontSize: 13 }}>← Radar</a>
+        <a onClick={() => go("radar")} style={{ color: "inherit", opacity: 0.6, fontSize: 13, cursor: "pointer" }}>← Radar</a>
         <Heading level={2} margin={0}>{ad.ad_id}</Heading>
         {health && <Health status={health.status} />}
-        <Text UNSAFE_style={{ opacity: 0.7 }}>“{ad.hook}” · {ad.campaign_id} · {ad.ad_set_id}</Text>
+        <Text UNSAFE_style={{ opacity: 0.7 }}>“{ad.hook}” · {camps.data?.find((m) => m.campaign_id === ad.campaign_id)?.name ?? ad.campaign_id}</Text>
         <div style={{ flex: 1 }} />
         <Button variant="cta" onPress={diagnose} isPending={busy}>Diagnose</Button>
         <Button variant="secondary" onPress={() => go("studio", adId)}>Generate variants</Button>
       </Flex>
       {health && (
         <Flex gap="size-300" wrap>
-          <Text>CTR 7d <b>{pct(health.ctr, 2)}</b></Text>
-          <Text>vs peak <b>{pct(health.ctr_vs_peak, 0)}</b></Text>
-          <Text>Frequency <b>{health.frequency}</b></Text>
-          <Text>Days to fatigue <b>{health.days_to_fatigue <= 0 ? "already fatigued" : `${health.days_to_fatigue} (${health.dtf_low}–${health.dtf_high})`}</b></Text>
-          <Text>€ at risk <b style={{ color: "#e68619" }}>{eur(health.eur_at_risk)}</b></Text>
+          <Kpi label="CTR · 7 days" value={pct(health.ctr, 2)} />
+          <Kpi label="vs peak" value={pct(health.ctr_vs_peak, 0)} />
+          <Kpi label="Frequency" value={String(health.frequency)} />
+          <Kpi label="Days to fatigue" value={health.days_to_fatigue <= 0 ? "now" : `${Math.round(health.days_to_fatigue)}`} />
+          <Kpi label="€ at risk" value={eur(health.eur_at_risk)} accent="var(--amber)" />
         </Flex>
       )}
 
       <Grid columns={["1fr", "1fr"]} gap="size-200">
-        <Metric data={series} k="ctr" label="CTR (red band = forecast fatigue window)" fmt={(v: number) => pct(v, 2)} markers={markers} forecast={forecast} color="#5aa9e6" />
-        <Metric data={series} k="cvr" label="Conversion rate (purchases ÷ clicks)" fmt={(v: number) => pct(v, 1)} markers={markers} color="#7fc8a9" />
-        <Metric data={series} k="cpm" label="CPM (€ per 1,000 impressions)" fmt={(v: number) => eur(v, 2)} markers={markers} color="#f5a623" />
-        <Metric data={series} k="frequency" label="Frequency (impressions ÷ reach, 7 days)" fmt={(v: number) => v.toFixed(2)} color="#c58fe6" />
+        <Metric data={series} k="ctr" label="CTR" info="Red band: when the forecast expects fatigue. Dashed line: 70% of peak. Red dots: anomalies." fmt={(v: number) => pct(v, 2)} markers={markers} forecast={forecast} color="#5aa9e6" />
+        <Metric data={series} k="cvr" label="CVR" fmt={(v: number) => pct(v, 1)} markers={markers} color="#7fc8a9" />
+        <Metric data={series} k="cpm" label="CPM" fmt={(v: number) => eur(v, 2)} markers={markers} color="#f5a623" />
+        <Metric data={series} k="frequency" label="Frequency" fmt={(v: number) => v.toFixed(2)} color="#c58fe6" />
       </Grid>
 
       {diag && (
         <Grid columns={["1fr", "1fr"]} gap="size-200">
-          <Card title="Root cause (probabilities computed by code)">
+          <Card title="Root cause" info="Probabilities are computed by code from the evidence below; the AI only writes the explanation.">
             {probs.map(([h, p]) => (
               <div key={h} style={{ display: "grid", gridTemplateColumns: "170px 1fr 48px", alignItems: "center", gap: 8, margin: "6px 0" }}>
                 <span style={{ fontSize: 13, fontWeight: h === diag.top ? 700 : 400 }}>{HYPO_LABEL[h]}</span>
@@ -125,11 +126,11 @@ export default function AdDetail({ adId }: { adId: string }) {
         </Grid>
       )}
 
-      <Card title="By community (ad × community)">
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+      <Card title="By community">
+        <table className="dtable">
           <thead>
             <tr>
-              <th style={th}>Community</th><th style={th}>CTR before</th><th style={th}>CTR now (3d)</th><th style={th}>Change</th><th style={th}>Frequency</th><th style={th}>Status</th><th style={th}>Recommendation</th>
+              <Th left>Community</Th><Th>CTR before</Th><Th>CTR now (3d)</Th><Th>Change</Th><Th>Frequency</Th><Th>Status</Th><Th left>Recommendation</Th>
             </tr>
           </thead>
           <tbody>
@@ -137,13 +138,13 @@ export default function AdDetail({ adId }: { adId: string }) {
               const bad = c.ctr_change < -0.3;
               return (
                 <tr key={c.community_id}>
-                  <td style={td}>{c.name}</td>
+                  <td className="l">{c.name}</td>
                   <td style={td}>{pct(c.ctr_before, 2)}</td>
                   <td style={td}>{pct(c.ctr_now, 2)}</td>
                   <td style={{ ...td, fontWeight: 700, color: bad ? "#e34850" : c.ctr_change < -0.15 ? "#e68619" : "#2d9d78" }}>{c.ctr_change > 0 ? "+" : ""}{(c.ctr_change * 100).toFixed(0)}%</td>
                   <td style={td}>{c.frequency.toFixed(1)}</td>
                   <td style={td}>{c.status.replace("_", " ")}</td>
-                  <td style={{ ...td, fontWeight: 700 }}>{c.recommendation}</td>
+                  <td className="l" style={{ fontWeight: 600 }}>{c.recommendation}</td>
                 </tr>
               );
             })}

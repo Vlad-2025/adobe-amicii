@@ -104,10 +104,10 @@ export const STATUS_LABEL: Record<string, string> = {
   new: "New",
 };
 export const STATUS_COLOR: Record<string, string> = {
-  healthy: "#2d9d78",
-  watch: "#dfbf00",
-  at_risk: "#e68619",
-  failing: "#e34850",
+  healthy: "#5cc29b",
+  watch: "#d9c45a",
+  at_risk: "#e8a65a",
+  failing: "#e5737a",
   new: "#8e8e8e",
 };
 export const HYPO_LABEL: Record<string, string> = {

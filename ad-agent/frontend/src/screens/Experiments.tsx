@@ -3,7 +3,7 @@ import { Button, Flex, Heading, ProgressCircle, Text, Grid } from "@adobe/react-
 import { Area, AreaChart, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { pct, post, postStream, queryClient, useApi , C } from "../api";
 import { go } from "../App";
-import { AiTag, Card, chartTheme, td, th } from "../components/ui";
+import { AiTag, Card, chartTheme, td, th, Th } from "../components/ui";
 
 const ARM_COLORS = ["#9aa5b1", "#f5a623", "#5aa9e6", "#7fc8a9", "#c58fe6"];
 
@@ -107,14 +107,14 @@ export default function Experiments({ expId }: { expId?: string }) {
       </Grid>
       {last && (
         <Card title="Arms">
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
-            <thead><tr><th style={th}>Arm</th><th style={th}>Changed</th><th style={th}>Hook</th><th style={th}>Impressions</th><th style={th}>Clicks</th><th style={th}>Purchases</th><th style={th}>{metric}</th><th style={th}>P(best)</th></tr></thead>
+          <table className="dtable">
+            <thead><tr><Th left>Arm</Th><Th left>Changed</Th><Th left>Hook</Th><Th>Impressions</Th><Th>Clicks</Th><Th>Purchases</Th><Th>{metric}</Th><Th>P(best)</Th></tr></thead>
             <tbody>
               {exp.arms.map((a: any, i: number) => (
                 <tr key={a.ad_id} style={{ fontWeight: a.ad_id === winner ? 700 : 400 }}>
-                  <td style={td}><span style={{ display: "inline-block", width: 10, height: 10, borderRadius: 5, background: ARM_COLORS[i], marginRight: 6 }} />{a.ad_id}</td>
-                  <td style={td}>{a.changed_dimension?.replace("_", " ") ?? "original"}</td>
-                  <td style={td}>{a.hook}</td>
+                  <td className="l"><span style={{ display: "inline-block", width: 10, height: 10, borderRadius: 5, background: ARM_COLORS[i], marginRight: 6 }} />{a.ad_id}</td>
+                  <td className="l">{a.changed_dimension?.replace("_", " ") ?? "original"}</td>
+                  <td className="l">{a.hook}</td>
                   <td style={td}>{Math.round(last.impressions[i]).toLocaleString()}</td>
                   <td style={td}>{Math.round(last.clicks[i]).toLocaleString()}</td>
                   <td style={td}>{Math.round(last.conversions[i]).toLocaleString()}</td>
@@ -132,7 +132,6 @@ export default function Experiments({ expId }: { expId?: string }) {
           <div style={{ fontSize: 13, opacity: 0.75, marginTop: 4 }}>Evidence: {result.learning.evidence}</div>
         </Card>
       )}
-      <Text UNSAFE_style={{ fontSize: 12, opacity: 0.6 }}>Runs on a forked copy of the simulator (fixed random seed), so the live campaign is untouched until you apply the winner.</Text>
     </Flex>
   );
 }

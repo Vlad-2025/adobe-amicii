@@ -1,7 +1,7 @@
 import { Button, Flex, Heading, ProgressCircle, Text } from "@adobe/react-spectrum";
 import { useApi, eur, PLATFORM_LABEL, STATUS_COLOR } from "../api";
 import { goChannel, PlatformDot } from "../App";
-import { Card, Kpi } from "../components/ui";
+import { Card, Kpi, Info } from "../components/ui";
 
 export function HealthBar({ counts }: { counts?: Record<string, number> }) {
   if (!counts) return null;
@@ -29,7 +29,7 @@ export default function Companies() {
     <Flex direction="column" gap="size-300">
       <Flex alignItems="center" gap="size-200">
         <Heading level={2} margin={0}>Companies</Heading>
-        <Text UNSAFE_style={{ opacity: 0.7 }}>Each company connects its ad accounts and audience sources. Analytics appear as soon as a connector reports data.</Text>
+        <Info>Each company connects its ad accounts and audience sources. Analytics appear as soon as a connector reports data.</Info>
         <div style={{ flex: 1 }} />
         <Button variant="cta" onPress={() => (window.location.hash = "/new-company")}>New company</Button>
       </Flex>

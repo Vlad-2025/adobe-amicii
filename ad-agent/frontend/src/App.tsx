@@ -41,7 +41,10 @@ const NAV = [
   { page: "memory", label: "Memory", hint: "Learn" },
 ];
 
-type Toast = { id: number; text: string; tone: "negative" | "positive" | "info" };
+type Toast = { id: number; text: string; tone: "negative" | "warning" | "positive" | "info" };
+const TOAST_STYLE: Record<Toast["tone"], [string, string]> = {
+  negative: ["#e5737a", "!"], warning: ["#e8a65a", "!"], positive: ["#5cc29b", "✓"], info: ["#6fb3e8", "i"],
+};
 
 export function PlatformDot({ platform, size = 10 }: { platform: string; size?: number }) {
   return <span style={{ display: "inline-block", width: size, height: size, borderRadius: size / 2, background: PLATFORM_COLOR[platform] ?? "#888", flexShrink: 0 }} />;
@@ -68,11 +71,18 @@ export default function App() {
     setToasts((t) => [...t, { id, text, tone }]);
     setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), 6000);
   };
+  const chName = (ch: string) => {
+    for (const c of companies.data ?? []) {
+      const x = c.channels.find((y: any) => y.channel_id === ch);
+      if (x) return `${c.name} ${PLATFORM_LABEL[x.platform] ?? x.platform}`;
+    }
+    return ch;
+  };
   useLiveStream(
-    (a) => toast(`${a.channel_id} · ${a.ad_id} flagged ${a.status.replace("_", " ")} · ${eur(a.eur_at_risk)} at risk`, "negative"),
+    (a) => toast(`${chName(a.channel_id)}: ad ${a.ad_id} is now ${a.status === "failing" ? "failing" : "at risk"} · ${eur(a.eur_at_risk)} may be wasted this week`, a.status === "failing" ? "negative" : "warning"),
     (a) => {
       if (a.type === "approved") toast(`Budget proposal #${a.id} approved`, "positive");
-      if (a.type === "injected") toast(`${a.channel_id}: scenario ${a.scenario} injected (${a.name})`, "info");
+      if (a.type === "injected") toast(`${chName(a.channel_id)}: scenario ${a.scenario} injected (${a.name})`, "info");
       if (a.type === "creative_applied") toast(`${a.winner} replaced ${a.replaced}`, "positive");
       if (a.type === "channel_added") toast(`Channel ${a.channel_id} connected`, "positive");
     },
@@ -111,7 +121,7 @@ export default function App() {
   else screen = <Companies />;
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "232px 1fr", height: "100%", background: "var(--spectrum-global-color-gray-50)" }}>
+    <div style={{ display: "grid", gridTemplateColumns: "232px 1fr", height: "100%", background: "var(--bg)" }}>
       <View backgroundColor="gray-75" borderEndWidth="thin" borderColor="dark" padding="size-200" overflow="auto">
         <Flex direction="column" height="100%" gap="size-100">
           <a href="#/companies" style={{ textDecoration: "none", color: "inherit" }}>
@@ -161,9 +171,7 @@ export default function App() {
             </>
           )}
           <View flexGrow={1} />
-          <Text UNSAFE_style={{ fontSize: 11, opacity: 0.55, lineHeight: 1.5 }}>
-            Ad data: each platform's ads API (simulated feeds in this demo). Audiences: Bluesky public graph or platform segments.
-          </Text>
+          <Text UNSAFE_style={{ fontSize: 11, opacity: 0.45 }}>Demo data: simulated ad feeds</Text>
         </Flex>
       </View>
 
@@ -174,7 +182,7 @@ export default function App() {
               <Flex alignItems="center" gap="size-100">
                 <PlatformDot platform={channel.platform} size={12} />
                 <Text UNSAFE_style={{ fontWeight: 700 }}>{company?.name} · {PLATFORM_LABEL[channel.platform]}</Text>
-                <Text UNSAFE_style={{ fontSize: 12, opacity: 0.6 }}>{channel.handle} · data through day {channel.reported_through}{channel.report_lag_days ? ` (${channel.report_lag_days}-day reporting delay)` : ""}</Text>
+                <Text UNSAFE_style={{ fontSize: 12, opacity: 0.55 }}>{channel.handle}{channel.report_lag_days ? ` · ${channel.report_lag_days}-day reporting delay` : ""}</Text>
               </Flex>
             ) : (
               <Text UNSAFE_style={{ fontWeight: 700 }}>{company ? company.name : "Your companies"}</Text>
@@ -186,27 +194,31 @@ export default function App() {
             <ActionButton onPress={() => control("step")}>+1 day</ActionButton>
             {llm.data && (
               <StatusLight variant={llm.data.provider === "cache-only" ? "neutral" : llm.data.provider === "ollama" ? "info" : "positive"}>
-                LLM: {llm.data.provider === "ollama" ? `local (${llm.data.ollama_model})` : llm.data.provider === "gemini" ? (llm.data.gemini_key ? "Gemini" : "Gemini (no key → local/cache)") : "cache only"}
+                AI: {llm.data.provider === "ollama" ? `local (${llm.data.ollama_model})` : llm.data.provider === "gemini" ? (llm.data.gemini_key ? "Gemini" : "Gemini (no key → local/cache)") : "cache only"}
               </StatusLight>
             )}
             <ActionButton onPress={() => setDrawer(!drawer)}>{drawer ? "Close" : "Sim control"}</ActionButton>
           </Flex>
         </View>
         <div style={{ flex: 1, overflow: "auto", position: "relative" }}>
-          <View padding="size-300" maxWidth={1400}>
+          <div style={{ maxWidth: 1360, margin: "0 auto", padding: "24px 28px 48px" }}>
             {screen}
-          </View>
+          </div>
         </div>
       </div>
 
       {drawer && <SimDrawer onClose={() => setDrawer(false)} channel={route.ch && channel?.live ? route.ch : undefined} />}
 
       <div style={{ position: "fixed", bottom: 16, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", gap: 8, zIndex: 50 }}>
-        {toasts.map((t) => (
-          <div key={t.id} style={{ padding: "10px 16px", borderRadius: 8, color: "#fff", fontSize: 14, boxShadow: "0 4px 16px rgba(0,0,0,.4)", background: t.tone === "negative" ? "#c9252d" : t.tone === "positive" ? "#12805c" : "#0d66d0" }}>
-            {t.text}
-          </div>
-        ))}
+        {toasts.map((t) => {
+          const [c, icon] = TOAST_STYLE[t.tone];
+          return (
+            <div key={t.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 16px 10px 12px", borderRadius: 10, color: "#e8e8ec", fontSize: 14, boxShadow: "0 8px 24px rgba(0,0,0,.45)", background: "#24242b", border: "1px solid #34343d", borderLeft: `4px solid ${c}` }}>
+              <span style={{ width: 20, height: 20, borderRadius: 10, background: c, color: "#17171b", fontWeight: 800, fontSize: 12, display: "grid", placeItems: "center", flex: "none" }}>{icon}</span>
+              {t.text}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
