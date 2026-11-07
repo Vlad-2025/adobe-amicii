@@ -33,6 +33,15 @@ class SimulatedSource(AdsSource):
         end = min(end, self.current_day())
         return {d: v for d, v in self.sim.market.items() if start <= d <= end}
 
+    def get_country_stats(self, start: int, end: int) -> pd.DataFrame:
+        df = self.sim.country_stats()
+        end = min(end, self.current_day())
+        return df[(df["day"] >= start) & (df["day"] <= end)]
+
+    def get_country_demand(self, start: int, end: int) -> dict[int, dict[str, float]]:
+        end = min(end, self.current_day())
+        return {d: v for d, v in self.sim.country_market.items() if start <= d <= end}
+
     def current_day(self) -> int:
         """Last day with complete data from the platform."""
         return self.sim.day - 1 - self.lag

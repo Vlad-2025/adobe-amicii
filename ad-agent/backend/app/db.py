@@ -13,7 +13,7 @@ import numpy as np
 
 from app.config import DB_PATH
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 
 SCHEMA = """
 -- Registry
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS follows (channel_id TEXT, src TEXT, dst TEXT, weight 
 CREATE TABLE IF NOT EXISTS interactions (channel_id TEXT, src TEXT, dst TEXT, weight REAL);
 CREATE TABLE IF NOT EXISTS posts (channel_id TEXT, user_id TEXT, text TEXT, ts TEXT, embedding BLOB);
 -- Config
-CREATE TABLE IF NOT EXISTS campaigns (channel_id TEXT, campaign_id TEXT, name TEXT, objective TEXT, max_cpa REAL, min_roas REAL, total_budget REAL);
+CREATE TABLE IF NOT EXISTS campaigns (channel_id TEXT, campaign_id TEXT, name TEXT, objective TEXT, max_cpa REAL, min_roas REAL, total_budget REAL, countries TEXT);
 CREATE TABLE IF NOT EXISTS ad_sets (channel_id TEXT, ad_set_id TEXT, campaign_id TEXT, name TEXT, daily_budget REAL, target_communities TEXT);
 CREATE TABLE IF NOT EXISTS creatives (channel_id TEXT, ad_id TEXT, ad_set_id TEXT, hook TEXT, body TEXT, cta TEXT, offer TEXT,
   tone TEXT, angle TEXT, embedding BLOB, parent_ad_id TEXT, status TEXT, changed_dimension TEXT, hypothesis TEXT);
@@ -37,6 +37,8 @@ CREATE TABLE IF NOT EXISTS events (channel_id TEXT, day INTEGER, ad_id TEXT, com
 CREATE TABLE IF NOT EXISTS truth_scenarios (channel_id TEXT, scenario_id TEXT, target TEXT, start_day INTEGER, end_day INTEGER, label TEXT, live INTEGER);
 CREATE TABLE IF NOT EXISTS truth_user_state (channel_id TEXT, day INTEGER, ad_id TEXT, mean_exposures REAL, mean_fatigue REAL);
 -- Cleaned
+CREATE TABLE IF NOT EXISTS country_stats (channel_id TEXT, day INTEGER, ad_id TEXT, campaign_id TEXT, country TEXT, impressions REAL,
+  clicks REAL, spend REAL, conversions REAL, revenue REAL);
 CREATE TABLE IF NOT EXISTS daily_stats (channel_id TEXT, day INTEGER, ad_id TEXT, community_id INTEGER, impressions REAL, reach REAL,
   clicks REAL, spend REAL, conversions REAL, revenue REAL, comments_annoyed REAL, comments_total REAL);
 -- Business
@@ -59,7 +61,7 @@ CREATE INDEX IF NOT EXISTS ix_accounts ON accounts(channel_id);
 CREATE INDEX IF NOT EXISTS ix_follows ON follows(channel_id);
 """
 
-RUNTIME_TABLES = ("events", "truth_scenarios", "truth_user_state", "daily_stats", "diagnoses", "experiments", "budget_actions")
+RUNTIME_TABLES = ("events", "truth_scenarios", "truth_user_state", "daily_stats", "country_stats", "diagnoses", "experiments", "budget_actions")
 WORLD_TABLES = ("accounts", "follows", "interactions", "posts", "communities", "campaigns", "ad_sets", "creatives")
 
 _lock = threading.RLock()

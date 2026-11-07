@@ -10,7 +10,10 @@ from app.world.build import load_world
 
 
 def config_tables(ch: str) -> tuple[dict, dict, list[dict]]:
-    campaigns = {r["campaign_id"]: r for r in db.q("SELECT * FROM campaigns WHERE channel_id=?", (ch,))}
+    campaigns = {}
+    for r in db.q("SELECT * FROM campaigns WHERE channel_id=?", (ch,)):
+        r["countries"] = json.loads(r["countries"] or "[]")
+        campaigns[r["campaign_id"]] = r
     ad_sets = {}
     for r in db.q("SELECT * FROM ad_sets WHERE channel_id=?", (ch,)):
         r["target_communities"] = json.loads(r["target_communities"])
@@ -23,8 +26,9 @@ def config_tables(ch: str) -> tuple[dict, dict, list[dict]]:
 
 
 def sim_params(ch: str) -> dict:
-    cfg = registry.channel(ch)["config"]
-    return {**cfg.get("sim", {}), "economics": registry.economics_of(ch)}
+    info = registry.channel(ch)
+    co = registry.company(info["company_id"])["config"]
+    return {**info["config"].get("sim", {}), "economics": co["economics"], "markets": co.get("markets", []), "geo_events": co.get("geo_events", [])}
 
 
 def new_simulator(ch: str, seed: int = SEED_RANDOM) -> Simulator:

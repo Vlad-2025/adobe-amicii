@@ -117,7 +117,7 @@ def _starter_config(cid: str, ch: str, n: NewChannel) -> dict:
         "report_lag_days": lag, "sim": sim,
         "audience": {"type": "segments", "packs": {s: 380 for s in segs}, "labels": {s: s.replace("_", " ").title() for s in segs}},
         "campaigns": [{"campaign_id": camp_id, "name": "Always-on", "objective": "conversions", "max_cpa": max(5.0, co["economics"]["order_values"][0] * 0.6),
-                       "min_roas": 1.0, "total_budget": n.daily_budget * len(segs)}],
+                       "min_roas": 1.0, "total_budget": n.daily_budget * len(segs), "countries": (co.get("markets") or ["DE"])[:3]}],
         "ad_sets": ad_sets, "creatives": creatives,
         "scenarios": {
             "L1": {"name": "Creative fatigue (live)", "description": f"Push {first}'s budget x5", "label": "creative_fatigue", "target": {"ad": first},

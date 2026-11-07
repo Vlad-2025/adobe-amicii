@@ -160,7 +160,8 @@ def _seed_config(ch: str, cfg: dict, desc: list[dict], emb) -> None:
     cents = np.stack([d["centroid"] for d in desc])
     with db.tx() as c:
         for cp in cfg["campaigns"]:
-            c.execute("INSERT INTO campaigns VALUES (?,?,?,?,?,?,?)", (ch, cp["campaign_id"], cp["name"], cp["objective"], cp["max_cpa"], cp["min_roas"], cp["total_budget"]))
+            c.execute("INSERT INTO campaigns VALUES (?,?,?,?,?,?,?,?)", (ch, cp["campaign_id"], cp["name"], cp["objective"], cp["max_cpa"], cp["min_roas"],
+                                                                       cp["total_budget"], json.dumps(cp.get("countries") or [])))
         present = {d["dominant_pack"] for d in desc}
         for a in cfg["ad_sets"]:
             targets = [d["community_id"] for d in desc if d["dominant_pack"] in a["target_packs"]]

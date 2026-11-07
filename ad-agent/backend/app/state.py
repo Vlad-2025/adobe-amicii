@@ -46,6 +46,7 @@ class Runtime:
         self.flagged: set[str] = set()
         self.names: dict[int, str] = {}
         self.persisted_rows = 0
+        self.persisted_geo = 0
 
     def reset(self, days: int) -> None:
         db.reset_runtime_tables(self.ch)
@@ -56,6 +57,7 @@ class Runtime:
         self.ctx = Ctx(self.ch, SimulatedSource(sim, self.lag), sim)
         self._radar, self._diag = None, {}
         self.persisted_rows = 0
+        self.persisted_geo = 0
         self.names = community_names(self.ch)
         segments.clear_cache(self.ch)
         self.persist()
@@ -71,6 +73,13 @@ class Runtime:
         self._diag = {}
 
     def persist(self) -> None:
+        geo = self.sim.country_rows[self.persisted_geo:]
+        if geo:
+            with db.tx() as c:
+                c.executemany("INSERT INTO country_stats VALUES (?,?,?,?,?,?,?,?,?,?)",
+                              [(self.ch, g["day"], g["ad_id"], g["campaign_id"], g["country"], g["impressions"], g["clicks"], g["spend"],
+                                g["conversions"], g["revenue"]) for g in geo])
+            self.persisted_geo = len(self.sim.country_rows)
         rows = self.sim.rows[self.persisted_rows:]
         if not rows:
             return

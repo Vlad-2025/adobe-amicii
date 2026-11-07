@@ -1,439 +1,492 @@
 {
- "company_id": "kinetra",
- "name": "Kinetra",
- "industry": "Running shoes & apparel (e-commerce)",
- "fictional": true,
- "description": "Fictional running brand selling shoes (€89-149) online across Europe.",
- "brand": {
+  "company_id": "kinetra",
   "name": "Kinetra",
-  "product": "Running shoes and apparel",
-  "price_eur": 119,
-  "target_age": "22-50",
-  "tone": "motivating, precise, no hype",
-  "banned_phrases": [
-   "injury-proof",
-   "guaranteed PR",
-   "best in the world",
-   "miracle"
-  ],
-  "health_claim_patterns": [
-   "prevent(s)? injur",
-   "cure(s|d)?\\b",
-   "lose weight",
-   "burn(s)? fat",
-   "clinically proven"
-  ],
-  "competitors": [
-   "Nike",
-   "Adidas",
-   "Hoka",
-   "Asics",
-   "Brooks",
-   "On Running"
-  ],
-  "limits": {
-   "headline": 40,
-   "body": 125,
-   "cta": 20
-  }
- },
- "economics": {
-  "order_values": [
-   89,
-   119,
-   149
-  ],
-  "order_probs": [
-   0.4,
-   0.4,
-   0.2
-  ],
-  "base_cvr": 0.05,
-  "price_factor": 0.45,
-  "price_factor_offer": 0.3,
-  "conversion_name": "purchase"
- },
- "memory": [
-  {
-   "insight": "Marathoners click on concrete training outcomes (\"sub-4\") far more than on comfort claims.",
-   "evidence": "Spring test: outcome hook CTR 1.9% vs comfort 1.1%",
-   "applies_to": {
-    "pack": "marathoners",
-    "dimension": "hook"
-   },
-   "winner": true,
-   "created_day": -50
+  "industry": "Running shoes & apparel (e-commerce)",
+  "fictional": true,
+  "description": "Fictional running brand selling shoes (€89-149) online across Europe.",
+  "news_query": "\"running shoes\" OR marathon",
+  "brand": {
+    "name": "Kinetra",
+    "product": "Running shoes and apparel",
+    "price_eur": 119,
+    "target_age": "22-50",
+    "tone": "motivating, precise, no hype",
+    "banned_phrases": [
+      "injury-proof",
+      "guaranteed PR",
+      "best in the world",
+      "miracle"
+    ],
+    "health_claim_patterns": [
+      "prevent(s)? injur",
+      "cure(s|d)?\\b",
+      "lose weight",
+      "burn(s)? fat",
+      "clinically proven"
+    ],
+    "competitors": [
+      "Nike",
+      "Adidas",
+      "Hoka",
+      "Asics",
+      "Brooks",
+      "On Running"
+    ],
+    "limits": {
+      "headline": 40,
+      "body": 125,
+      "cta": 20
+    }
   },
-  {
-   "insight": "Discount-led ads pull low-value orders from joggers and hurt ROAS.",
-   "evidence": "20% off: CVR +30% but AOV -28%, ROAS 1.6 vs 2.3",
-   "applies_to": {
-    "pack": "joggers",
-    "dimension": "offer"
-   },
-   "winner": false,
-   "created_day": -35
+  "economics": {
+    "order_values": [
+      89,
+      119,
+      149
+    ],
+    "order_probs": [
+      0.4,
+      0.4,
+      0.2
+    ],
+    "base_cvr": 0.05,
+    "price_factor": 0.45,
+    "price_factor_offer": 0.3,
+    "conversion_name": "purchase"
   },
-  {
-   "insight": "Trail runners respond to terrain imagery and grip claims, not speed.",
-   "evidence": "Grip angle CTR +40% over 2 weeks",
-   "applies_to": {
-    "pack": "trail",
-    "dimension": "benefit"
-   },
-   "winner": true,
-   "created_day": -20
-  }
- ],
- "variant_bank": {
-  "hook": [
-   {
-    "hook": "Your next PR starts on Tuesday.",
-    "hypothesis": "A concrete training moment beats generic motivation."
-   },
-   {
-    "hook": "500 km later, still bouncy.",
-    "hypothesis": "Durability proof is new information for this audience."
-   }
-  ],
-  "cta": [
-   {
-    "cta": "Find your fit",
-    "hypothesis": "A fit-finder CTA lowers the commitment of clicking."
-   },
-   {
-    "cta": "See the colorways",
-    "hypothesis": "Browsing CTA brings in curious, earlier-funnel clicks."
-   }
-  ],
-  "benefit": [
-   {
-    "body": "Responsive foam that stays responsive at km 35. Built for the long run, tested on real marathons.",
-    "hypothesis": "Late-race performance speaks to the hardest moment."
-   },
-   {
-    "body": "Free returns for 60 days: run in them, then decide.",
-    "hypothesis": "Removing purchase risk is a benefit the original never mentions."
-   }
-  ],
-  "emotional_angle": [
-   {
-    "hook": "Run for the quiet hour.",
-    "body": "Before the emails, before the noise. Kinetra shoes for the runs that are just yours.",
-    "hypothesis": "Me-time angle is far from the performance angle, so little fatigue carries over."
-   },
-   {
-    "hook": "Run with your crew.",
-    "body": "Sunday long runs are better together. Gear up the whole group with Kinetra.",
-    "hypothesis": "A social angle gives a new reason to click."
-   }
-  ],
-  "offer": [
-   {
-    "offer": "free gait analysis with every pair",
-    "hypothesis": "A service offer adds value without discounting."
-   },
-   {
-    "offer": "2nd pair 30% off",
-    "hypothesis": "Raises order value among committed runners."
-   }
-  ]
- },
- "audience_sources": [],
- "channels": [
-  {
-   "channel_id": "kin-meta",
-   "platform": "facebook",
-   "name": "Facebook + Instagram (Meta Ads)",
-   "handle": "Kinetra Running",
-   "mode": "simulated",
-   "report_lag_days": 0,
-   "audience": {
-    "type": "segments",
-    "packs": {
-     "marathoners": 350,
-     "joggers": 600,
-     "trail": 300,
-     "gym": 400,
-     "parents": 380
+  "memory": [
+    {
+      "insight": "Marathoners click on concrete training outcomes (\"sub-4\") far more than on comfort claims.",
+      "evidence": "Spring test: outcome hook CTR 1.9% vs comfort 1.1%",
+      "applies_to": {
+        "pack": "marathoners",
+        "dimension": "hook"
+      },
+      "winner": true,
+      "created_day": -50
     },
-    "labels": {
-     "marathoners": "Marathoners 25-44 · interest: marathon training",
-     "joggers": "Casual joggers 25-54 · interest: running, 5k",
-     "trail": "Trail runners 25-44 · interest: trail running, hiking",
-     "gym": "Gym-goers 22-40 · interest: fitness",
-     "parents": "Active parents 30-50 · interest: running, parenting"
+    {
+      "insight": "Discount-led ads pull low-value orders from joggers and hurt ROAS.",
+      "evidence": "20% off: CVR +30% but AOV -28%, ROAS 1.6 vs 2.3",
+      "applies_to": {
+        "pack": "joggers",
+        "dimension": "offer"
+      },
+      "winner": false,
+      "created_day": -35
+    },
+    {
+      "insight": "Trail runners respond to terrain imagery and grip claims, not speed.",
+      "evidence": "Grip angle CTR +40% over 2 weeks",
+      "applies_to": {
+        "pack": "trail",
+        "dimension": "benefit"
+      },
+      "winner": true,
+      "created_day": -20
     }
-   },
-   "sim": {
-    "base_cpm": 9.0,
-    "b0": -4.4,
-    "lam": 0.6,
-    "twin_scale": 60
-   },
-   "campaigns": [
+  ],
+  "variant_bank": {
+    "hook": [
+      {
+        "hook": "Your next PR starts on Tuesday.",
+        "hypothesis": "A concrete training moment beats generic motivation."
+      },
+      {
+        "hook": "500 km later, still bouncy.",
+        "hypothesis": "Durability proof is new information for this audience."
+      }
+    ],
+    "cta": [
+      {
+        "cta": "Find your fit",
+        "hypothesis": "A fit-finder CTA lowers the commitment of clicking."
+      },
+      {
+        "cta": "See the colorways",
+        "hypothesis": "Browsing CTA brings in curious, earlier-funnel clicks."
+      }
+    ],
+    "benefit": [
+      {
+        "body": "Responsive foam that stays responsive at km 35. Built for the long run, tested on real marathons.",
+        "hypothesis": "Late-race performance speaks to the hardest moment."
+      },
+      {
+        "body": "Free returns for 60 days: run in them, then decide.",
+        "hypothesis": "Removing purchase risk is a benefit the original never mentions."
+      }
+    ],
+    "emotional_angle": [
+      {
+        "hook": "Run for the quiet hour.",
+        "body": "Before the emails, before the noise. Kinetra shoes for the runs that are just yours.",
+        "hypothesis": "Me-time angle is far from the performance angle, so little fatigue carries over."
+      },
+      {
+        "hook": "Run with your crew.",
+        "body": "Sunday long runs are better together. Gear up the whole group with Kinetra.",
+        "hypothesis": "A social angle gives a new reason to click."
+      }
+    ],
+    "offer": [
+      {
+        "offer": "free gait analysis with every pair",
+        "hypothesis": "A service offer adds value without discounting."
+      },
+      {
+        "offer": "2nd pair 30% off",
+        "hypothesis": "Raises order value among committed runners."
+      }
+    ]
+  },
+  "audience_sources": [],
+  "channels": [
     {
-     "campaign_id": "k_marathon",
-     "name": "Fall Marathon Season",
-     "objective": "conversions",
-     "max_cpa": 55.0,
-     "min_roas": 2.0,
-     "total_budget": 165.0
-    },
-    {
-     "campaign_id": "k_trail",
-     "name": "Trail Series",
-     "objective": "conversions",
-     "max_cpa": 55.0,
-     "min_roas": 2.0,
-     "total_budget": 25.0
-    },
-    {
-     "campaign_id": "k_everyday",
-     "name": "Everyday Runner",
-     "objective": "conversions",
-     "max_cpa": 50.0,
-     "min_roas": 2.2,
-     "total_budget": 110.0
-    },
-    {
-     "campaign_id": "k_family",
-     "name": "Family Running",
-     "objective": "conversions",
-     "max_cpa": 50.0,
-     "min_roas": 2.0,
-     "total_budget": 120.0
+      "channel_id": "kin-meta",
+      "platform": "facebook",
+      "name": "Facebook + Instagram (Meta Ads)",
+      "handle": "Kinetra Running",
+      "mode": "simulated",
+      "report_lag_days": 0,
+      "audience": {
+        "type": "segments",
+        "packs": {
+          "marathoners": 350,
+          "joggers": 600,
+          "trail": 300,
+          "gym": 400,
+          "parents": 380
+        },
+        "labels": {
+          "marathoners": "Marathoners 25-44 · interest: marathon training",
+          "joggers": "Casual joggers 25-54 · interest: running, 5k",
+          "trail": "Trail runners 25-44 · interest: trail running, hiking",
+          "gym": "Gym-goers 22-40 · interest: fitness",
+          "parents": "Active parents 30-50 · interest: running, parenting"
+        }
+      },
+      "sim": {
+        "base_cpm": 9.0,
+        "b0": -4.4,
+        "lam": 0.6,
+        "twin_scale": 60
+      },
+      "campaigns": [
+        {
+          "campaign_id": "k_marathon",
+          "name": "Fall Marathon Season",
+          "objective": "conversions",
+          "max_cpa": 55.0,
+          "min_roas": 2.0,
+          "total_budget": 135.0,
+          "countries": [
+            "DE",
+            "FR",
+            "AT"
+          ]
+        },
+        {
+          "campaign_id": "k_trail",
+          "name": "Trail Series",
+          "objective": "conversions",
+          "max_cpa": 55.0,
+          "min_roas": 2.0,
+          "total_budget": 25.0,
+          "countries": [
+            "DE",
+            "FR",
+            "IT"
+          ]
+        },
+        {
+          "campaign_id": "k_everyday",
+          "name": "Everyday Runner",
+          "objective": "conversions",
+          "max_cpa": 50.0,
+          "min_roas": 2.2,
+          "total_budget": 110.0,
+          "countries": [
+            "DE",
+            "GB",
+            "IE",
+            "FR"
+          ]
+        },
+        {
+          "campaign_id": "k_family",
+          "name": "Family Running",
+          "objective": "conversions",
+          "max_cpa": 50.0,
+          "min_roas": 2.0,
+          "total_budget": 120.0,
+          "countries": [
+            "DE",
+            "SE",
+            "DK"
+          ]
+        }
+      ],
+      "ad_sets": [
+        {
+          "ad_set_id": "km_marathon",
+          "campaign_id": "k_marathon",
+          "name": "Marathoners",
+          "daily_budget": 45.0,
+          "target_packs": [
+            "marathoners"
+          ]
+        },
+        {
+          "ad_set_id": "km_long",
+          "campaign_id": "k_marathon",
+          "name": "Marathoners + gym",
+          "daily_budget": 90.0,
+          "target_packs": [
+            "marathoners",
+            "gym"
+          ]
+        },
+        {
+          "ad_set_id": "kt_trail",
+          "campaign_id": "k_trail",
+          "name": "Trail runners",
+          "daily_budget": 25.0,
+          "target_packs": [
+            "trail"
+          ]
+        },
+        {
+          "ad_set_id": "ke_joggers",
+          "campaign_id": "k_everyday",
+          "name": "Casual joggers",
+          "daily_budget": 60.0,
+          "target_packs": [
+            "joggers"
+          ]
+        },
+        {
+          "ad_set_id": "ke_gym",
+          "campaign_id": "k_everyday",
+          "name": "Gym crossover",
+          "daily_budget": 50.0,
+          "target_packs": [
+            "gym"
+          ]
+        },
+        {
+          "ad_set_id": "kf_family",
+          "campaign_id": "k_family",
+          "name": "Parents + joggers",
+          "daily_budget": 120.0,
+          "target_packs": [
+            "parents",
+            "joggers"
+          ]
+        }
+      ],
+      "creatives": [
+        {
+          "ad_id": "K1",
+          "ad_set_id": "km_marathon",
+          "hook": "Sub-4 starts with your shoes.",
+          "body": "Kinetra Pace: race-day foam for training-day miles. Built for the full 42.2.",
+          "cta": "Shop Pace",
+          "offer": "none",
+          "tone": "energetic",
+          "angle": "performance"
+        },
+        {
+          "ad_id": "K2",
+          "ad_set_id": "km_long",
+          "hook": "Long run Sunday? We've got you.",
+          "body": "Cushioned, stable, light. Kinetra Pace keeps its bounce past km 30.",
+          "cta": "Shop now",
+          "offer": "none",
+          "tone": "informative",
+          "angle": "long run"
+        },
+        {
+          "ad_id": "K3",
+          "ad_set_id": "kt_trail",
+          "hook": "Mud, rocks, roots. Bring it.",
+          "body": "Kinetra Ridge grips where trails get honest. Lugs that bite, uppers that breathe.",
+          "cta": "Shop Ridge",
+          "offer": "none",
+          "tone": "energetic",
+          "angle": "grip"
+        },
+        {
+          "ad_id": "K4",
+          "ad_set_id": "ke_joggers",
+          "hook": "Your 5k, but comfier.",
+          "body": "Kinetra Daily: soft, light and easy on the knees. For runs that fit around life.",
+          "cta": "Find your fit",
+          "offer": "none",
+          "tone": "chill",
+          "angle": "comfort"
+        },
+        {
+          "ad_id": "K5",
+          "ad_set_id": "kf_family",
+          "hook": "Stroller runs count.",
+          "body": "Kinetra Daily keeps up with nap-time 5ks and school-run sprints.",
+          "cta": "Shop Daily",
+          "offer": "free returns 60 days",
+          "tone": "witty",
+          "angle": "parent life"
+        },
+        {
+          "ad_id": "K6",
+          "ad_set_id": "ke_gym",
+          "hook": "Treadmill to trail in one shoe.",
+          "body": "Kinetra Daily handles the gym warm-up and the weekend run.",
+          "cta": "Shop now",
+          "offer": "none",
+          "tone": "informative",
+          "angle": "versatility"
+        }
+      ],
+      "scenarios": {
+        "A": {
+          "name": "Creative fatigue",
+          "description": "K3 budget x2.6 into the small trail segment",
+          "label": "creative_fatigue",
+          "target": {
+            "ad": "K3"
+          },
+          "effect": {
+            "type": "budget_multiplier",
+            "value": 3.6
+          },
+          "history": {
+            "start_day": 12,
+            "end_day": null
+          },
+          "eval_ad": "K3",
+          "live_duration": null,
+          "live_effect": {
+            "type": "budget_multiplier",
+            "value": 5.0
+          }
+        },
+        "B": {
+          "name": "Size-guide page broke",
+          "description": "Fall Marathon landing page health x0.4",
+          "label": "landing_page",
+          "target": {
+            "campaign": "k_marathon"
+          },
+          "effect": {
+            "type": "landing_health",
+            "value": 0.4
+          },
+          "history": {
+            "start_day": 20,
+            "end_day": null
+          },
+          "eval_ad": "K2",
+          "live_duration": null
+        },
+        "C": {
+          "name": "Black Friday auction pressure",
+          "description": "Competition x1.7 on Everyday Runner",
+          "label": "auction_pressure",
+          "target": {
+            "campaign": "k_everyday"
+          },
+          "effect": {
+            "type": "competition",
+            "value": 1.7
+          },
+          "history": {
+            "start_day": 18,
+            "end_day": null
+          },
+          "eval_ad": "K4",
+          "live_duration": null
+        },
+        "E": {
+          "name": "Segment saturation",
+          "description": "K5 delivery skewed into the parents segment",
+          "label": "segment_saturation",
+          "target": {
+            "ad": "K5",
+            "pack": "parents"
+          },
+          "effect": {
+            "type": "delivery_skew",
+            "value": 10.0
+          },
+          "history": {
+            "start_day": 0,
+            "end_day": null
+          },
+          "eval_ad": "K5",
+          "live_duration": null
+        },
+        "L2": {
+          "name": "Seasonal dip (live)",
+          "description": "All activity x0.75 for 4 days",
+          "label": "seasonality",
+          "target": {
+            "all": true
+          },
+          "effect": {
+            "type": "activity",
+            "value": 0.75
+          },
+          "history": null,
+          "eval_ad": "K6",
+          "live_duration": 4
+        },
+        "L3": {
+          "name": "Tracking broke (live)",
+          "description": "Conversions report 0",
+          "label": "tracking",
+          "target": {
+            "campaign": "k_everyday"
+          },
+          "effect": {
+            "type": "tracking_off",
+            "value": 0
+          },
+          "history": null,
+          "eval_ad": "K6",
+          "live_duration": null
+        }
+      }
     }
-   ],
-   "ad_sets": [
+  ],
+  "markets": [
+    "DE",
+    "FR",
+    "GB",
+    "NL",
+    "IT",
+    "ES",
+    "SE",
+    "DK",
+    "PL",
+    "IE",
+    "AT"
+  ],
+  "geo_events": [
     {
-     "ad_set_id": "km_marathon",
-     "campaign_id": "k_marathon",
-     "name": "Marathoners",
-     "daily_budget": 45.0,
-     "target_packs": [
-      "marathoners"
-     ]
-    },
-    {
-     "ad_set_id": "km_long",
-     "campaign_id": "k_marathon",
-     "name": "Marathoners + gym",
-     "daily_budget": 120.0,
-     "target_packs": [
-      "marathoners",
-      "gym"
-     ]
-    },
-    {
-     "ad_set_id": "kt_trail",
-     "campaign_id": "k_trail",
-     "name": "Trail runners",
-     "daily_budget": 25.0,
-     "target_packs": [
-      "trail"
-     ]
-    },
-    {
-     "ad_set_id": "ke_joggers",
-     "campaign_id": "k_everyday",
-     "name": "Casual joggers",
-     "daily_budget": 60.0,
-     "target_packs": [
-      "joggers"
-     ]
-    },
-    {
-     "ad_set_id": "ke_gym",
-     "campaign_id": "k_everyday",
-     "name": "Gym crossover",
-     "daily_budget": 50.0,
-     "target_packs": [
-      "gym"
-     ]
-    },
-    {
-     "ad_set_id": "kf_family",
-     "campaign_id": "k_family",
-     "name": "Parents + joggers",
-     "daily_budget": 120.0,
-     "target_packs": [
-      "parents",
-      "joggers"
-     ]
-    }
-   ],
-   "creatives": [
-    {
-     "ad_id": "K1",
-     "ad_set_id": "km_marathon",
-     "hook": "Sub-4 starts with your shoes.",
-     "body": "Kinetra Pace: race-day foam for training-day miles. Built for the full 42.2.",
-     "cta": "Shop Pace",
-     "offer": "none",
-     "tone": "energetic",
-     "angle": "performance"
-    },
-    {
-     "ad_id": "K2",
-     "ad_set_id": "km_long",
-     "hook": "Long run Sunday? We've got you.",
-     "body": "Cushioned, stable, light. Kinetra Pace keeps its bounce past km 30.",
-     "cta": "Shop now",
-     "offer": "none",
-     "tone": "informative",
-     "angle": "long run"
-    },
-    {
-     "ad_id": "K3",
-     "ad_set_id": "kt_trail",
-     "hook": "Mud, rocks, roots. Bring it.",
-     "body": "Kinetra Ridge grips where trails get honest. Lugs that bite, uppers that breathe.",
-     "cta": "Shop Ridge",
-     "offer": "none",
-     "tone": "energetic",
-     "angle": "grip"
-    },
-    {
-     "ad_id": "K4",
-     "ad_set_id": "ke_joggers",
-     "hook": "Your 5k, but comfier.",
-     "body": "Kinetra Daily: soft, light and easy on the knees. For runs that fit around life.",
-     "cta": "Find your fit",
-     "offer": "none",
-     "tone": "chill",
-     "angle": "comfort"
-    },
-    {
-     "ad_id": "K5",
-     "ad_set_id": "kf_family",
-     "hook": "Stroller runs count.",
-     "body": "Kinetra Daily keeps up with nap-time 5ks and school-run sprints.",
-     "cta": "Shop Daily",
-     "offer": "free returns 60 days",
-     "tone": "witty",
-     "angle": "parent life"
-    },
-    {
-     "ad_id": "K6",
-     "ad_set_id": "ke_gym",
-     "hook": "Treadmill to trail in one shoe.",
-     "body": "Kinetra Daily handles the gym warm-up and the weekend run.",
-     "cta": "Shop now",
-     "offer": "none",
-     "tone": "informative",
-     "angle": "versatility"
-    }
-   ],
-   "scenarios": {
-    "A": {
-     "name": "Creative fatigue",
-     "description": "K3 budget x2.6 into the small trail segment",
-     "label": "creative_fatigue",
-     "target": {
-      "ad": "K3"
-     },
-     "effect": {
-      "type": "budget_multiplier",
-      "value": 3.6
-     },
-     "history": {
-      "start_day": 12,
-      "end_day": null
-     },
-     "eval_ad": "K3",
-     "live_duration": null,
-     "live_effect": {
-      "type": "budget_multiplier",
-      "value": 5.0
-     }
-    },
-    "B": {
-     "name": "Size-guide page broke",
-     "description": "Fall Marathon landing page health x0.4",
-     "label": "landing_page",
-     "target": {
-      "campaign": "k_marathon"
-     },
-     "effect": {
-      "type": "landing_health",
-      "value": 0.4
-     },
-     "history": {
-      "start_day": 20,
-      "end_day": null
-     },
-     "eval_ad": "K2",
-     "live_duration": null
-    },
-    "C": {
-     "name": "Black Friday auction pressure",
-     "description": "Competition x1.7 on Everyday Runner",
-     "label": "auction_pressure",
-     "target": {
-      "campaign": "k_everyday"
-     },
-     "effect": {
-      "type": "competition",
-      "value": 1.7
-     },
-     "history": {
+      "country": "NL",
       "start_day": 18,
-      "end_day": null
-     },
-     "eval_ad": "K4",
-     "live_duration": null
+      "end_day": null,
+      "demand": 1.5,
+      "label": "marathon_buzz",
+      "note": "Marathon registrations surge ahead of the Amsterdam race (simulated)"
     },
-    "E": {
-     "name": "Segment saturation",
-     "description": "K5 delivery skewed into the parents segment",
-     "label": "segment_saturation",
-     "target": {
-      "ad": "K5",
-      "pack": "parents"
-     },
-     "effect": {
-      "type": "delivery_skew",
-      "value": 10.0
-     },
-     "history": {
-      "start_day": 0,
-      "end_day": null
-     },
-     "eval_ad": "K5",
-     "live_duration": null
-    },
-    "L2": {
-     "name": "Seasonal dip (live)",
-     "description": "All activity x0.75 for 4 days",
-     "label": "seasonality",
-     "target": {
-      "all": true
-     },
-     "effect": {
-      "type": "activity",
-      "value": 0.75
-     },
-     "history": null,
-     "eval_ad": "K6",
-     "live_duration": 4
-    },
-    "L3": {
-     "name": "Tracking broke (live)",
-     "description": "Conversions report 0",
-     "label": "tracking",
-     "target": {
-      "campaign": "k_everyday"
-     },
-     "effect": {
-      "type": "tracking_off",
-      "value": 0
-     },
-     "history": null,
-     "eval_ad": "K6",
-     "live_duration": null
+    {
+      "country": "GB",
+      "start_day": 13,
+      "end_day": null,
+      "demand": 0.6,
+      "label": "demand_drop",
+      "note": "Running-gear interest down: cost-of-living squeeze (simulated)"
     }
-   }
-  }
- ]
+  ]
 }

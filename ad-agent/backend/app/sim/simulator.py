@@ -108,6 +108,11 @@ class Simulator:
         for a in ads:
             self.add_ad(a)
         self.rows: list[dict] = []                          # reported daily stats (cleaned layer)
+        self.country_rows: list[dict] = []                  # the same, broken down by country (per ad)
+        self.country_market: dict[int, dict[str, float]] = {}
+        self.markets: list[str] = list(p.get("markets", []))
+        self.geo_events: list[dict] = list(p.get("geo_events", []))
+        self.country_share: dict[str, dict[str, float]] = {}   # campaign -> {country: share}; default equal split
         self.truth_rows: list[dict] = []
         self.market: dict[int, float] = {}
 
@@ -157,6 +162,36 @@ class Simulator:
             m *= e.value
         return m
 
+    # ---------- geography ----------
+    def _demand(self, code: str, day: int) -> float:
+        m = 1.0
+        for e in self.geo_events:
+            if e["country"] == code and day >= e["start_day"] and (e.get("end_day") is None or day <= e["end_day"]):
+                m *= float(e["demand"])
+        return m
+
+    def countries_of(self, campaign_id: str) -> dict[str, float]:
+        if campaign_id not in self.country_share:
+            cs = (self.campaigns.get(campaign_id) or {}).get("countries") or ["XX"]
+            self.country_share[campaign_id] = {c: 1.0 / len(cs) for c in cs}
+        return self.country_share[campaign_id]
+
+    def _country_mix(self, campaign_id: str) -> list[tuple[str, float, float]]:
+        """(country, budget share, relative CPM normalized so the campaign's average CPM is unchanged)."""
+        from app.geo import COUNTRIES
+
+        shares = {c: v for c, v in self.countries_of(campaign_id).items() if v > 0}
+        tot = sum(shares.values()) or 1.0
+        shares = {c: v / tot for c, v in shares.items()}
+        mean_cpm = sum(v * COUNTRIES.get(c, {}).get("cpm", 1.0) for c, v in shares.items()) or 1.0
+        return [(c, v, COUNTRIES.get(c, {}).get("cpm", 1.0) / mean_cpm) for c, v in shares.items()]
+
+    def set_countries(self, campaign_id: str, shares: dict[str, float]) -> None:
+        self.country_share[campaign_id] = dict(shares)
+
+    def country_stats(self) -> pd.DataFrame:
+        return pd.DataFrame(self.country_rows, columns=["day", "ad_id", "campaign_id", "country", "impressions", "clicks", "spend", "conversions", "revenue"])
+
     # ---------- the daily loop ----------
     def step(self) -> list[dict]:
         d = self.day
@@ -173,6 +208,9 @@ class Simulator:
         conv = np.zeros((self.U, A), np.int32)
         spend = np.zeros(A)
         cpm_a = np.zeros(A)
+        geo_by_ad: dict[int, dict] = {}
+        # country demand index (what a Trends-style feed would report), for every market of the company
+        self.country_market[d] = {c: float(np.clip(act * self._demand(c, d) * (1 + rng.normal(0, 0.03)), 0.2, 2.5)) for c in self.markets}
 
         # budgets: ad set budget split across its active ads by weight
         by_set: dict[str, list[int]] = {}
@@ -197,7 +235,15 @@ class Simulator:
                     w = w * np.where(self.labels == e.community, e.value, 1.0)
                 w = w.astype(np.float64)
                 p = w / w.sum()
-                imps[:, i] = rng.multinomial(n_imp, p)
+                # every impression lands in one of the campaign's countries (platforms report country breakdowns)
+                per_country = []
+                for code, share, cpm_rel in self._country_mix(ad.campaign_id):
+                    n_c = int(rng.poisson(n_imp * share / cpm_rel))
+                    if n_c:
+                        per_country.append((code, share, rng.multinomial(n_c, p)))
+                if not per_country:
+                    continue
+                imps[:, i] = np.sum([x[2] for x in per_country], axis=0)
                 spend[i] = budget
                 cpm_a[i] = cpm
 
@@ -205,12 +251,19 @@ class Simulator:
                 f_mid = f_eff[:, i] + imps[:, i] / (2.0 * self.scale)
                 logit = (self.p_b0 + B1 * self.aff[:, i] + B2 * self.tone_pref[self.labels, tone_i] + B3 * self.prime_c
                          - self.p_lam * np.log1p(np.maximum(f_mid - F0, 0)) + math.log(act) + 0.3 * math.log(weekly))
-                pc = 1 / (1 + np.exp(-logit))
-                clicks[:, i] = rng.binomial(imps[:, i], pc)
                 landing = self._mult("landing_health", d, ad)
                 price_factor = self.p_price_factor_offer if ad.offer and ad.offer != "none" else self.p_price_factor
-                pv = np.clip(self.p_cvr * landing * act * (1 - self.price * price_factor), 0, 1)
-                conv[:, i] = rng.binomial(clicks[:, i], pv)
+                pv_base = self.p_cvr * landing * act * (1 - self.price * price_factor)
+                geo = {}
+                for code, share, imp_uc in per_country:
+                    dem = self._demand(code, d)
+                    pc = 1 / (1 + np.exp(-(logit + math.log(dem))))
+                    clk_uc = rng.binomial(imp_uc, pc)
+                    cv_uc = rng.binomial(clk_uc, np.clip(pv_base * dem ** 0.5, 0, 1))
+                    clicks[:, i] += clk_uc
+                    conv[:, i] += cv_uc
+                    geo[code] = [float(imp_uc.sum()), float(clk_uc.sum()), float(cv_uc.sum()), budget * share]
+                geo_by_ad[i] = geo
 
         # update exposure state
         self.n *= FATIGUE_DECAY
@@ -253,6 +306,13 @@ class Simulator:
                     "comments_annoyed": float(n_ann), "comments_total": float(n_com),
                     "true_conversions": float(n_conv),
                 })
+            ad_rev = sum(r["revenue"] for r in rows if r["ad_id"] == ad.ad_id)
+            ad_conv = conv[:, i].sum()
+            for code, (ci, cc, cv, cs) in geo_by_ad.get(i, {}).items():
+                self.country_rows.append({"day": d, "ad_id": ad.ad_id, "campaign_id": ad.campaign_id, "country": code,
+                                          "impressions": ci, "clicks": cc, "spend": cs,
+                                          "conversions": 0.0 if tracking_off else cv,
+                                          "revenue": 0.0 if tracking_off or not ad_conv else ad_rev * cv / ad_conv})
             exposed = imps[:, i] > 0
             self.truth_rows.append({"day": d, "ad_id": ad.ad_id,
                                     "mean_exposures": float(self.n[exposed, i].mean()) if exposed.any() else 0.0,

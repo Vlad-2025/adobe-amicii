@@ -10,6 +10,7 @@
     python run.py train        train the fatigue predictor (~30 s)
     python run.py build        build the frontend into frontend/dist
     python run.py warm-cache   run the demo path once with the real LLM and save every answer
+    python run.py fetch-news   real news headlines per country from GDELT for the opportunity map (optional, ~1 min/company)
     python run.py fetch-trends refresh cached Google Trends (optional, needs `pip install pytrends`)
 
 Extra args after the command are passed through (e.g. `python run.py demo --host 0.0.0.0`).
@@ -136,12 +137,17 @@ def warm_cache(args: list[str]) -> None:
     sh([PY, ROOT / "scripts" / "warm_cache.py", *args])
 
 
+def fetch_news(args: list[str]) -> None:
+    need_venv()
+    sh([PY, ROOT / "scripts" / "fetch_news_signals.py", *args])
+
+
 def fetch_trends(args: list[str]) -> None:
     pyrun("from app.integrations.trends import fetch; import json; print(json.dumps(fetch())[:400])")
 
 
 COMMANDS = {"setup": setup, "demo": demo, "dev": dev, "smoke": smoke, "snapshot": snapshot, "build-world": build_world,
-            "train": train, "build": build, "warm-cache": warm_cache, "fetch-trends": fetch_trends}
+            "train": train, "build": build, "warm-cache": warm_cache, "fetch-trends": fetch_trends, "fetch-news": fetch_news}
 
 if __name__ == "__main__":
     if len(sys.argv) < 2 or sys.argv[1] not in COMMANDS:

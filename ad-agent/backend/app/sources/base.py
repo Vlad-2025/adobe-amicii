@@ -20,6 +20,14 @@ class AdsSource(ABC):
     def get_market_index(self, start: int, end: int) -> dict[int, float]:
         """External demand signal per day (Google Trends-style, 1.0 = normal)."""
 
+    def get_country_stats(self, start: int, end: int) -> pd.DataFrame:
+        """Per ad x country x day (Meta: breakdowns=country; TikTok/X/LinkedIn: country / location breakdowns)."""
+        return pd.DataFrame(columns=["day", "ad_id", "campaign_id", "country", "impressions", "clicks", "spend", "conversions", "revenue"])
+
+    def get_country_demand(self, start: int, end: int) -> dict[int, dict[str, float]]:
+        """Category demand index per country per day (Google Trends / news volume), 1.0 = normal."""
+        return {}
+
     @abstractmethod
     def current_day(self) -> int:
         """Last day with complete data."""

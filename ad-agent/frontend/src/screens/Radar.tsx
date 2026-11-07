@@ -2,6 +2,37 @@ import { Flex, Heading, Text, ProgressCircle } from "@adobe/react-spectrum";
 import { useApi, eur, pct, STATUS_COLOR , C } from "../api";
 import { go } from "../App";
 import { Card, Health, Kpi, Sparkline, td, th } from "../components/ui";
+import { CampaignMap, MapLegend, MAP_COLOR } from "../components/CampaignMap";
+
+function Campaigns() {
+  const q = useApi<any[]>("campaigns", C("/campaigns"));
+  if (!q.data?.length) return null;
+  return (
+    <Card title="Campaigns by country" right={<MapLegend />}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(322px, 1fr))", gap: 14 }}>
+        {q.data.map((m) => (
+          <div key={m.campaign_id} style={{ border: "1px solid var(--spectrum-global-color-gray-300)", borderRadius: 8, padding: 10, display: "flex", flexDirection: "column", gap: 8 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8 }}>
+              <span style={{ fontWeight: 700, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{m.name}</span>
+              <span style={{ fontSize: 12, opacity: 0.7, whiteSpace: "nowrap" }}>
+                {eur(m.spend_7d)} · ROAS <b style={{ color: m.roas_7d < m.min_roas ? "#e34850" : undefined }}>{m.roas_7d?.toFixed(2)}</b>
+              </span>
+            </div>
+            <CampaignMap countries={m.countries} />
+            <div style={{ fontSize: 12, lineHeight: 1.5 }}>
+              {m.summary.expand.length > 0 && <div><span style={{ color: MAP_COLOR.expand, fontWeight: 700 }}>Expand:</span> {m.summary.expand.join(", ")}</div>}
+              {m.summary.retreat.length > 0 && <div><span style={{ color: MAP_COLOR.retreat, fontWeight: 700 }}>Retreat:</span> {m.summary.retreat.join(", ")}</div>}
+              {!m.summary.expand.length && !m.summary.retreat.length && <div style={{ opacity: 0.6 }}>No country changes recommended</div>}
+            </div>
+          </div>
+        ))}
+      </div>
+      <Text UNSAFE_style={{ fontSize: 12, opacity: 0.6, display: "block", marginTop: 10 }}>
+        Hover a country for details. Retreat = ROAS below the campaign target while local demand falls. Expand = category demand up 20%+ (last 3 days vs 2–4 weeks ago) in a market with no campaign yet. Demand is a Trends-style index; in production it comes from Google Trends / GDELT news volume.
+      </Text>
+    </Card>
+  );
+}
 
 export default function Radar() {
   const ov = useApi("overview", C("/overview"));
@@ -25,6 +56,7 @@ export default function Radar() {
         <Kpi label={`CPA (€ per ${ov.data.conversion_name ?? "purchase"})`} value={eur(k.cpa, 2)} delta={d(k.cpa, p.cpa)} goodWhenUp={false} />
         <Kpi label="€ at risk (next 7 days)" value={eur(ov.data.eur_at_risk)} accent="#e68619" />
       </Flex>
+      <Campaigns />
       <Card title="Ads, sorted by health and € at risk" right={<Text UNSAFE_style={{ fontSize: 12, opacity: 0.6 }}>Click an ad to diagnose it</Text>}>
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
           <thead>

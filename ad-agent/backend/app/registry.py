@@ -115,7 +115,7 @@ def create_company(name: str, industry: str, description: str, tone: str, banned
                   "banned_phrases": banned, "health_claim_patterns": [], "competitors": competitors, "limits": {"headline": 60, "body": 150, "cta": 20}},
         "economics": {"order_values": [avg_order_value], "order_probs": [1.0], "base_cvr": base_cvr, "price_factor": 0.3, "price_factor_offer": 0.2,
                       "conversion_name": conversion_name or "purchase"},
-        "memory": [], "variant_bank": {},
+        "memory": [], "variant_bank": {}, "markets": ["DE", "FR", "NL", "ES", "IT", "PL", "GB", "US"], "geo_events": [],
     }
     db.x("INSERT INTO companies VALUES (?,?,?,?,?,?)", (cid, name, industry, json.dumps(cfg, ensure_ascii=False), _now(), 0))
     return cid

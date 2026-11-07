@@ -74,6 +74,11 @@ def main() -> int:
         print(f"new company channel {r['channel_id']}: {len(ads)} ads live")
         if not ads:
             problems.append("new channel has no ads")
+        for chan in ("kin-meta", r["channel_id"]):
+            maps = c.get(f"/api/ch/{chan}/campaigns").json()
+            print(f"campaign maps on {chan}: " + "; ".join(f"{m['name']}: +{m['summary']['expand']} -{m['summary']['retreat']}" for m in maps))
+            if not maps or not maps[0]["countries"]:
+                problems.append(f"no campaign map on {chan}")
         c.post("/api/sim/control", json={"action": "reset"})
     mb = peak_mb()
     print(f"done in {time.time() - t0:.1f}s; peak memory {mb:.0f} MB" if mb else f"done in {time.time() - t0:.1f}s")

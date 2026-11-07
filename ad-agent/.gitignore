@@ -8,5 +8,3 @@ data/app.db*
 data/bluesky/cache/
 data/bluesky/.salt
 models/fastembed/
-data/worlds/
-models/

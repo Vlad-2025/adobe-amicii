@@ -25,6 +25,11 @@ Four **fictional** companies with 7 ad channels and 20 planted problems:
 Every channel uses a **simulated feed**: a fake ad platform reporting what the real API would.
 You can create your own company in the UI and connect a channel:
 - **Simulated feed:** pick audience segments; it builds a demo feed with 30 days of history in seconds.
+- **Campaigns by country:** on each channel's Radar, every campaign gets a small map: blue = active,
+  green = recommended to expand (category demand up 20%+ in a market you sell in but don't target),
+  red = recommended to retreat (ROAS under target, lagging the campaign's other countries, demand
+  falling). Hover a country for its name and the reason. Each company has two planted market shifts
+  (e.g. Volt: Spain heatwave up, France price war down).
 - **Live API:** the channel shows which credentials and approvals that platform needs. The live
   connectors are stubs with real field mappings.
 
@@ -37,6 +42,9 @@ You can create your own company in the UI and connect a channel:
 | Audience communities | Bluesky public graph (open). Closed platforms give follower demographics to the account owner only, never follower lists, so communities come from open networks or paid social-listening tools. |
 | Ad-platform segments | Your ad sets' targeting definitions (interests, job functions, ages) |
 | Budget changes, new creatives | The same ads APIs with write permission (e.g. ads_management on Meta), after human approval |
+| Country results per campaign | Insights with a country breakdown (Meta `breakdowns=country`, TikTok `country_code`, X / LinkedIn geo pivots) |
+| Category demand per country | Google Trends interest by region (official API is an invite-only alpha; pytrends is unofficial) or GDELT news volume (free, no key) |
+| News context per country | `python run.py fetch-news`: real GDELT headlines per market, shown on hover (data/signals/) |
 | Reporting delay | Per platform: same day for Meta, about 1 day for TikTok, X and LinkedIn |
 
 Bluesky has no native ads (as of mid-2026), so it's used as an audience source, not an ad channel.
@@ -74,18 +82,22 @@ match it. If you change it, run `python run.py build-world` again.
 3. **Warm the cache:** `python run.py warm-cache` runs the demo path once with the real LLM and
    saves every answer to `data/seed/llm_cache.json`. On stage, those answers are served from the
    cache, so venue Wi-Fi does not matter. Run it on the demo laptop after the final `build-world`.
-4. **Check:** `python run.py smoke` runs everything end to end with the LLM in cache-only mode
+4. **News on the map (optional):** `python run.py fetch-news` pulls recent real headlines per
+   country from GDELT (free, ~1 minute per company because GDELT allows 1 request per 5 s) into
+   `data/signals/`. Commit that folder. Demand numbers stay simulated; headlines are context.
+5. **Check:** `python run.py smoke` runs everything end to end with the LLM in cache-only mode
    and prints peak memory (~0.6 GB for the backend).
-5. **Discord (optional):** set `DISCORD_WEBHOOK_URL`. For approve links to work from a phone, set
+6. **Discord (optional):** set `DISCORD_WEBHOOK_URL`. For approve links to work from a phone, set
    `PUBLIC_BASE_URL=http://<laptop LAN IP>:8000`, run `python run.py demo --host 0.0.0.0`, and
    accept the Windows Firewall prompt.
-6. Record a backup video of the demo path.
+7. Record a backup video of the demo path.
 
 ## Demo path (3 minutes)
 
 | Time | Screen | What to show |
 | --- | --- | --- |
 | 0:00 | Companies | 4 companies, 7 ad channels, total € at risk, failing ads, a health bar per channel |
+| 0:10 | Volt → Instagram → Radar | Campaign maps: expand to Spain (heatwave), retreat from France (price war); hover for the reason |
 | 0:15 | Volt → Instagram → Audiences | "Digital twins of real Bluesky communities": graph, persona cards, heatmap |
 | 0:35 | Radar → A1 → Diagnose | Fatigue 99%, other causes ruled out, evidence with values, narrative streams in |
 | 1:00 | Tallyhawk → LinkedIn → Audiences | Same agent, B2B: segments are job functions, no follower graph (LinkedIn doesn't give one) |

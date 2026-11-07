@@ -103,6 +103,17 @@ async def narrative(ch: str, ad_id: str):
     return StreamingResponse(gen(), media_type="text/event-stream", headers={"Cache-Control": "no-cache"})
 
 
+@router.get("/campaigns")
+def campaigns(ch: str):
+    """Per campaign: KPIs + the country map (active / expand / retreat)."""
+    from app import registry
+    from app.analytics.geo import campaign_maps
+
+    r = rt(ch)
+    co = registry.company(r.company_id)["config"]
+    return campaign_maps(r.ctx, r.company_id, co.get("markets", []), co.get("geo_events", []))
+
+
 @router.get("/heatmap")
 def heatmap(ch: str):
     r = rt(ch)
