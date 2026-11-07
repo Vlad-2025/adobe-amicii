@@ -1,0 +1,42 @@
+[
+  {
+    "insight": "Price-led hooks underperformed twice with the student community; students react better to humor about deadlines.",
+    "evidence": "Spring test: price hook CTR 0.9% vs humor hook 1.6% (n=41k impressions)",
+    "applies_to": {
+      "pack": "students",
+      "dimension": "offer"
+    },
+    "winner": false,
+    "created_day": -60
+  },
+  {
+    "insight": "Gym audiences respond to concrete timing cues (\"30 minutes before\") more than to taste claims.",
+    "evidence": "CTR +22% for timing-cue variant over 9 days",
+    "applies_to": {
+      "pack": "gym",
+      "dimension": "benefit"
+    },
+    "winner": true,
+    "created_day": -45
+  },
+  {
+    "insight": "Discount offers lift conversion rate for coffee enthusiasts but not click-through.",
+    "evidence": "CVR 5.1% vs 3.8%, CTR flat",
+    "applies_to": {
+      "pack": "coffee",
+      "dimension": "offer"
+    },
+    "winner": true,
+    "created_day": -30
+  },
+  {
+    "insight": "Creative refreshes that only reword the headline fatigue again within a week.",
+    "evidence": "3 cosmetic refreshes, median 6 days to fatigue vs 15 for new-angle refreshes",
+    "applies_to": {
+      "pack": "*",
+      "dimension": "hook"
+    },
+    "winner": false,
+    "created_day": -20
+  }
+]

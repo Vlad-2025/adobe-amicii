@@ -1,0 +1,322 @@
+[
+ {
+  "text": "love this stuff",
+  "sentiment": "positive"
+ },
+ {
+  "text": "ok this is actually good",
+  "sentiment": "positive"
+ },
+ {
+  "text": "bought a 12-pack, no regrets",
+  "sentiment": "positive"
+ },
+ {
+  "text": "the can design is clean",
+  "sentiment": "positive"
+ },
+ {
+  "text": "my study group is hooked",
+  "sentiment": "positive"
+ },
+ {
+  "text": "smooth, not bitter at all",
+  "sentiment": "positive"
+ },
+ {
+  "text": "finally cold brew that isn't sour",
+  "sentiment": "positive"
+ },
+ {
+  "text": "need this in my local shop",
+  "sentiment": "positive"
+ },
+ {
+  "text": "perfect before morning lectures",
+  "sentiment": "positive"
+ },
+ {
+  "text": "tried it at the gym, solid",
+  "sentiment": "positive"
+ },
+ {
+  "text": "this got me through finals",
+  "sentiment": "positive"
+ },
+ {
+  "text": "cheaper than my cafe habit",
+  "sentiment": "positive"
+ },
+ {
+  "text": "the 4-pack is a steal",
+  "sentiment": "positive"
+ },
+ {
+  "text": "great with oat milk",
+  "sentiment": "positive"
+ },
+ {
+  "text": "taste is legit",
+  "sentiment": "positive"
+ },
+ {
+  "text": "saving this for exam week",
+  "sentiment": "positive"
+ },
+ {
+  "text": "tag your coffee friend",
+  "sentiment": "positive"
+ },
+ {
+  "text": "my desk fridge is full of these",
+  "sentiment": "positive"
+ },
+ {
+  "text": "smooth caffeine, no crash",
+  "sentiment": "positive"
+ },
+ {
+  "text": "ordered again",
+  "sentiment": "positive"
+ },
+ {
+  "text": "this ad gets it",
+  "sentiment": "positive"
+ },
+ {
+  "text": "how is it this smooth",
+  "sentiment": "positive"
+ },
+ {
+  "text": "need a decaf version too",
+  "sentiment": "positive"
+ },
+ {
+  "text": "shipping was fast",
+  "sentiment": "positive"
+ },
+ {
+  "text": "my new pre-workout",
+  "sentiment": "positive"
+ },
+ {
+  "text": "love the vibe of this brand",
+  "sentiment": "positive"
+ },
+ {
+  "text": "10/10 with ice",
+  "sentiment": "positive"
+ },
+ {
+  "text": "goes great with late merges",
+  "sentiment": "positive"
+ },
+ {
+  "text": "respect the no-neon energy",
+  "sentiment": "positive"
+ },
+ {
+  "text": "I'm in",
+  "sentiment": "positive"
+ },
+ {
+  "text": "where can I buy this?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "is it available in Greece?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "how much caffeine per can?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "is there a sugar-free one?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "does it come in bigger cans?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "what beans do you use?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "price for the 12-pack?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "is it vegan?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "ships to Romania?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "how long does it keep once opened?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "is this like a latte or black?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "any discount for students?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "in stores or online only?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "what's the expiry date like?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "do you deliver to dorms?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "how does it compare to espresso?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "can I return it if I don't like it?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "is the can recyclable?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "calories?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "oat milk version when?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "is there a variety pack?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "what time does the shop ship?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "is it strong?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "subscription option?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "is this new?",
+  "sentiment": "neutral"
+ },
+ {
+  "text": "seeing this for the 10th time today",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "ok I get it, cold brew",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "please stop showing me this",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "third time this hour",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "hide ad",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "not again",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "this ad follows me everywhere",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "I literally already bought it",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "enough with this ad",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "why is this on my feed every scroll",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "same ad, same joke, every day",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "blocked",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "I've memorized this script",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "can you show me something else",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "the algorithm thinks I'm addicted",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "stop",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "my feed is just this can now",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "we get it",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "annoying at this point",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "muting this brand",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "fifth time, still no",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "this ad lives in my head rent free and I hate it",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "Volt again?",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "bro chill with the ads",
+  "sentiment": "annoyed"
+ },
+ {
+  "text": "I swear this is the same ad from yesterday",
+  "sentiment": "annoyed"
+ }
+]

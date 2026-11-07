@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+frontend/node_modules/
+frontend/dist/
+data/app.db*
+data/bluesky/cache/
+data/bluesky/.salt
+models/fastembed/

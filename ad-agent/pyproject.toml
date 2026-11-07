@@ -1,0 +1,25 @@
+[project]
+name = "ad-agent"
+version = "0.1.0"
+description = "Ad Fatigue Agent - IT Fest hackathon"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+  "fastapi>=0.110",
+  "uvicorn>=0.29",
+  "numpy>=1.26",
+  "pandas>=2.1",
+  "scikit-learn>=1.4",
+  "lightgbm>=4.3",
+  "networkx>=3.2",
+  "python-igraph>=0.11",
+  "leidenalg>=0.10",
+  "fastembed>=0.3",
+  "httpx>=0.27",
+  "pydantic>=2.6",
+  "python-dotenv>=1.0",
+  "pyyaml>=6.0",
+  "pyarrow>=15",
+]
+
+[tool.uv]
+package = false

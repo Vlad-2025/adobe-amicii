@@ -1,0 +1,15 @@
+# Starter packs to seed the audience from. For each pack key, give either:
+#   urls:    bsky.app starter-pack links you picked by hand (best), e.g.
+#            https://bsky.app/starter-pack/someone.bsky.social/3kabc123xyz
+#   queries: search terms; the script takes the top results from app.bsky.graph.searchStarterPacks
+# Keys must match the target_packs used in data/seed/campaigns.json.
+max_accounts: 2500
+max_packs_per_key: 3
+packs:
+  coffee:      {queries: ["coffee", "specialty coffee", "barista"]}
+  students:    {queries: ["students", "phd students", "university"]}
+  gym:         {queries: ["fitness", "powerlifting", "running"]}
+  remote_work: {queries: ["remote work", "freelancers", "digital nomads"]}
+  tech:        {queries: ["developers", "rust", "python"]}
+  creators:    {queries: ["creators", "illustrators", "youtubers"]}
+  gaming:      {queries: ["gaming", "indie games", "game dev"]}

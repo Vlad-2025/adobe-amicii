@@ -1,0 +1,160 @@
+{
+  "campaigns": [
+    {
+      "campaign_id": "camp_A",
+      "name": "Study Fuel",
+      "objective": "conversions",
+      "max_cpa": 8.0,
+      "min_roas": 1.4,
+      "total_budget": 150.0
+    },
+    {
+      "campaign_id": "camp_B",
+      "name": "Morning Ritual",
+      "objective": "conversions",
+      "max_cpa": 8.5,
+      "min_roas": 1.3,
+      "total_budget": 90.0
+    },
+    {
+      "campaign_id": "camp_C",
+      "name": "Lift Off",
+      "objective": "awareness",
+      "max_cpa": 10.0,
+      "min_roas": 1.0,
+      "total_budget": 50.0
+    }
+  ],
+  "ad_sets": [
+    {
+      "ad_set_id": "as_A1",
+      "campaign_id": "camp_A",
+      "name": "Students - exam season",
+      "daily_budget": 25.0,
+      "target_packs": [
+        "students"
+      ]
+    },
+    {
+      "ad_set_id": "as_A2",
+      "campaign_id": "camp_A",
+      "name": "Remote workers",
+      "daily_budget": 45.0,
+      "target_packs": [
+        "remote_work",
+        "students"
+      ]
+    },
+    {
+      "ad_set_id": "as_A3",
+      "campaign_id": "camp_A",
+      "name": "Tech + gaming",
+      "daily_budget": 45.0,
+      "target_packs": [
+        "tech",
+        "gaming"
+      ]
+    },
+    {
+      "ad_set_id": "as_B1",
+      "campaign_id": "camp_B",
+      "name": "Coffee people + creators",
+      "daily_budget": 90.0,
+      "target_packs": [
+        "coffee",
+        "creators"
+      ]
+    },
+    {
+      "ad_set_id": "as_C1",
+      "campaign_id": "camp_C",
+      "name": "Gym crowd",
+      "daily_budget": 50.0,
+      "target_packs": [
+        "gym"
+      ]
+    }
+  ],
+  "creatives": [
+    {
+      "ad_id": "A1",
+      "ad_set_id": "as_A1",
+      "hook": "Exam week? Volt has notes.",
+      "body": "Cold brew that tastes like a 9am lecture you actually enjoyed. Smooth caffeine, zero queue.",
+      "cta": "Grab a 4-pack",
+      "offer": "none",
+      "tone": "witty",
+      "angle": "study focus"
+    },
+    {
+      "ad_id": "A2",
+      "ad_set_id": "as_A2",
+      "hook": "Your 2pm slump called in sick.",
+      "body": "Volt cold brew: canned, chilled, ready before your next stand-up. Fewer naps, more done.",
+      "cta": "Try Volt",
+      "offer": "none",
+      "tone": "witty",
+      "angle": "afternoon energy"
+    },
+    {
+      "ad_id": "A3",
+      "ad_set_id": "as_A2",
+      "hook": "Work from anywhere. Brew from nowhere.",
+      "body": "No machine, no mess. Crack a Volt between calls and keep the flow going all afternoon.",
+      "cta": "Shop now",
+      "offer": "free shipping over 12",
+      "tone": "chill",
+      "angle": "convenience"
+    },
+    {
+      "ad_id": "D2",
+      "ad_set_id": "as_A3",
+      "hook": "Ship it. Then sip it.",
+      "body": "Cold brew for late merges, long builds and boss fights. Smooth, strong, already cold.",
+      "cta": "Get the 12-pack",
+      "offer": "10% off 12-pack",
+      "tone": "energetic",
+      "angle": "late-night grind"
+    },
+    {
+      "ad_id": "B1",
+      "ad_set_id": "as_B1",
+      "hook": "Cold brew, minus the 12-hour wait.",
+      "body": "We steep it slow so you don't have to. Single origin, smooth finish, in a can.",
+      "cta": "Taste it",
+      "offer": "none",
+      "tone": "informative",
+      "angle": "craft quality"
+    },
+    {
+      "ad_id": "B2",
+      "ad_set_id": "as_B1",
+      "hook": "Your morning ritual, canned.",
+      "body": "Same slow-steeped cold brew, ready in the fridge. Pour over ice or drink it straight.",
+      "cta": "Order a 4-pack",
+      "offer": "first order 15% off",
+      "tone": "chill",
+      "angle": "ritual"
+    },
+    {
+      "ad_id": "C1",
+      "ad_set_id": "as_C1",
+      "hook": "Pre-workout, but make it coffee.",
+      "body": "Volt cold brew: clean caffeine before the gym. No neon, no jitters, just lift.",
+      "cta": "Fuel up",
+      "offer": "none",
+      "tone": "energetic",
+      "angle": "pre-workout"
+    },
+    {
+      "ad_id": "C2",
+      "ad_set_id": "as_C1",
+      "hook": "Leg day needs a co-pilot.",
+      "body": "A can of Volt 30 minutes before you train. Smooth cold brew that keeps up with you.",
+      "cta": "Try Volt",
+      "offer": "none",
+      "tone": "witty",
+      "angle": "training companion"
+    }
+  ]
+}

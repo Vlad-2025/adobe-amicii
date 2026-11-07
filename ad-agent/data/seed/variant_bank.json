@@ -1,0 +1,24 @@
+{
+  "_note": "Used only when no LLM is reachable and the cache has no entry. Each entry changes exactly one dimension.",
+  "hook": [
+    {"hook": "Deadline at 9. Volt at 8:59.", "hypothesis": "A concrete deadline moment feels fresher than a generic study joke."},
+    {"hook": "Coffee that waits for you.", "hypothesis": "Reframing convenience as patience gives a new first line."},
+    {"hook": "Plot twist: it's already cold.", "hypothesis": "Surprise framing resets attention on a tired audience."}
+  ],
+  "cta": [
+    {"cta": "Try one can", "hypothesis": "A lower-commitment ask lifts clicks from people who already know the brand."},
+    {"cta": "See the flavours", "hypothesis": "Browsing CTA attracts curious, non-buyer clicks earlier in the funnel."}
+  ],
+  "benefit": [
+    {"body": "Smooth caffeine that lasts the whole afternoon, without the 4pm crash. Canned and cold.", "hypothesis": "Leading with sustained energy targets the slump, not the taste."},
+    {"body": "Ready in one second: crack, sip, keep going. No machine, no queue, no mess.", "hypothesis": "Speed and zero effort is a benefit this audience has not seen yet."}
+  ],
+  "emotional_angle": [
+    {"hook": "Small win: you're already caffeinated.", "body": "Volt cold brew turns a rough morning into one thing done. Treat yourself before the to-do list does.", "hypothesis": "Self-reward angle is far from the original's productivity angle, so little fatigue carries over."},
+    {"hook": "Your friends will ask for a sip.", "body": "Bring a 4-pack to the study room and become everyone's favourite person. Volt, shared cold.", "hypothesis": "A social angle opens a new reason to click for people tired of the solo-focus message."}
+  ],
+  "offer": [
+    {"offer": "first 4-pack 20% off", "hypothesis": "A first-order discount converts people who clicked before but did not buy."},
+    {"offer": "free can with every 12-pack", "hypothesis": "A bonus framing avoids discount fatigue while raising order value."}
+  ]
+}
