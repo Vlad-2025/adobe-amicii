@@ -1,11 +1,11 @@
 import { Flex, Heading, Text, ProgressCircle } from "@adobe/react-spectrum";
-import { useApi, eur, pct, STATUS_COLOR } from "../api";
+import { useApi, eur, pct, STATUS_COLOR , C } from "../api";
 import { go } from "../App";
 import { Card, Health, Kpi, Sparkline, td, th } from "../components/ui";
 
 export default function Radar() {
-  const ov = useApi("overview", "/api/overview");
-  const ads = useApi<any[]>("ads", "/api/ads");
+  const ov = useApi("overview", C("/overview"));
+  const ads = useApi<any[]>("ads", C("/ads"));
   if (!ov.data || !ads.data) return <ProgressCircle isIndeterminate aria-label="loading" />;
   const k = ov.data.kpi_7d;
   const p = ov.data.kpi_prev_7d;
@@ -22,7 +22,7 @@ export default function Radar() {
       <Flex gap="size-200" wrap>
         <Kpi label="Spend (7 days)" value={eur(k.spend)} delta={d(k.spend, p.spend)} goodWhenUp={false} />
         <Kpi label="ROAS (revenue ÷ spend)" value={k.roas.toFixed(2)} delta={d(k.roas, p.roas)} />
-        <Kpi label="CPA (€ per purchase)" value={eur(k.cpa, 2)} delta={d(k.cpa, p.cpa)} goodWhenUp={false} />
+        <Kpi label={`CPA (€ per ${ov.data.conversion_name ?? "purchase"})`} value={eur(k.cpa, 2)} delta={d(k.cpa, p.cpa)} goodWhenUp={false} />
         <Kpi label="€ at risk (next 7 days)" value={eur(ov.data.eur_at_risk)} accent="#e68619" />
       </Flex>
       <Card title="Ads, sorted by health and € at risk" right={<Text UNSAFE_style={{ fontSize: 12, opacity: 0.6 }}>Click an ad to diagnose it</Text>}>

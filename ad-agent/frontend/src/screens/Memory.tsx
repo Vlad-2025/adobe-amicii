@@ -1,9 +1,9 @@
 import { Flex, Heading, ProgressCircle, Text } from "@adobe/react-spectrum";
-import { useApi } from "../api";
+import { useApi , C } from "../api";
 import { Card } from "../components/ui";
 
 export default function Memory() {
-  const q = useApi<any[]>("memory", "/api/memory");
+  const q = useApi<any[]>("memory", C("/memory"));
   if (!q.data) return <ProgressCircle isIndeterminate aria-label="loading" />;
   return (
     <Flex direction="column" gap="size-250">

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Flex, Heading, ProgressCircle, Text, Grid } from "@adobe/react-spectrum";
 import { CartesianGrid, Line, LineChart, ReferenceArea, ReferenceDot, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { HYPO_LABEL, eur, pct, post, postStream, useApi } from "../api";
+import { HYPO_LABEL, eur, pct, post, postStream, useApi , C } from "../api";
 import { go } from "../App";
 import { AiTag, Card, Health, chartTheme, td, th } from "../components/ui";
 
@@ -34,7 +34,7 @@ function Metric({ data, k, label, fmt, markers, forecast, color }: any) {
 }
 
 export default function AdDetail({ adId }: { adId: string }) {
-  const q = useApi("ad", `/api/ads/${adId}`);
+  const q = useApi("ad", C(`/ads/${adId}`));
   const [diag, setDiag] = useState<any>(null);
   const [busy, setBusy] = useState(false);
   const [story, setStory] = useState("");
@@ -48,10 +48,10 @@ export default function AdDetail({ adId }: { adId: string }) {
   const diagnose = async () => {
     setBusy(true);
     setStory("");
-    const d = await post(`/api/ads/${adId}/diagnose`);
+    const d = await post(C(`/ads/${adId}/diagnose`));
     setDiag(d);
     setBusy(false);
-    await postStream(`/api/ads/${adId}/diagnose/narrative`, (ev, data) => {
+    await postStream(C(`/ads/${adId}/diagnose/narrative`), (ev, data) => {
       if (ev === "meta") setStorySrc(data.source);
       if (ev === "chunk") setStory((s) => s + data.text);
     }, undefined, "GET");

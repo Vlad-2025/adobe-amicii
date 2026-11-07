@@ -2,8 +2,9 @@
 #   urls:    bsky.app starter-pack links you picked by hand (best), e.g.
 #            https://bsky.app/starter-pack/someone.bsky.social/3kabc123xyz
 #   queries: search terms; the script takes the top results from app.bsky.graph.searchStarterPacks
-# Keys must match the target_packs used in data/seed/campaigns.json.
-max_accounts: 2500
+# Keys must match the audience packs used by Bluesky-backed channels in data/seed/companies/*.json
+# (Volt: coffee..gaming; Mosslight: gaming, cozy_gamers, game_dev, pixel_artists, creators).
+max_accounts: 3500
 max_packs_per_key: 3
 packs:
   coffee:      {queries: ["coffee", "specialty coffee", "barista"]}
@@ -13,3 +14,6 @@ packs:
   tech:        {queries: ["developers", "rust", "python"]}
   creators:    {queries: ["creators", "illustrators", "youtubers"]}
   gaming:      {queries: ["gaming", "indie games", "game dev"]}
+  cozy_gamers: {queries: ["cozy games", "cozy gamers"]}
+  game_dev:    {queries: ["game dev", "indie game developers", "godot"]}
+  pixel_artists: {queries: ["pixel art", "pixel artists"]}

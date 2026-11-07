@@ -1,4 +1,4 @@
-"""FastAPI app: owns the simulator clock and the database; serves the built frontend in demo mode."""
+"""FastAPI app: owns the shared simulator clock and the database; serves the built frontend in demo mode."""
 from __future__ import annotations
 
 import asyncio
@@ -10,10 +10,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from app import config, db
-from app.api import audience, budget, creative, radar, system
+from app import config, db, registry
+from app.api import audience, budget, companies, creative, radar, system
 from app.state import STATE
-from app.world.build import WORLD_NPZ
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 log = logging.getLogger("app")
@@ -22,11 +21,25 @@ log = logging.getLogger("app")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     db.conn()
-    if not WORLD_NPZ.exists() or not db.q("SELECT 1 FROM communities LIMIT 1"):
-        from app.world.build import build
+    registry.seed_companies()
+    from app.state import world_ready
+    from app.world.build import build_channel, seed_memory
+    from app.world.embed import get_embedder
 
-        log.info("No world yet: building it now (first start only)")
-        await asyncio.to_thread(build)
+    missing = [c for c in registry.channels(kind="ads") if c["mode"] == "simulated" and not world_ready(c["channel_id"])]
+    if missing:
+        log.info("Building %d channel world(s) that are missing: %s", len(missing), [c["channel_id"] for c in missing])
+
+        def build_missing():
+            if not db.kv_get("embedder"):
+                get_embedder(fresh=True)
+            for co in {c["company_id"] for c in missing}:
+                if not db.q("SELECT 1 FROM memory WHERE company_id=? LIMIT 1", (co,)):
+                    seed_memory(co)
+            for c in missing:
+                build_channel(c["channel_id"])
+
+        await asyncio.to_thread(build_missing)
     await asyncio.to_thread(STATE.reset)
     STATE.loop = asyncio.get_running_loop()
     task = asyncio.create_task(STATE.clock())
@@ -36,13 +49,13 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Ad Fatigue Agent", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"], allow_methods=["*"], allow_headers=["*"])
-for r in (radar.router, audience.router, creative.router, budget.router, system.router):
+for r in (companies.router, radar.router, audience.router, creative.router, budget.router, budget.link_router, system.router):
     app.include_router(r)
 
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "day": STATE.day}
+    return {"ok": True, "day": STATE.world_day, "channels": list(STATE.rt)}
 
 
 if config.FRONTEND_DIST.exists():

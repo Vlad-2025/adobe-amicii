@@ -13,7 +13,7 @@ import numpy as np
 import pandas as pd
 
 from app.analytics.metrics import slope, with_rates
-from app.config import MODELS, TWIN_SCALE
+from app.config import MODELS
 
 log = logging.getLogger(__name__)
 MODEL_PATH = MODELS / "fatigue.pkl"
@@ -21,13 +21,18 @@ FEATURES = ["days_live", "frequency", "freq_slope", "ctr_slope3", "ctr_slope7", 
 HORIZON = 30
 
 
-def features_for(ad_rows: pd.DataFrame, day: int, audience: int, max_sim_prior: float) -> dict:
-    """ad_rows: per-day rows (with rates) for ONE ad, indexed by day."""
+def pooled_ctr(h: pd.DataFrame, window: int) -> pd.Series:
+    """Rolling CTR pooled over `window` days (sum clicks / sum impressions): robust to low daily volume."""
+    return h["clicks"].rolling(window, min_periods=1).sum() / h["impressions"].rolling(window, min_periods=1).sum().clip(lower=1)
+
+
+def features_for(ad_rows: pd.DataFrame, day: int, audience_people: float, max_sim_prior: float) -> dict:
+    """ad_rows: per-day rows (with rates) for ONE ad, indexed by day. audience_people: real people targeted."""
     h = ad_rows[ad_rows.index <= day]
     if h.empty:
         return {k: 0.0 for k in FEATURES}
-    ctr3 = h["ctr"].rolling(3, min_periods=1).mean()
-    peak = float(ctr3.max()) or 1e-6
+    ctr3 = pooled_ctr(h, 3)
+    peak = float(pooled_ctr(h, 7).max()) or 1e-6
     reach7 = float(h["reach7"].iloc[-1])
     return {
         "days_live": float(len(h)),
@@ -36,16 +41,16 @@ def features_for(ad_rows: pd.DataFrame, day: int, audience: int, max_sim_prior: 
         "ctr_slope3": slope(h["ctr"].to_numpy()[-3:]) / peak,
         "ctr_slope7": slope(h["ctr"].to_numpy()[-7:]) / peak,
         "ctr_vs_peak": float(ctr3.iloc[-1]) / peak,
-        "saturation": reach7 / max(audience * TWIN_SCALE, 1),
-        "audience_k": audience / 1000.0,
+        "saturation": reach7 / max(audience_people, 1),
+        "audience_k": audience_people / 100000.0,
         "max_sim_prior": max_sim_prior,
     }
 
 
-def _target(ctr3: np.ndarray) -> np.ndarray:
-    """For each day: days until ctr3 < 0.7 * running peak (capped at HORIZON)."""
+def _target(ctr3: np.ndarray, ctr7: np.ndarray) -> np.ndarray:
+    """For each day: days until 3-day CTR < 0.7 * running peak of 7-day CTR (capped at HORIZON)."""
     out = np.full(len(ctr3), HORIZON, float)
-    peak = np.maximum.accumulate(ctr3)
+    peak = np.maximum.accumulate(ctr7)
     for t in range(len(ctr3)):
         for u in range(t + 1, len(ctr3)):
             if ctr3[u] < 0.7 * peak[u]:
@@ -57,40 +62,49 @@ def _target(ctr3: np.ndarray) -> np.ndarray:
 
 
 def generate_training(runs: int = 500, days: int = 45, seed: int = 11) -> pd.DataFrame:
-    from app.sim.simulator import Simulator
-    from app.world.build import load_world
+    """Random single-ad runs spread over every built channel world (different audiences, platforms, economics)."""
+    from app import registry
+    from app.sim.world import sim_params
+    from app.world.build import load_world, world_path
 
-    world = load_world()
+    chans = [c["channel_id"] for c in registry.channels(kind="ads") if world_path(c["channel_id"]).exists()]
     rng = np.random.default_rng(seed)
+    rows = []
+    t0 = time.time()
+    per = max(1, runs // max(len(chans), 1))
+    for ch in chans:
+        _runs_on_world(load_world(ch), sim_params(ch), per, days, rng, rows)
+    log.info("fatigue training data: %d rows from %d runs over %d channels in %.1fs", len(rows), per * len(chans), len(chans), time.time() - t0)
+    return pd.DataFrame(rows)
+
+
+def _runs_on_world(world: dict, params: dict, runs: int, days: int, rng: np.random.Generator, rows: list) -> None:
+    from app.sim.simulator import Simulator
+
     labels = world["labels"]
     k = int(labels.max()) + 1
     sizes = np.bincount(labels, minlength=k)
     base_ads = [world["centroids"][i] for i in range(k)]
-    rows = []
-    t0 = time.time()
     for r in range(runs):
         comms = sorted(rng.choice(k, size=int(rng.integers(1, 3)), replace=False).tolist())
-        budget = float(rng.uniform(10, 90))
+        budget = float(rng.uniform(10, 90)) * params.get("base_cpm", 6.0) / 6.0
         emb = base_ads[int(rng.integers(k))] + rng.normal(0, 0.15, base_ads[0].shape)
         emb = (emb / np.linalg.norm(emb)).astype(np.float32)
         prior_sim = float(rng.uniform(0, 0.95))
         ad_sets = {"s": {"campaign_id": "c", "daily_budget": budget, "target_communities": comms}}
-        sim = Simulator(world, ad_sets, {"c": {}}, [{"ad_id": "x", "ad_set_id": "s", "emb": emb, "tone": str(rng.choice(["witty", "energetic", "chill", "informative"]))}], seed=int(rng.integers(1e9)))
+        sim = Simulator(world, ad_sets, {"c": {}}, [{"ad_id": "x", "ad_set_id": "s", "emb": emb, "tone": str(rng.choice(["witty", "energetic", "chill", "informative"]))}], seed=int(rng.integers(1e9)), params=params)
         if prior_sim > 0.3:  # pre-fatigue with a similar earlier creative
             sim.n[np.isin(labels, comms), 0] += prior_sim * rng.uniform(0, 4)
         sim.run(days)
         df = with_rates(sim.stats().drop(columns="community_id").groupby("day").sum()).sort_index()
         if len(df) < 10:
             continue
-        ctr3 = df["ctr"].rolling(3, min_periods=1).mean().to_numpy()
-        y = _target(ctr3)
-        audience = int(sizes[comms].sum())
+        y = _target(pooled_ctr(df, 3).to_numpy(), pooled_ctr(df, 7).to_numpy())
+        audience = float(sizes[comms].sum()) * sim.scale
         for t in range(3, len(df) - 5):
             f = features_for(df, int(df.index[t]), audience, prior_sim)
             f["y"] = y[t]
             rows.append(f)
-    log.info("fatigue training data: %d rows from %d runs in %.1fs", len(rows), runs, time.time() - t0)
-    return pd.DataFrame(rows)
 
 
 def train(runs: int = 500) -> dict:

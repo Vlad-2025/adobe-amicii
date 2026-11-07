@@ -3,3 +3,4 @@ its size, top keywords, five representative posts, and its active hours (share o
 Write a short persona a marketer for the brand below can use. Name it like a segment ("Late-night builders"),
 not a person. "do" and "dont" are concrete advice for ads aimed at this community, consistent with the brand tone.
 best_hours: the 2-4 hour window with most activity, e.g. "21:00-01:00 UTC".
+interests: 3-5 short themes in your own words (do not copy the keyword list). do / dont: 2-3 items each.

@@ -1,0 +1,661 @@
+{
+ "company_id": "volt",
+ "name": "Volt",
+ "industry": "Canned cold-brew coffee (D2C)",
+ "fictional": true,
+ "description": "Fictional D2C cold-brew brand selling cans in 1, 4 and 12 packs online.",
+ "brand": {
+  "name": "Volt",
+  "product": "Canned cold-brew coffee",
+  "price_eur": 2.9,
+  "pack_sizes": [
+   1,
+   4,
+   12
+  ],
+  "target_age": "18-35",
+  "tone": "energetic, witty, never preachy",
+  "banned_phrases": [
+   "boosts immunity",
+   "best in the world",
+   "cures",
+   "detox",
+   "miracle"
+  ],
+  "health_claim_patterns": [
+   "boost(s|ing)? (your )?immun",
+   "cure(s|d)?\\b",
+   "lose weight",
+   "burn(s)? fat",
+   "heal(s|ing)?\\b",
+   "clinically proven"
+  ],
+  "competitors": [
+   "Red Bull",
+   "Monster",
+   "Starbucks",
+   "Nescafe",
+   "Costa"
+  ],
+  "limits": {
+   "headline": 40,
+   "body": 125,
+   "cta": 20
+  }
+ },
+ "economics": {
+  "order_values": [
+   2.9,
+   11.6,
+   34.8
+  ],
+  "order_probs": [
+   0.3,
+   0.5,
+   0.2
+  ],
+  "base_cvr": 0.08,
+  "price_factor": 0.5,
+  "price_factor_offer": 0.35,
+  "conversion_name": "purchase"
+ },
+ "memory": [
+  {
+   "insight": "Price-led hooks underperformed twice with the student community; students react better to humor about deadlines.",
+   "evidence": "Spring test: price hook CTR 0.9% vs humor hook 1.6% (n=41k impressions)",
+   "applies_to": {
+    "pack": "students",
+    "dimension": "offer"
+   },
+   "winner": false,
+   "created_day": -60
+  },
+  {
+   "insight": "Gym audiences respond to concrete timing cues (\"30 minutes before\") more than to taste claims.",
+   "evidence": "CTR +22% for timing-cue variant over 9 days",
+   "applies_to": {
+    "pack": "gym",
+    "dimension": "benefit"
+   },
+   "winner": true,
+   "created_day": -45
+  },
+  {
+   "insight": "Discount offers lift conversion rate for coffee enthusiasts but not click-through.",
+   "evidence": "CVR 5.1% vs 3.8%, CTR flat",
+   "applies_to": {
+    "pack": "coffee",
+    "dimension": "offer"
+   },
+   "winner": true,
+   "created_day": -30
+  },
+  {
+   "insight": "Creative refreshes that only reword the headline fatigue again within a week.",
+   "evidence": "3 cosmetic refreshes, median 6 days to fatigue vs 15 for new-angle refreshes",
+   "applies_to": {
+    "pack": "*",
+    "dimension": "hook"
+   },
+   "winner": false,
+   "created_day": -20
+  }
+ ],
+ "variant_bank": {
+  "hook": [
+   {
+    "hook": "Deadline at 9. Volt at 8:59.",
+    "hypothesis": "A concrete deadline moment feels fresher than a generic study joke."
+   },
+   {
+    "hook": "Coffee that waits for you.",
+    "hypothesis": "Reframing convenience as patience gives a new first line."
+   },
+   {
+    "hook": "Plot twist: it's already cold.",
+    "hypothesis": "Surprise framing resets attention on a tired audience."
+   }
+  ],
+  "cta": [
+   {
+    "cta": "Try one can",
+    "hypothesis": "A lower-commitment ask lifts clicks from people who already know the brand."
+   },
+   {
+    "cta": "See the flavours",
+    "hypothesis": "Browsing CTA attracts curious, non-buyer clicks earlier in the funnel."
+   }
+  ],
+  "benefit": [
+   {
+    "body": "Smooth caffeine that lasts the whole afternoon, without the 4pm crash. Canned and cold.",
+    "hypothesis": "Leading with sustained energy targets the slump, not the taste."
+   },
+   {
+    "body": "Ready in one second: crack, sip, keep going. No machine, no queue, no mess.",
+    "hypothesis": "Speed and zero effort is a benefit this audience has not seen yet."
+   }
+  ],
+  "emotional_angle": [
+   {
+    "hook": "Small win: you're already caffeinated.",
+    "body": "Volt cold brew turns a rough morning into one thing done. Treat yourself before the to-do list does.",
+    "hypothesis": "Self-reward angle is far from the original's productivity angle, so little fatigue carries over."
+   },
+   {
+    "hook": "Your friends will ask for a sip.",
+    "body": "Bring a 4-pack to the study room and become everyone's favourite person. Volt, shared cold.",
+    "hypothesis": "A social angle opens a new reason to click for people tired of the solo-focus message."
+   }
+  ],
+  "offer": [
+   {
+    "offer": "first 4-pack 20% off",
+    "hypothesis": "A first-order discount converts people who clicked before but did not buy."
+   },
+   {
+    "offer": "free can with every 12-pack",
+    "hypothesis": "A bonus framing avoids discount fatigue while raising order value."
+   }
+  ]
+ },
+ "audience_sources": [
+  {
+   "source_id": "volt-bsky",
+   "platform": "bluesky",
+   "handle": "@volt-coldbrew.bsky.social",
+   "mode": "simulated",
+   "packs": [
+    "coffee",
+    "students",
+    "gym",
+    "remote_work",
+    "tech",
+    "creators",
+    "gaming"
+   ]
+  }
+ ],
+ "channels": [
+  {
+   "channel_id": "volt-ig",
+   "platform": "instagram",
+   "name": "Instagram (Meta Ads)",
+   "handle": "@volt.coldbrew",
+   "mode": "simulated",
+   "report_lag_days": 0,
+   "audience": {
+    "type": "bluesky",
+    "source": "volt-bsky",
+    "packs": {
+     "coffee": 430,
+     "students": 300,
+     "gym": 380,
+     "remote_work": 420,
+     "tech": 230,
+     "creators": 450,
+     "gaming": 400
+    }
+   },
+   "sim": {
+    "base_cpm": 6.0,
+    "b0": -4.3,
+    "lam": 0.6,
+    "twin_scale": 50
+   },
+   "campaigns": [
+    {
+     "campaign_id": "camp_A",
+     "name": "Study Fuel",
+     "objective": "conversions",
+     "max_cpa": 8.0,
+     "min_roas": 1.4,
+     "total_budget": 150.0
+    },
+    {
+     "campaign_id": "camp_B",
+     "name": "Morning Ritual",
+     "objective": "conversions",
+     "max_cpa": 8.5,
+     "min_roas": 1.3,
+     "total_budget": 90.0
+    },
+    {
+     "campaign_id": "camp_C",
+     "name": "Lift Off",
+     "objective": "awareness",
+     "max_cpa": 10.0,
+     "min_roas": 1.0,
+     "total_budget": 50.0
+    }
+   ],
+   "ad_sets": [
+    {
+     "ad_set_id": "as_A1",
+     "campaign_id": "camp_A",
+     "name": "Students - exam season",
+     "daily_budget": 25.0,
+     "target_packs": [
+      "students"
+     ]
+    },
+    {
+     "ad_set_id": "as_A2",
+     "campaign_id": "camp_A",
+     "name": "Remote workers",
+     "daily_budget": 45.0,
+     "target_packs": [
+      "remote_work",
+      "students"
+     ]
+    },
+    {
+     "ad_set_id": "as_A3",
+     "campaign_id": "camp_A",
+     "name": "Tech + gaming",
+     "daily_budget": 45.0,
+     "target_packs": [
+      "tech",
+      "gaming"
+     ]
+    },
+    {
+     "ad_set_id": "as_B1",
+     "campaign_id": "camp_B",
+     "name": "Coffee people + creators",
+     "daily_budget": 90.0,
+     "target_packs": [
+      "coffee",
+      "creators"
+     ]
+    },
+    {
+     "ad_set_id": "as_C1",
+     "campaign_id": "camp_C",
+     "name": "Gym crowd",
+     "daily_budget": 50.0,
+     "target_packs": [
+      "gym"
+     ]
+    }
+   ],
+   "creatives": [
+    {
+     "ad_id": "A1",
+     "ad_set_id": "as_A1",
+     "hook": "Exam week? Volt has notes.",
+     "body": "Cold brew that tastes like a 9am lecture you actually enjoyed. Smooth caffeine, zero queue.",
+     "cta": "Grab a 4-pack",
+     "offer": "none",
+     "tone": "witty",
+     "angle": "study focus"
+    },
+    {
+     "ad_id": "A2",
+     "ad_set_id": "as_A2",
+     "hook": "Your 2pm slump called in sick.",
+     "body": "Volt cold brew: canned, chilled, ready before your next stand-up. Fewer naps, more done.",
+     "cta": "Try Volt",
+     "offer": "none",
+     "tone": "witty",
+     "angle": "afternoon energy"
+    },
+    {
+     "ad_id": "A3",
+     "ad_set_id": "as_A2",
+     "hook": "Work from anywhere. Brew from nowhere.",
+     "body": "No machine, no mess. Crack a Volt between calls and keep the flow going all afternoon.",
+     "cta": "Shop now",
+     "offer": "free shipping over 12",
+     "tone": "chill",
+     "angle": "convenience"
+    },
+    {
+     "ad_id": "D2",
+     "ad_set_id": "as_A3",
+     "hook": "Ship it. Then sip it.",
+     "body": "Cold brew for late merges, long builds and boss fights. Smooth, strong, already cold.",
+     "cta": "Get the 12-pack",
+     "offer": "10% off 12-pack",
+     "tone": "energetic",
+     "angle": "late-night grind"
+    },
+    {
+     "ad_id": "B1",
+     "ad_set_id": "as_B1",
+     "hook": "Cold brew, minus the 12-hour wait.",
+     "body": "We steep it slow so you don't have to. Single origin, smooth finish, in a can.",
+     "cta": "Taste it",
+     "offer": "none",
+     "tone": "informative",
+     "angle": "craft quality"
+    },
+    {
+     "ad_id": "B2",
+     "ad_set_id": "as_B1",
+     "hook": "Your morning ritual, canned.",
+     "body": "Same slow-steeped cold brew, ready in the fridge. Pour over ice or drink it straight.",
+     "cta": "Order a 4-pack",
+     "offer": "first order 15% off",
+     "tone": "chill",
+     "angle": "ritual"
+    },
+    {
+     "ad_id": "C1",
+     "ad_set_id": "as_C1",
+     "hook": "Pre-workout, but make it coffee.",
+     "body": "Volt cold brew: clean caffeine before the gym. No neon, no jitters, just lift.",
+     "cta": "Fuel up",
+     "offer": "none",
+     "tone": "energetic",
+     "angle": "pre-workout"
+    },
+    {
+     "ad_id": "C2",
+     "ad_set_id": "as_C1",
+     "hook": "Leg day needs a co-pilot.",
+     "body": "A can of Volt 30 minutes before you train. Smooth cold brew that keeps up with you.",
+     "cta": "Try Volt",
+     "offer": "none",
+     "tone": "witty",
+     "angle": "training companion"
+    }
+   ],
+   "scenarios": {
+    "A": {
+     "name": "Creative fatigue",
+     "description": "Ad A1 runs a high budget into one small community",
+     "label": "creative_fatigue",
+     "target": {
+      "ad": "A1"
+     },
+     "effect": {
+      "type": "budget_multiplier",
+      "value": 1.6
+     },
+     "history": {
+      "start_day": 17,
+      "end_day": null
+     },
+     "eval_ad": "A1",
+     "live_effect": {
+      "type": "budget_multiplier",
+      "value": 5.0
+     },
+     "live_duration": null
+    },
+    "B": {
+     "name": "Landing page broke",
+     "description": "Campaign B landing page health x0.4",
+     "label": "landing_page",
+     "target": {
+      "campaign": "camp_B"
+     },
+     "effect": {
+      "type": "landing_health",
+      "value": 0.4
+     },
+     "history": {
+      "start_day": 20,
+      "end_day": null
+     },
+     "eval_ad": "B1",
+     "live_duration": null
+    },
+    "C": {
+     "name": "Auction pressure",
+     "description": "Competition x1.6 for campaign C",
+     "label": "auction_pressure",
+     "target": {
+      "campaign": "camp_C"
+     },
+     "effect": {
+      "type": "competition",
+      "value": 1.6
+     },
+     "history": {
+      "start_day": 18,
+      "end_day": null
+     },
+     "eval_ad": "C1",
+     "live_duration": null
+    },
+    "D": {
+     "name": "Seasonal dip",
+     "description": "All activity x0.75 (market-wide dip)",
+     "label": "seasonality",
+     "target": {
+      "all": true
+     },
+     "effect": {
+      "type": "activity",
+      "value": 0.75
+     },
+     "history": {
+      "start_day": 22,
+      "end_day": 25
+     },
+     "eval_ad": "A3",
+     "eval_day": 25,
+     "live_duration": 4
+    },
+    "E": {
+     "name": "Segment saturation",
+     "description": "Ad D2 delivery skewed into the tech community",
+     "label": "segment_saturation",
+     "target": {
+      "ad": "D2",
+      "pack": "tech"
+     },
+     "effect": {
+      "type": "delivery_skew",
+      "value": 6.0
+     },
+     "history": {
+      "start_day": 0,
+      "end_day": null
+     },
+     "eval_ad": "D2",
+     "live_duration": null
+    },
+    "F": {
+     "name": "Tracking broke (stretch)",
+     "description": "Conversion tracking reports 0",
+     "label": "tracking",
+     "target": {
+      "campaign": "camp_A"
+     },
+     "effect": {
+      "type": "tracking_off",
+      "value": 0
+     },
+     "history": null,
+     "eval_ad": "A3",
+     "live_duration": null
+    }
+   }
+  },
+  {
+   "channel_id": "volt-tt",
+   "platform": "tiktok",
+   "name": "TikTok Ads",
+   "handle": "@voltcoldbrew",
+   "mode": "simulated",
+   "report_lag_days": 1,
+   "audience": {
+    "type": "segments",
+    "packs": {
+     "students": 500,
+     "gym": 400,
+     "gaming": 450
+    },
+    "labels": {
+     "students": "Students 18-24 · interest: studying, campus life",
+     "gym": "Fitness 18-34 · interest: gym, workouts",
+     "gaming": "Gamers 18-24 · interest: video games"
+    }
+   },
+   "sim": {
+    "base_cpm": 5.0,
+    "b0": -4.1,
+    "lam": 0.75,
+    "twin_scale": 60
+   },
+   "campaigns": [
+    {
+     "campaign_id": "tt_launch",
+     "name": "TikTok Launch",
+     "objective": "conversions",
+     "max_cpa": 8.0,
+     "min_roas": 1.3,
+     "total_budget": 85.0
+    }
+   ],
+   "ad_sets": [
+    {
+     "ad_set_id": "tt_students",
+     "campaign_id": "tt_launch",
+     "name": "Students 18-24",
+     "daily_budget": 40.0,
+     "target_packs": [
+      "students"
+     ]
+    },
+    {
+     "ad_set_id": "tt_gym",
+     "campaign_id": "tt_launch",
+     "name": "Fitness 18-34",
+     "daily_budget": 25.0,
+     "target_packs": [
+      "gym"
+     ]
+    },
+    {
+     "ad_set_id": "tt_gamers",
+     "campaign_id": "tt_launch",
+     "name": "Gamers 18-24",
+     "daily_budget": 40.0,
+     "target_packs": [
+      "gaming",
+      "students"
+     ]
+    }
+   ],
+   "creatives": [
+    {
+     "ad_id": "T1",
+     "ad_set_id": "tt_students",
+     "hook": "POV: 3am, essay due at 9",
+     "body": "Crack a Volt, hear the fizz of hope. Cold brew that actually tastes good at 3am.",
+     "cta": "Shop now",
+     "offer": "none",
+     "tone": "witty",
+     "angle": "all-nighter"
+    },
+    {
+     "ad_id": "T2",
+     "ad_set_id": "tt_students",
+     "hook": "Rating campus coffee 1-10",
+     "body": "The library machine: 2. Volt from my bag: 9. Smooth, cold, zero queue.",
+     "cta": "Try Volt",
+     "offer": "none",
+     "tone": "witty",
+     "angle": "comparison"
+    },
+    {
+     "ad_id": "T3",
+     "ad_set_id": "tt_gym",
+     "hook": "My pre-lift ritual",
+     "body": "One Volt, 30 minutes before. Smooth cold brew, no neon drinks.",
+     "cta": "Fuel up",
+     "offer": "none",
+     "tone": "energetic",
+     "angle": "routine"
+    },
+    {
+     "ad_id": "T4",
+     "ad_set_id": "tt_gamers",
+     "hook": "Final boss at 1am?",
+     "body": "Cold brew that keeps up with ranked. Already cold, no machine.",
+     "cta": "Get the 12-pack",
+     "offer": "10% off 12-pack",
+     "tone": "energetic",
+     "angle": "late-night gaming"
+    }
+   ],
+   "scenarios": {
+    "A": {
+     "name": "Creative fatigue",
+     "description": "T1's budget doubled into the students segment",
+     "label": "creative_fatigue",
+     "target": {
+      "ad": "T1"
+     },
+     "effect": {
+      "type": "budget_multiplier",
+      "value": 4.1
+     },
+     "history": {
+      "start_day": 12,
+      "end_day": null
+     },
+     "eval_ad": "T1",
+     "live_duration": null,
+     "live_effect": {
+      "type": "budget_multiplier",
+      "value": 5.0
+     }
+    },
+    "D": {
+     "name": "Seasonal dip",
+     "description": "All activity x0.75 (exam holidays)",
+     "label": "seasonality",
+     "target": {
+      "all": true
+     },
+     "effect": {
+      "type": "activity",
+      "value": 0.75
+     },
+     "history": {
+      "start_day": 21,
+      "end_day": 24
+     },
+     "eval_ad": "T3",
+     "live_duration": 4,
+     "eval_day": 24
+    },
+    "L1": {
+     "name": "Creative fatigue (live)",
+     "description": "Push T3's budget x5",
+     "label": "creative_fatigue",
+     "target": {
+      "ad": "T3"
+     },
+     "effect": {
+      "type": "budget_multiplier",
+      "value": 5.0
+     },
+     "history": null,
+     "eval_ad": "T3",
+     "live_duration": null
+    },
+    "L3": {
+     "name": "Tracking broke (live)",
+     "description": "Conversions report 0",
+     "label": "tracking",
+     "target": {
+      "campaign": "tt_launch"
+     },
+     "effect": {
+      "type": "tracking_off",
+      "value": 0
+     },
+     "history": null,
+     "eval_ad": "T4",
+     "live_duration": null
+    }
+   }
+  }
+ ]
+}

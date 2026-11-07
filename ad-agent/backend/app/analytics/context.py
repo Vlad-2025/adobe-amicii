@@ -13,6 +13,7 @@ from app.sources.base import AdsSource
 
 @dataclass
 class Ctx:
+    channel_id: str
     source: AdsSource
     sim: Simulator  # used for metadata only (ad sets, campaigns, embeddings); never for truth
 
@@ -30,9 +31,10 @@ class Ctx:
     def community_sizes(self) -> np.ndarray:
         return np.bincount(self.sim.labels, minlength=self.sim.K)
 
-    def audience(self, ad_id: str) -> int:
+    def audience(self, ad_id: str) -> float:
+        """Real people targeted by the ad (twins x people per twin)."""
         a = self.ad(ad_id)
-        return int(self.community_sizes()[a["targets"]].sum())
+        return float(self.community_sizes()[a["targets"]].sum()) * self.sim.scale
 
     def max_sim_prior(self, ad_id: str) -> float:
         i = self.sim.idx[ad_id]

@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Flex, Heading, ProgressCircle, Text, Grid } from "@adobe/react-spectrum";
 import ForceGraph2D from "react-force-graph-2d";
-import { COMMUNITY_COLORS, pct, useApi } from "../api";
+import { COMMUNITY_COLORS, pct, useApi , C } from "../api";
 import { AiTag, Card, td, th } from "../components/ui";
 
 export default function Communities() {
-  const q = useApi("communities", "/api/communities");
-  const hm = useApi<any[]>("heatmap", "/api/heatmap");
+  const q = useApi("communities", C("/communities"));
+  const hm = useApi<any[]>("heatmap", C("/heatmap"));
   const [sel, setSel] = useState<number | null>(null);
   const box = useRef<HTMLDivElement>(null);
   const [w, setW] = useState(700);
@@ -16,8 +16,9 @@ export default function Communities() {
     window.addEventListener("resize", f);
     return () => window.removeEventListener("resize", f);
   }, [q.data]);
-  const graph = useMemo(() => (q.data ? { nodes: q.data.graph.nodes.map((n: any) => ({ ...n })), links: q.data.graph.links.map((l: any) => ({ ...l })) } : null), [q.data]);
-  if (!q.data || !graph) return <ProgressCircle isIndeterminate aria-label="loading" />;
+  const graph = useMemo(() => (q.data?.graph ? { nodes: q.data.graph.nodes.map((n: any) => ({ ...n })), links: q.data.graph.links.map((l: any) => ({ ...l })) } : null), [q.data]);
+  if (!q.data) return <ProgressCircle isIndeterminate aria-label="loading" />;
+  const segmentsOnly = q.data.audience_type === "segments";
   const comms = q.data.communities as any[];
   const meta = q.data.meta;
   const ads = Array.from(new Set((hm.data ?? []).map((r) => r.ad_id))).sort();
@@ -25,12 +26,14 @@ export default function Communities() {
   return (
     <Flex direction="column" gap="size-250">
       <Flex alignItems="baseline" gap="size-200" wrap>
-        <Heading level={2} margin={0}>Audience communities</Heading>
+        <Heading level={2} margin={0}>{segmentsOnly ? "Audience segments" : "Audience communities"}</Heading>
         <Text UNSAFE_style={{ opacity: 0.7 }}>
-          {meta.accounts?.toLocaleString()} {meta.source === "bluesky" ? "real Bluesky accounts" : "accounts (synthetic fallback graph)"} · {comms.length} communities found by {meta.community_method} · each one a set of digital twins in the simulator
+          {segmentsOnly
+            ? `${comms.length} targeting segments. The ad platform only reports results per segment (never per person), so each segment is modeled with ${meta.accounts?.toLocaleString()} synthetic twins; their posts stand in for social-listening samples.`
+            : `${meta.accounts?.toLocaleString()} ${meta.source === "bluesky" ? "real Bluesky accounts" : "accounts (synthetic stand-in until you run the Bluesky snapshot)"}${q.data.audience_source ? ` from ${q.data.audience_source.handle}` : ""} · ${comms.length} communities found by ${meta.community_method} on the follow graph`}
         </Text>
       </Flex>
-      <Grid columns={["3fr", "2fr"]} gap="size-200">
+      {graph && <Grid columns={["3fr", "2fr"]} gap="size-200">
         <Card title="Follow graph, colored by community" padding="size-100">
           <div ref={box} style={{ height: 460, overflow: "hidden", borderRadius: 6 }}>
             <ForceGraph2D
@@ -62,11 +65,12 @@ export default function Communities() {
           </div>
           {meta.nmi_vs_seed != null && <Text UNSAFE_style={{ fontSize: 12, opacity: 0.6, display: "block", marginTop: 10 }}>Overlap with the starter packs we seeded from: NMI {meta.nmi_vs_seed.toFixed(2)}</Text>}
         </Card>
-      </Grid>
+      </Grid>}
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 16 }}>
         {comms.filter((c) => sel == null || c.community_id === sel).map((c) => (
           <Card key={c.community_id} title={<span><span style={{ display: "inline-block", width: 10, height: 10, borderRadius: 5, marginRight: 8, background: COMMUNITY_COLORS[c.community_id % COMMUNITY_COLORS.length] }} />{c.name}</span>} right={c.persona && <AiTag source={c.persona.source} />}>
+            {c.segment_definition && <div style={{ fontSize: 12, marginBottom: 8, padding: "4px 8px", borderRadius: 4, background: "rgba(255,255,255,.06)" }}>Targeting: {c.segment_definition}</div>}
             {c.persona && (
               <>
                 <div style={{ fontSize: 14, marginBottom: 8 }}>{c.persona.one_liner}</div>

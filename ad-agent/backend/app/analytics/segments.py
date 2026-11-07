@@ -47,44 +47,48 @@ def heatmap(ctx: Ctx, day: int | None = None) -> list[dict]:
     return rows
 
 
-_post_cache: dict = {}
+_post_cache: dict[str, dict[int, np.ndarray]] = {}
+_baseline: dict[str, tuple[float, float]] = {}
 
 
-def community_post_embeddings() -> dict[int, np.ndarray]:
-    if not _post_cache:
-        rows = db.q("SELECT a.community_id AS c, p.embedding AS e FROM posts p JOIN accounts a ON a.user_id=p.user_id")
-        by: dict[int, list] = {}
-        for r in rows:
-            by.setdefault(r["c"], []).append(np.frombuffer(r["e"], np.float32))
-        for c, v in by.items():
-            m = np.stack(v)
-            idx = np.random.default_rng(0).choice(len(m), min(len(m), 1500), replace=False)
-            _post_cache[c] = m[idx]
-    return _post_cache
+def community_post_embeddings(ch: str) -> dict[int, np.ndarray]:
+    """A sample of post embeddings per community (saved with the world build)."""
+    if ch not in _post_cache:
+        from app.world.build import load_world
+
+        w = load_world(ch)
+        emb, lab = w["sample_emb"], w["sample_lab"]
+        _post_cache[ch] = {int(c): emb[lab == c] for c in np.unique(lab)}
+    return _post_cache[ch]
 
 
-_baseline: dict = {}
+def _resonance_baseline(ch: str) -> tuple[float, float]:
+    """Mean and spread of raw resonance over this channel's seed creatives x communities, so scores compare across variants."""
+    if ch not in _baseline:
+        posts = community_post_embeddings(ch)
+        embs = [db.unblob(r["embedding"]) for r in db.q("SELECT embedding FROM creatives WHERE channel_id=? AND parent_ad_id IS NULL", (ch,))]
+        vals = [float((m @ e).mean()) for e in embs for m in posts.values() if len(m)]
+        _baseline[ch] = (float(np.mean(vals)), float(np.std(vals) + 1e-6))
+    return _baseline[ch]
 
 
-def _resonance_baseline() -> tuple[float, float]:
-    """Mean and spread of raw resonance over all seed creatives x communities, so scores are comparable across variants."""
-    if not _baseline:
-        posts = community_post_embeddings()
-        embs = [db.unblob(r["embedding"]) for r in db.q("SELECT embedding FROM creatives WHERE parent_ad_id IS NULL")]
-        vals = [float((m @ e).mean()) for e in embs for m in posts.values()]
-        _baseline["mu"], _baseline["sd"] = float(np.mean(vals)), float(np.std(vals) + 1e-6)
-    return _baseline["mu"], _baseline["sd"]
-
-
-def resonance(creative_emb: np.ndarray, communities: list[int] | None = None) -> dict[int, float]:
+def resonance(ch: str, creative_emb: np.ndarray, communities: list[int] | None = None) -> dict[int, float]:
     """Mean cosine between the creative and the community's posts, as a 0-100 score
     (50 = an average seed creative in an average community, +15 per standard deviation)."""
-    posts = community_post_embeddings()
-    mu, sd = _resonance_baseline()
+    posts = community_post_embeddings(ch)
+    mu, sd = _resonance_baseline(ch)
     out = {}
     for c, m in posts.items():
-        if communities is not None and c not in communities:
+        if communities is not None and c not in communities or not len(m):
             continue
         z = (float((m @ creative_emb).mean()) - mu) / sd
         out[int(c)] = round(float(np.clip(50 + 15 * z, 0, 100)), 1)
     return out
+
+
+def clear_cache(ch: str | None = None) -> None:
+    for d in (_post_cache, _baseline):
+        if ch is None:
+            d.clear()
+        else:
+            d.pop(ch, None)

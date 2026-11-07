@@ -1,0 +1,524 @@
+{
+ "company_id": "tallyhawk",
+ "name": "Tallyhawk",
+ "industry": "Invoicing software for freelancers (B2B SaaS)",
+ "fictional": true,
+ "description": "Fictional invoicing and payments app. Ads drive free-trial signups; a signup is worth ~€40 in expected revenue.",
+ "brand": {
+  "name": "Tallyhawk",
+  "product": "Invoicing and payment reminders for freelancers",
+  "price_eur": 12,
+  "target_age": "25-55",
+  "tone": "clear, friendly, a little dry",
+  "banned_phrases": [
+   "get rich",
+   "guaranteed payment",
+   "never chase again",
+   "best in the world"
+  ],
+  "health_claim_patterns": [],
+  "competitors": [
+   "FreshBooks",
+   "QuickBooks",
+   "Xero",
+   "Wave",
+   "Bonsai"
+  ],
+  "limits": {
+   "headline": 70,
+   "body": 150,
+   "cta": 20
+  }
+ },
+ "economics": {
+  "order_values": [
+   40
+  ],
+  "order_probs": [
+   1.0
+  ],
+  "base_cvr": 0.12,
+  "price_factor": 0.15,
+  "price_factor_offer": 0.05,
+  "conversion_name": "trial signup"
+ },
+ "memory": [
+  {
+   "insight": "Developers ignore feature lists; they click on time-saved numbers.",
+   "evidence": "\"2 hours a month back\" CTR 0.9% vs feature list 0.5%",
+   "applies_to": {
+    "pack": "developers",
+    "dimension": "benefit"
+   },
+   "winner": true,
+   "created_day": -40
+  },
+  {
+   "insight": "Agency owners did not respond to humor in a cash-flow context.",
+   "evidence": "Witty hook CTR 0.31% vs plain 0.52%",
+   "applies_to": {
+    "pack": "agency_owners",
+    "dimension": "emotional_angle"
+   },
+   "winner": false,
+   "created_day": -25
+  }
+ ],
+ "variant_bank": {
+  "hook": [
+   {
+    "hook": "Invoices out in 30 seconds. Paid in days, not months.",
+    "hypothesis": "Speed in numbers is new information."
+   },
+   {
+    "hook": "Late payers? Tallyhawk sends the awkward emails for you.",
+    "hypothesis": "Names the pain directly."
+   }
+  ],
+  "cta": [
+   {
+    "cta": "Start free trial",
+    "hypothesis": "Explicit free trial lowers risk."
+   },
+   {
+    "cta": "See a sample invoice",
+    "hypothesis": "Low-commitment preview for skeptical buyers."
+   }
+  ],
+  "benefit": [
+   {
+    "body": "Automatic reminders cut average payment time from 34 to 19 days for our users. No spreadsheets.",
+    "hypothesis": "Outcome metric beats feature description."
+   },
+   {
+    "body": "Multi-currency invoices with the right tax lines, every time. Built for EU freelancers.",
+    "hypothesis": "Compliance relief is a different reason to click."
+   }
+  ],
+  "emotional_angle": [
+   {
+    "hook": "Do the work you love. Skip the chasing.",
+    "body": "Tallyhawk handles invoices and reminders so your evenings stay yours.",
+    "hypothesis": "Relief angle moves away from the productivity angle."
+   }
+  ],
+  "offer": [
+   {
+    "offer": "3 months free on annual plans",
+    "hypothesis": "Reduces price friction for agencies."
+   },
+   {
+    "offer": "free import from your spreadsheet",
+    "hypothesis": "Removes switching cost."
+   }
+  ]
+ },
+ "audience_sources": [],
+ "channels": [
+  {
+   "channel_id": "th-li",
+   "platform": "linkedin",
+   "name": "LinkedIn Ads",
+   "handle": "Tallyhawk",
+   "mode": "simulated",
+   "report_lag_days": 1,
+   "audience": {
+    "type": "segments",
+    "packs": {
+     "designers": 320,
+     "developers": 420,
+     "consultants": 360,
+     "agency_owners": 220,
+     "accountants": 260
+    },
+    "labels": {
+     "designers": "Job function: Design · self-employed",
+     "developers": "Job function: Engineering · self-employed",
+     "consultants": "Job function: Consulting · company size 1-10",
+     "agency_owners": "Seniority: Owner · industry: marketing agencies",
+     "accountants": "Job function: Accounting · small business"
+    }
+   },
+   "sim": {
+    "base_cpm": 28.0,
+    "b0": -4.9,
+    "lam": 0.6,
+    "weekend": 0.6,
+    "twin_scale": 70
+   },
+   "campaigns": [
+    {
+     "campaign_id": "h_freelance",
+     "name": "Freelancer Trial",
+     "objective": "conversions",
+     "max_cpa": 70.0,
+     "min_roas": 0.6,
+     "total_budget": 320.0
+    },
+    {
+     "campaign_id": "h_agency",
+     "name": "Agency Plan",
+     "objective": "conversions",
+     "max_cpa": 95.0,
+     "min_roas": 0.5,
+     "total_budget": 140.0
+    },
+    {
+     "campaign_id": "h_finance",
+     "name": "Bookkeepers",
+     "objective": "conversions",
+     "max_cpa": 80.0,
+     "min_roas": 0.5,
+     "total_budget": 160.0
+    }
+   ],
+   "ad_sets": [
+    {
+     "ad_set_id": "li_design",
+     "campaign_id": "h_freelance",
+     "name": "Freelance designers",
+     "daily_budget": 160.0,
+     "target_packs": [
+      "designers"
+     ]
+    },
+    {
+     "ad_set_id": "li_dev",
+     "campaign_id": "h_freelance",
+     "name": "Freelance developers",
+     "daily_budget": 160.0,
+     "target_packs": [
+      "developers"
+     ]
+    },
+    {
+     "ad_set_id": "li_agency",
+     "campaign_id": "h_agency",
+     "name": "Agency owners",
+     "daily_budget": 90.0,
+     "target_packs": [
+      "agency_owners"
+     ]
+    },
+    {
+     "ad_set_id": "li_fin",
+     "campaign_id": "h_finance",
+     "name": "Consultants + accountants",
+     "daily_budget": 160.0,
+     "target_packs": [
+      "consultants",
+      "accountants"
+     ]
+    }
+   ],
+   "creatives": [
+    {
+     "ad_id": "H1",
+     "ad_set_id": "li_design",
+     "hook": "Designers: stop formatting invoices in Figma.",
+     "body": "Tallyhawk turns a time log into a branded invoice in one click, then chases late payers for you.",
+     "cta": "Start free trial",
+     "offer": "none",
+     "tone": "witty",
+     "angle": "time saved"
+    },
+    {
+     "ad_id": "H2",
+     "ad_set_id": "li_dev",
+     "hook": "Ship code, not invoices.",
+     "body": "Connect your time tracker, send invoices from the CLI or the app, get paid by card or SEPA.",
+     "cta": "Try it free",
+     "offer": "none",
+     "tone": "informative",
+     "angle": "developer workflow"
+    },
+    {
+     "ad_id": "H3",
+     "ad_set_id": "li_agency",
+     "hook": "Cash flow for agencies, on autopilot.",
+     "body": "Retainers, milestones and reminders for every client. One dashboard for what's owed.",
+     "cta": "Book a demo",
+     "offer": "none",
+     "tone": "informative",
+     "angle": "cash flow"
+    },
+    {
+     "ad_id": "H4",
+     "ad_set_id": "li_fin",
+     "hook": "Your clients' invoices, finally tidy.",
+     "body": "Give small-business clients clean, tax-ready invoices and a shared view of what's unpaid.",
+     "cta": "Start free trial",
+     "offer": "none",
+     "tone": "chill",
+     "angle": "client service"
+    },
+    {
+     "ad_id": "H5",
+     "ad_set_id": "li_design",
+     "hook": "Paid in 19 days, not 34.",
+     "body": "Automatic reminders do the awkward part. Designers using Tallyhawk get paid two weeks sooner.",
+     "cta": "Start free trial",
+     "offer": "none",
+     "tone": "informative",
+     "angle": "outcome"
+    }
+   ],
+   "scenarios": {
+    "A": {
+     "name": "Creative fatigue",
+     "description": "H3 budget x2 into the small agency-owner segment",
+     "label": "creative_fatigue",
+     "target": {
+      "ad": "H3"
+     },
+     "effect": {
+      "type": "budget_multiplier",
+      "value": 2.6
+     },
+     "history": {
+      "start_day": 12,
+      "end_day": null
+     },
+     "eval_ad": "H3",
+     "live_duration": null,
+     "live_effect": {
+      "type": "budget_multiplier",
+      "value": 5.0
+     }
+    },
+    "B": {
+     "name": "Signup form broke",
+     "description": "Freelancer Trial landing page health x0.4",
+     "label": "landing_page",
+     "target": {
+      "campaign": "h_freelance"
+     },
+     "effect": {
+      "type": "landing_health",
+      "value": 0.4
+     },
+     "history": {
+      "start_day": 20,
+      "end_day": null
+     },
+     "eval_ad": "H2",
+     "live_duration": null
+    },
+    "D": {
+     "name": "Holiday dip",
+     "description": "All activity x0.75 (bank holiday week)",
+     "label": "seasonality",
+     "target": {
+      "all": true
+     },
+     "effect": {
+      "type": "activity",
+      "value": 0.75
+     },
+     "history": {
+      "start_day": 22,
+      "end_day": 25
+     },
+     "eval_ad": "H4",
+     "live_duration": 4,
+     "eval_day": 25
+    },
+    "L1": {
+     "name": "Creative fatigue (live)",
+     "description": "Push H4's budget x5",
+     "label": "creative_fatigue",
+     "target": {
+      "ad": "H4"
+     },
+     "effect": {
+      "type": "budget_multiplier",
+      "value": 5.0
+     },
+     "history": null,
+     "eval_ad": "H4",
+     "live_duration": null
+    },
+    "L3": {
+     "name": "Tracking broke (live)",
+     "description": "Conversions report 0",
+     "label": "tracking",
+     "target": {
+      "campaign": "h_finance"
+     },
+     "effect": {
+      "type": "tracking_off",
+      "value": 0
+     },
+     "history": null,
+     "eval_ad": "H4",
+     "live_duration": null
+    }
+   }
+  },
+  {
+   "channel_id": "th-x",
+   "platform": "x",
+   "name": "X Ads",
+   "handle": "@tallyhawk",
+   "mode": "simulated",
+   "report_lag_days": 1,
+   "audience": {
+    "type": "segments",
+    "packs": {
+     "developers": 450,
+     "indie_hackers": 360,
+     "designers": 320
+    },
+    "labels": {
+     "developers": "Interest: software development, freelancing",
+     "indie_hackers": "Keywords: indie hacker, bootstrapped, solopreneur",
+     "designers": "Interest: design, freelancing"
+    }
+   },
+   "sim": {
+    "base_cpm": 5.0,
+    "b0": -4.6,
+    "lam": 0.6,
+    "twin_scale": 120
+   },
+   "campaigns": [
+    {
+     "campaign_id": "x_paid",
+     "name": "Get paid faster",
+     "objective": "conversions",
+     "max_cpa": 60.0,
+     "min_roas": 0.7,
+     "total_budget": 165.0
+    }
+   ],
+   "ad_sets": [
+    {
+     "ad_set_id": "x_dev",
+     "campaign_id": "x_paid",
+     "name": "Devs + indie hackers",
+     "daily_budget": 95.0,
+     "target_packs": [
+      "developers",
+      "indie_hackers"
+     ]
+    },
+    {
+     "ad_set_id": "x_design",
+     "campaign_id": "x_paid",
+     "name": "Designers",
+     "daily_budget": 35.0,
+     "target_packs": [
+      "designers"
+     ]
+    },
+    {
+     "ad_set_id": "x_indie",
+     "campaign_id": "x_paid",
+     "name": "Indie hackers",
+     "daily_budget": 35.0,
+     "target_packs": [
+      "indie_hackers"
+     ]
+    }
+   ],
+   "creatives": [
+    {
+     "ad_id": "X1",
+     "ad_set_id": "x_dev",
+     "hook": "Invoicing that feels like a git push.",
+     "body": "Tallyhawk: one command, one invoice, automatic reminders. Free for your first 3 clients.",
+     "cta": "Try it free",
+     "offer": "free for 3 clients",
+     "tone": "witty",
+     "angle": "developer workflow"
+    },
+    {
+     "ad_id": "X2",
+     "ad_set_id": "x_design",
+     "hook": "Your invoice should look as good as your work.",
+     "body": "Branded invoices, card and SEPA payments, reminders that sound like you.",
+     "cta": "Start free trial",
+     "offer": "none",
+     "tone": "chill",
+     "angle": "brand"
+    },
+    {
+     "ad_id": "X3",
+     "ad_set_id": "x_indie",
+     "hook": "Solo founder? Get paid like a company.",
+     "body": "Recurring invoices, dunning and payouts in one place. Built for teams of one.",
+     "cta": "Try it free",
+     "offer": "none",
+     "tone": "informative",
+     "angle": "solopreneur"
+    }
+   ],
+   "scenarios": {
+    "E": {
+     "name": "Segment saturation",
+     "description": "X1 delivery skewed into indie hackers",
+     "label": "segment_saturation",
+     "target": {
+      "ad": "X1",
+      "pack": "indie_hackers"
+     },
+     "effect": {
+      "type": "delivery_skew",
+      "value": 10.0
+     },
+     "history": {
+      "start_day": 0,
+      "end_day": null
+     },
+     "eval_ad": "X1",
+     "live_duration": null
+    },
+    "L4": {
+     "name": "Auction pressure (live)",
+     "description": "Competition x1.7 on the campaign",
+     "label": "auction_pressure",
+     "target": {
+      "campaign": "x_paid"
+     },
+     "effect": {
+      "type": "competition",
+      "value": 1.7
+     },
+     "history": null,
+     "eval_ad": "X2",
+     "live_duration": null
+    },
+    "L1": {
+     "name": "Creative fatigue (live)",
+     "description": "Push X2's budget x5",
+     "label": "creative_fatigue",
+     "target": {
+      "ad": "X2"
+     },
+     "effect": {
+      "type": "budget_multiplier",
+      "value": 5.0
+     },
+     "history": null,
+     "eval_ad": "X2",
+     "live_duration": null
+    },
+    "L2": {
+     "name": "Seasonal dip (live)",
+     "description": "All activity x0.75 for 4 days",
+     "label": "seasonality",
+     "target": {
+      "all": true
+     },
+     "effect": {
+      "type": "activity",
+      "value": 0.75
+     },
+     "history": null,
+     "eval_ad": "X2",
+     "live_duration": 4
+    }
+   }
+  }
+ ]
+}

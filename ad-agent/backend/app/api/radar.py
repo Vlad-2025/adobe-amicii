@@ -9,39 +9,43 @@ from fastapi.responses import StreamingResponse
 
 from app import db
 from app.analytics import fatigue, segments
+from app.analytics.fatigue import pooled_ctr
 from app.analytics.radar import overview as overview_fn
+from app.api.deps import company_cfg, rt
 from app.llm.agents import narrate
 from app.state import STATE
 
-router = APIRouter(prefix="/api")
+router = APIRouter(prefix="/api/ch/{ch}")
 
 
 @router.get("/overview")
-def overview():
-    rows = STATE.radar()
-    return overview_fn(STATE.ctx, rows) | {"playing": STATE.playing}
+def overview(ch: str):
+    r = rt(ch)
+    from app import registry
+
+    conv = registry.economics_of(ch).get("conversion_name", "purchase")
+    return overview_fn(r.ctx, r.radar()) | {"playing": STATE.playing, "world_day": STATE.world_day, "report_lag_days": r.lag, "conversion_name": conv}
 
 
 @router.get("/ads")
-def ads():
-    return STATE.radar()
+def ads(ch: str):
+    return rt(ch).radar()
 
 
-def _ad_or_404(ad_id: str) -> dict:
+def _ad_or_404(r, ad_id: str) -> dict:
     try:
-        return STATE.ctx.ad(ad_id)
+        return r.ctx.ad(ad_id)
     except StopIteration:
         raise HTTPException(404, f"unknown ad {ad_id}")
 
 
 @router.get("/ads/{ad_id}")
-def ad_detail(ad_id: str):
-    ad = _ad_or_404(ad_id)
-    ctx = STATE.ctx
-    ad_d = ctx.ad_daily()
+def ad_detail(ch: str, ad_id: str):
+    r = rt(ch)
+    ad = _ad_or_404(r, ad_id)
+    ad_d = r.ctx.ad_daily()
     me = ad_d[ad_d.ad_id == ad_id].set_index("day").sort_index()
-    health = next((r for r in STATE.radar() if r["ad_id"] == ad_id), None)
-    # anomaly markers: days whose CTR / CVR / CPM sits > 2.5 robust sigma from the preceding 14 days
+    health = next((x for x in r.radar() if x["ad_id"] == ad_id), None)
     markers = []
     for m, sign in (("ctr", -1), ("cvr", -1), ("cpm", 1)):
         s = me[m]
@@ -54,35 +58,37 @@ def ad_detail(ad_id: str):
             z = (s[d] - med) / mad
             if z * sign >= 2.5:
                 markers.append({"day": int(d), "metric": m, "z": round(float(z), 2)})
-    series = [{"day": int(d), "ctr": float(r.ctr), "cvr": float(r.cvr), "cpm": float(r.cpm), "cpa": float(r.cpa), "roas": float(r.roas),
-               "frequency": float(r.frequency), "spend": float(r.spend), "impressions": float(r.impressions), "clicks": float(r.clicks),
-               "conversions": float(r.conversions), "annoyed_share": float(r.annoyed_share)} for d, r in me.iterrows()]
+    series = [{"day": int(d), "ctr": float(x.ctr), "cvr": float(x.cvr), "cpm": float(x.cpm), "cpa": float(x.cpa), "roas": float(x.roas),
+               "frequency": float(x.frequency), "spend": float(x.spend), "impressions": float(x.impressions), "clicks": float(x.clicks),
+               "conversions": float(x.conversions), "annoyed_share": float(x.annoyed_share)} for d, x in me.iterrows()]
     forecast = None
-    if health and health.get("days_to_fatigue") is not None:
+    if health and health.get("days_to_fatigue") is not None and len(me):
         forecast = {"days_to_fatigue": health["days_to_fatigue"], "low": health["dtf_low"], "high": health["dtf_high"],
-                    "fatigue_day": STATE.day + health["days_to_fatigue"], "fatigue_day_low": STATE.day + health["dtf_low"],
-                    "fatigue_day_high": STATE.day + health["dtf_high"], "threshold_ctr": float(me["ctr"].rolling(3, min_periods=1).mean().max() * 0.7)}
-    comm = segments.ad_by_community(ctx, ad_id)
+                    "fatigue_day": r.day + health["days_to_fatigue"], "fatigue_day_low": r.day + health["dtf_low"],
+                    "fatigue_day_high": r.day + health["dtf_high"], "threshold_ctr": float(pooled_ctr(me, 7).max() * 0.7)}
+    comm = segments.ad_by_community(r.ctx, ad_id)
     for c in comm:
-        c["name"] = STATE.names.get(c["community_id"], f"C{c['community_id']}")
+        c["name"] = r.names.get(c["community_id"], f"C{c['community_id']}")
     return {"ad": ad, "health": health, "series": series, "markers": markers, "forecast": forecast, "communities": comm,
             "model": {"kind": "fatigue predictor", "trained": fatigue.MODEL_PATH.exists()}}
 
 
 @router.post("/ads/{ad_id}/diagnose")
-def diagnose(ad_id: str):
-    _ad_or_404(ad_id)
-    d = STATE.diagnosis(ad_id)
-    db.x("INSERT INTO diagnoses(ad_id,day,scores,evidence,narrative,true_label,predicted) VALUES (?,?,?,?,?,?,?)",
-         (ad_id, d["day"], json.dumps(d["probabilities"]), json.dumps(d["evidence"]), None, None, d["top"]))
+def diagnose(ch: str, ad_id: str):
+    r = rt(ch)
+    _ad_or_404(r, ad_id)
+    d = r.diagnosis(ad_id)
+    db.x("INSERT INTO diagnoses(channel_id,ad_id,day,scores,evidence,narrative,true_label,predicted) VALUES (?,?,?,?,?,?,?,?)",
+         (ch, ad_id, d["day"], json.dumps(d["probabilities"]), json.dumps(d["evidence"]), None, None, d["top"]))
     return d
 
 
 @router.get("/ads/{ad_id}/diagnose/narrative")
-async def narrative(ad_id: str):
-    ad = _ad_or_404(ad_id)
-    d = STATE.diagnosis(ad_id)
-    data, src = await asyncio.to_thread(narrate, d, ad)
+async def narrative(ch: str, ad_id: str):
+    r = rt(ch)
+    ad = _ad_or_404(r, ad_id)
+    d = r.diagnosis(ad_id)
+    data, src = await asyncio.to_thread(narrate, d, ad, company_cfg(r)["brand"])
 
     async def gen():
         yield f"event: meta\ndata: {json.dumps({'source': src})}\n\n"
@@ -98,9 +104,9 @@ async def narrative(ad_id: str):
 
 
 @router.get("/heatmap")
-def heatmap():
-    rows = segments.heatmap(STATE.ctx)
-    for r in rows:
-        r["name"] = STATE.names.get(r["community_id"], f"C{r['community_id']}")
+def heatmap(ch: str):
+    r = rt(ch)
+    rows = segments.heatmap(r.ctx)
+    for x in rows:
+        x["name"] = r.names.get(x["community_id"], f"C{x['community_id']}")
     return rows
-

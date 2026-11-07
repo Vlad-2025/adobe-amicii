@@ -1,22 +1,22 @@
 import { useState } from "react";
 import { Button, ButtonGroup, Flex, Heading, ProgressCircle, Text } from "@adobe/react-spectrum";
-import { HYPO_LABEL, eur, post, queryClient, useApi } from "../api";
+import { HYPO_LABEL, eur, post, queryClient, useApi , C } from "../api";
 import { Card, Kpi } from "../components/ui";
 
 export default function Budget() {
-  const q = useApi<any[]>("budget", "/api/budget/actions");
-  const ev = useApi("eval", "/api/eval");
+  const q = useApi<any[]>("budget", C("/budget/actions"));
+  const ev = useApi("eval", C("/eval"));
   const [busy, setBusy] = useState(false);
   const [note, setNote] = useState<string | null>(null);
   const propose = async () => {
     setBusy(true);
-    const r = await post("/api/budget/propose");
+    const r = await post(C("/budget/propose"));
     setNote(r.created.length ? `${r.created.length} new proposal(s)${r.created.some((c: any) => c.discord_sent) ? " · sent to Discord" : ""}` : `No new proposals (${r.considered} considered; the counterfactual must show money saved)`);
     setBusy(false);
     queryClient.invalidateQueries();
   };
   const decide = async (id: number, decision: string) => {
-    await post(`/api/budget/actions/${id}/approve?decision=${decision}`);
+    await post(C(`/budget/actions/${id}/approve?decision=${decision}`));
     queryClient.invalidateQueries();
   };
   if (!q.data) return <ProgressCircle isIndeterminate aria-label="loading" />;

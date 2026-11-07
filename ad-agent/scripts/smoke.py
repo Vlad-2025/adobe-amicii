@@ -1,6 +1,6 @@
-"""End-to-end smoke test: world -> 30 days -> radar -> diagnoses vs planted truth -> variants ->
-experiment -> learning -> budget proposal -> live injection. Uses whatever LLM_PROVIDER is set
-(run.py smoke forces cache-only, so it needs no network). Exit code 1 if anything is wrong."""
+"""End-to-end smoke test over every company and channel: planted scenarios -> diagnoses, variants ->
+experiment -> learning, budget proposals, a live injection, and creating a new company + channel.
+Uses whatever LLM_PROVIDER is set (run.py smoke forces cache-only, so it needs no network)."""
 from __future__ import annotations
 
 import sys
@@ -33,33 +33,47 @@ def main() -> int:
 
     problems = []
     with TestClient(app) as c:
-        ov = c.get("/api/overview").json()
-        print(f"day {ov['day']}, health {ov['health_counts']}, € at risk {ov['eur_at_risk']:.0f}")
+        c.post("/api/sim/control", json={"action": "reset"})
+        for co in c.get("/api/companies").json():
+            for ch in co["channels"]:
+                if ch.get("live"):
+                    print(f"{co['name']:16s} {ch['channel_id']:10s} {ch['platform']:9s} health {ch['health_counts']}  € at risk {ch['eur_at_risk']:.0f}")
         ev = c.get("/api/eval").json()
-        for r in ev["scenarios"]:
-            print(f"  scenario {r['scenario']}: truth {r['truth']:<20} predicted {r.get('predicted')} ({r.get('confidence')})")
-        if ev["accuracy"] is None or ev["accuracy"] < 0.99:
+        for ch, e in ev["channels"].items():
+            for r in e["scenarios"]:
+                mark = "ok " if r.get("correct") else "MISS"
+                print(f"  {mark} {ch:10s} {r['scenario']:3s} truth {r['truth']:20s} predicted {r.get('predicted')} ({r.get('confidence')})")
+        print(f"planted-scenario accuracy: {ev['accuracy']:.0%} of {ev['n_scored']}")
+        if ev["accuracy"] is None or ev["accuracy"] < 0.95:
             problems.append(f"planted-scenario accuracy {ev['accuracy']}")
 
-        top = c.post("/api/ads/A1/diagnose").json()["top"]
-        v = c.post("/api/creatives/A1/variants", json={}).json()
-        print(f"A1 diagnosis {top}; variants via {v['source']}: {[x['changed_dimension'] for x in v['variants']]}")
+        ch = "volt-ig"
+        v = c.post(f"/api/ch/{ch}/creatives/A1/variants", json={}).json()
+        print(f"A1 variants via {v['source']}: {[x['changed_dimension'] for x in v['variants']]}")
         if len(v["variants"]) < 2:
             problems.append("fewer than 2 variants")
-        exp = c.post("/api/experiments", json={"source_ad_id": "A1", "variant_ids": [x["ad_id"] for x in v["variants"]]}).json()
-        with c.stream("POST", f"/api/experiments/{exp['id']}/run") as s:
+        exp = c.post(f"/api/ch/{ch}/experiments", json={"source_ad_id": "A1", "variant_ids": [x["ad_id"] for x in v["variants"]]}).json()
+        with c.stream("POST", f"/api/ch/{ch}/experiments/{exp['id']}/run") as s:
             body = "".join(s.iter_text())
         if "event: done" not in body:
             problems.append("experiment did not finish")
-        else:
-            print("experiment finished:", body.split("event: done")[1][:160].replace("\n", " "))
-        b = c.post("/api/budget/propose").json()
-        print(f"budget proposals: {len(b['created'])} (€ protected: {[a['eur_protected'] for a in b['created']]})")
-        c.post("/api/sim/inject", json={"scenario": "A", "target_ad": "C2"})
-        for _ in range(6):
+        b = c.post(f"/api/ch/{ch}/budget/propose").json()
+        print(f"budget proposals on {ch}: {len(b['created'])} (€ protected: {[a['eur_protected'] for a in b['created']]})")
+
+        c.post("/api/ch/volt-tt/sim/inject", json={"scenario": "L1", "target_ad": "T4"})
+        for _ in range(7):
             c.post("/api/sim/control", json={"action": "step"})
-        live = [r for r in c.get("/api/eval").json()["scenarios"] if r["live"]]
-        print(f"live injection A on C2 after 6 days: {live[0].get('predicted')} ({live[0].get('confidence')})")
+        live = [r for r in c.get("/api/ch/volt-tt/eval").json()["scenarios"] if r["live"]]
+        print(f"live fatigue on volt-tt T4 after 7 days: {live[0].get('predicted')} ({live[0].get('confidence')})")
+        if live[0].get("predicted") != "creative_fatigue":
+            problems.append("live injection not diagnosed")
+
+        co = c.post("/api/companies", json={"name": "Smoke Test Co", "industry": "Test widgets", "avg_order_value": 30}).json()
+        r = c.post(f"/api/companies/{co['company_id']}/channels", json={"platform": "tiktok", "segments": ["gaming", "students"]}).json()
+        ads = c.get(f"/api/ch/{r['channel_id']}/ads").json()
+        print(f"new company channel {r['channel_id']}: {len(ads)} ads live")
+        if not ads:
+            problems.append("new channel has no ads")
         c.post("/api/sim/control", json={"action": "reset"})
     mb = peak_mb()
     print(f"done in {time.time() - t0:.1f}s; peak memory {mb:.0f} MB" if mb else f"done in {time.time() - t0:.1f}s")

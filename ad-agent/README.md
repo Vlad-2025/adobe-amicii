@@ -1,10 +1,46 @@
-# Volt · Ad Fatigue Agent (IT Fest hackathon)
+# Ad Fatigue Agent (IT Fest hackathon)
 
-An AI marketing agent that models a brand's audience on real Bluesky communities, spots ads that
-are dying before they die, diagnoses why, and proposes and tests a fix. It runs on a laptop for €0.
+A tool for a marketing manager or sales exec. You create a **company profile** (brand kit and
+conversion economics) and connect its **channels**:
+- **Ad accounts:** Instagram/Facebook via Meta, TikTok, X, LinkedIn.
+- **Audience sources:** the Bluesky public graph, or social listening.
 
-**Data foundation → AI decisioning → real-time execution.** Real audiences go in, failing ads are
-detected and diagnosed, tested fixes come out, and every action feeds back into the simulator.
+For each ad channel the agent spots ads that are dying before they die, diagnoses why, and
+proposes and tests a fix. Analytics appear whenever a channel's connector reports data. It runs on
+a laptop for €0.
+
+**Data foundation → AI decisioning → real-time execution.**
+
+## What's in the demo
+
+Four **fictional** companies with 7 ad channels and 20 planted problems:
+
+| Company | What it sells | Channels | Audience |
+| --- | --- | --- | --- |
+| Volt | Canned cold brew (D2C) | Instagram, TikTok | Bluesky communities (Instagram), TikTok segments |
+| Kinetra | Running shoes (e-commerce) | Facebook + Instagram (Meta) | Meta interest × age segments |
+| Tallyhawk | Invoicing SaaS (trial signups) | LinkedIn, X | Job function / seniority segments, X interest segments |
+| Mosslight Games | Indie game (Steam wishlists) | X, TikTok | Bluesky communities (X), TikTok segments |
+
+Every channel uses a **simulated feed**: a fake ad platform reporting what the real API would.
+You can create your own company in the UI and connect a channel:
+- **Simulated feed:** pick audience segments; it builds a demo feed with 30 days of history in seconds.
+- **Live API:** the channel shows which credentials and approvals that platform needs. The live
+  connectors are stubs with real field mappings.
+
+## Real life vs this demo
+
+| Here (simulated) | In production |
+| --- | --- |
+| Daily stats per ad and segment | Meta Marketing API Insights, TikTok Reporting API, X Ads API stats, LinkedIn adAnalytics: all aggregated per campaign / ad set / ad, with demographic or targeting breakdowns. Never per person. |
+| Purchases / signups / wishlists | The pixel / Conversions API of each platform, or the shop / CRM |
+| Audience communities | Bluesky public graph (open). Closed platforms give follower demographics to the account owner only, never follower lists, so communities come from open networks or paid social-listening tools. |
+| Ad-platform segments | Your ad sets' targeting definitions (interests, job functions, ages) |
+| Budget changes, new creatives | The same ads APIs with write permission (e.g. ads_management on Meta), after human approval |
+| Reporting delay | Per platform: same day for Meta, about 1 day for TikTok, X and LinkedIn |
+
+Bluesky has no native ads (as of mid-2026), so it's used as an audience source, not an ad channel.
+
 
 ## Quick start (Ubuntu or Windows 10/11, 8 GB RAM is enough)
 
@@ -27,10 +63,10 @@ match it. If you change it, run `python run.py build-world` again.
 ### Before the event
 
 1. **Real audiences:** `python run.py snapshot` crawls the starter packs in
-   `config/starter_packs.yaml` (~15-30 min for 2,500 accounts at 5 requests/s; resumable), then
-   `python run.py build-world` and `python run.py train`. Commit `data/bluesky/` so the demo
-   never needs the network. Without a snapshot the app uses a synthetic graph with the same
-   schema.
+   `config/starter_packs.yaml` (~20-40 min for 3,500 accounts at 5 requests/s; resumable), then
+   `python run.py build-world` and `python run.py train`. The two Bluesky-backed channels
+   (Volt Instagram, Mosslight X) then use real communities. Commit `data/bluesky/` so the demo
+   never needs the network. Without a snapshot they use a synthetic graph with the same schema.
 2. **LLM:** put a free `GEMINI_API_KEY` from [AI Studio](https://aistudio.google.com) in `.env`,
    and check which Flash / Flash-Lite model the free tier offers today (`GEMINI_MODEL`). For
    private/offline mode: install [Ollama](https://ollama.com), `ollama pull qwen3:1.7b`
@@ -49,31 +85,41 @@ match it. If you change it, run `python run.py build-world` again.
 
 | Time | Screen | What to show |
 | --- | --- | --- |
-| 0:00 | Radar | 4 failing ads, € at risk, days-to-fatigue forecast with a confidence band |
-| 0:20 | Communities | "Digital twins of real Bluesky communities": the graph, persona cards, heatmap |
-| 0:40 | Radar → A1 → Diagnose | Fatigue 99%, other causes ruled out, evidence with values, narrative streams in |
-| 1:10 | D2 detail | Saturated in tech, healthy in gaming → keep for one, replace for the other |
-| 1:20 | Creative Studio | Memory items, 3 one-change variants, resonance, brand guard |
-| 1:45 | Experiments → Budget | Thompson sampling picks a winner in ~4 days; apply it; approve a budget move (Discord) |
-| 2:05 | Sim control | A judge picks "Break something" (A on C2 is diagnosed in ~5 days; at 1 s/day that's ~5 s) |
-| 2:25 | Sim control → Evaluation | 5/5 planted scenarios correct, NMI, € protected. LLM switch: cloud ↔ local |
+| 0:00 | Companies | 4 companies, 7 ad channels, total € at risk, failing ads, a health bar per channel |
+| 0:15 | Volt → Instagram → Audiences | "Digital twins of real Bluesky communities": graph, persona cards, heatmap |
+| 0:35 | Radar → A1 → Diagnose | Fatigue 99%, other causes ruled out, evidence with values, narrative streams in |
+| 1:00 | Tallyhawk → LinkedIn → Audiences | Same agent, B2B: segments are job functions, no follower graph (LinkedIn doesn't give one) |
+| 1:15 | Creative Studio | Memory items, 3 one-change variants, resonance, brand guard |
+| 1:40 | Experiments → Budget | Thompson sampling picks a winner in ~4 days; apply it; approve a budget move (Discord) |
+| 2:00 | Company profile → Connect a channel | What each platform's API really gives you; connect a simulated feed live |
+| 2:20 | Sim control | A judge picks "Break something"; evaluation shows 20/20 planted problems diagnosed |
+| 2:45 | LLM switch | Cloud ↔ local, € 0 inference |
 
 ## How it works
 
-- **World build** (`backend/app/world`): snapshot → MiniLM embeddings (fastembed, ONNX, no
-  PyTorch) → interest vector per account → Leiden communities (Louvain fallback) → c-TF-IDF
-  keywords, central posts, active hours → LLM persona per community.
+- **Registry** (`backend/app/registry.py`): companies and channels. Seed companies live in
+  `data/seed/companies/*.json` (brand kit, economics, memory, channels with campaigns, ads and
+  planted scenarios). Companies created in the UI live in the database.
+- **World build per channel** (`backend/app/world`):
+  - Audience: Bluesky snapshot or synthetic segments.
+  - MiniLM embeddings (fastembed, ONNX, no PyTorch).
+  - An interest vector per twin.
+  - Communities: Leiden on the follow graph for Bluesky audiences; one per targeting segment
+    for ad platforms.
+  - c-TF-IDF keywords, active hours, and an LLM persona per community.
 - **Simulator** (`backend/app/sim`): numpy. CPM auction, delivery weighted by affinity ×
   activity, click logit with a frequency penalty, conversions × landing-page health. **Fatigue
   carries over between similar creatives** (cos²), so cosmetic rewrites inherit fatigue and new
-  angles don't. Planted scenarios A–F live in `config/scenarios.yaml`.
+  angles don't. Each channel has its own economics (CPM, base CTR, conversion value), reporting
+  delay and `twin_scale` (real people per twin). All channels share one clock.
 - **Analytics** (`backend/app/analytics`) reads only `daily_stats`, the same shape a real ad
   platform reports. `sources/meta_stub.py` and `google_stub.py` carry the real field mappings.
   - Radar: pooled-rate z-tests (CTR, CVR) and robust z (CPM, ROAS) against a healthy baseline
     that ends 7 days before today.
   - Fatigue predictor: LightGBM with p10/p90 quantiles, trained on 500 simulator runs.
-  - Root cause: 8 evidence functions → hand-tuned scores → softmax. It gets 29/30 planted cases
-    right across 6 random seeds, and 5/5 on the demo seed.
+  - Root cause: 8 evidence functions → hand-tuned scores → softmax. It gets 20/20 planted
+    problems right on the demo seed and 97/100 across 5 random seeds, over 7 channels and
+    4 businesses.
   - Experiments: two-proportion power calculation for the plan, then Thompson sampling on a
     forked simulator.
   - Budget Autopilot: the action follows the diagnosed cause. € protected comes from 5 paired
@@ -86,10 +132,12 @@ match it. If you change it, run `python run.py build-world` again.
 ## Repo layout
 
 ```
-backend/app/   main.py (FastAPI + SSE + sim clock), state.py, api/, sim/, analytics/, llm/, sources/, integrations/, world/
+backend/app/   main.py (FastAPI + SSE + shared clock), state.py (a runtime per channel), registry.py,
+               api/ (companies, per-channel /api/ch/{channel}/...), sim/, analytics/, llm/,
+               sources/ (platforms.py = what each real API gives, Meta/Google stubs), integrations/, world/
 scripts/       bluesky_snapshot.py, smoke.py, warm_cache.py
-config/        scenarios.yaml, starter_packs.yaml
-data/seed/     brand, campaigns + creatives, comment bank, memory, variant bank, (llm_cache.json)
+config/        starter_packs.yaml
+data/seed/     companies/*.json, comments.json, (llm_cache.json)
 frontend/      Vite + React 18 + TypeScript + Adobe React Spectrum + Recharts
 run.py         task runner (replaces make)
 ```
@@ -97,12 +145,13 @@ run.py         task runner (replaces make)
 ## Memory on an 8 GB laptop
 
 The demo runs as one process: FastAPI serves the built frontend, so there is no Node dev server.
-The backend peaks around 0.6 GB. If you also run Ollama, it adds ~1.5-2 GB with `qwen3:1.7b`
+With all 7 channels running, the backend peaks around 0.6 GB. If you also run Ollama, it adds ~1.5-2 GB with `qwen3:1.7b`
 (2k context). Close the IDE before presenting.
 
 ## Honest framing for judges
 
-Audiences and their interests are real (public Bluesky). The ad platform is simulated, because no
-live ad account can be connected in 12 hours. The fatigue model is trained on simulation and
+The companies are fictional. Bluesky audiences are real once you run the snapshot. The ad
+platforms are simulated, because no live ad account can be connected in 12 hours. Every
+simulated feed only reports what the real API would report. The fatigue model is trained on simulation and
 would be retrained per brand on real data. Every diagnosis is graded against a known planted
 truth.

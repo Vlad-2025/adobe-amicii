@@ -1,0 +1,464 @@
+[
+{
+"prompt_hash": "98f8ac9a6433121a0f27de1395a99da79b648edad311690f68c96bb99d128e59",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Evening and Morning Joggers\", \"one_liner\": \"A community of 600 casual runners focused on daily 5k sessions, park routes, and steady pacing.\", \"interests\": [\"5k running\", \"park routes\", \"running buddies\", \"steady training\"], \"tone\": \"motivating, precise, no hype\", \"do\": [\"Highlight comfort for daily 5k and park jogs\", \"Focus on consistent routines and steady progress\"], \"dont\": [\"Never make health claims or use banned phrases like injury-proof\", \"Do not mention competing brands\"], \"best_hours\": \"17:00-20:00 UTC\"}",
+"created_at": "2026-11-07T14:10:20"
+},
+{
+"prompt_hash": "39774cdb89c2ce8f458d1fc9dab19fc49b4af2ed35eefb71e53e3be98ee3d6dd",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Early Strength Builders\", \"one_liner\": \"A focused group of 400 gym-goers dedicated to tracking heavy lifting sessions and structured training blocks.\", \"interests\": [\"Strength training routines\", \"Fitness recovery planning\", \"Nutritional supplementation\", \"Cardiovascular endurance\"], \"tone\": \"motivating, precise, no hype\", \"do\": [\"Highlight technical session structure and daily programming\", \"Focus on practical gear functionality for training bags\"], \"dont\": [\"Use banned terms like injury-proof or guaranteed PR\", \"Include health claims or mention competitor brands\"], \"best_hours\": \"06:00-08:00 UTC\"}",
+"created_at": "2026-11-07T14:10:21"
+},
+{
+"prompt_hash": "1305b0941b9ab3d80fae20c9622673c786ab5e568b858bd3afa0843259ffc97d",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Evening Routine Balancers\", \"one_liner\": \"Active parents managing family schedules, weekend hikes, and daily routines.\", \"interests\": [\"family life\", \"weekend hikes\", \"parenting routines\"], \"tone\": \"motivating, precise, no hype\", \"do\": [\"focus on practical gear durability for family activities\", \"highlight efficiency in fitting workouts into busy schedules\"], \"dont\": [\"use health claims or injury-proof guarantees\", \"mention competitor brands\"], \"best_hours\": \"20:00-23:00 UTC\"}",
+"created_at": "2026-11-07T14:10:22"
+},
+{
+"prompt_hash": "e2d97c24a7c35637b85aedffb63f5cea7ff022cbd8ed3c55c372c080a08fcc41",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Early-Morning Striders\", \"one_liner\": \"Dedicated distance runners focused on structured training blocks and interval workouts.\", \"interests\": [\"Marathon training\", \"Interval workouts\", \"Race preparation\", \"Recovery\"], \"tone\": \"motivating, precise, no hype\", \"do\": [\"Highlight precise training metrics and structured pacing\", \"Focus on consistency and incremental progress\"], \"dont\": [\"Make health claims or promise miracle results\", \"Mention competitor brands\"], \"best_hours\": \"05:00-07:00 UTC\"}",
+"created_at": "2026-11-07T14:10:23"
+},
+{
+"prompt_hash": "d441321cfed28f51055162fe1d772c5864c19e1f2473f2eb20583aa9da80e3e4",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Single-Track Ascenders\", \"one_liner\": \"Committed trail runners conquering vertical gains and technical single tracks.\", \"interests\": [\"trail running\", \"mountain loops\", \"endurance training\", \"rugged terrain\"], \"tone\": \"motivating, precise, no hype\", \"do\": [\"Highlight durability and grip on uneven surfaces\", \"Focus on steady endurance and consistent training progression\"], \"dont\": [\"Never use banned terms like injury-proof or guaranteed PR\", \"Do not mention any rival footwear brands\"], \"best_hours\": \"07:00-09:00 UTC\"}",
+"created_at": "2026-11-07T14:10:24"
+},
+{
+"prompt_hash": "f998a5c01ea7c9ec24416e3f68f1a17048a87f2a9d83aa251650a589388a5ad2",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Late-Night Boss Grinders\", \"one_liner\": \"Night owl PC gamers who dive deep into indie titles, boss fights, and late-night sessions.\", \"interests\": [\"Indie game discovery\", \"Boss fights and raids\", \"Speedrunning and builds\", \"Late-night gaming sessions\"], \"tone\": \"Warm, whimsical, and honest\", \"do\": [\"Highlight cozy lantern-lit exploration for evening gameplay\", \"Focus on honest indie craft and PC controls\", \"Schedule campaign posts during peak evening hours\"], \"dont\": [\"Use forbidden superlatives like game of the year or AAA quality\", \"Make any health claims\", \"Mention competing titles directly\"], \"best_hours\": \"20:00-23:00 UTC\"}",
+"created_at": "2026-11-07T14:10:33"
+},
+{
+"prompt_hash": "6796eeb29b51f6fa46d9d9ab9784726228bf7beb5e4e392ad71a1fa725ec3a3e",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Rainy Day Wanderers\", \"one_liner\": \"A community of 520 relaxed players who unwind with gentle puzzles and cozy village vibes.\", \"interests\": [\"Cozy gaming\", \"Village decorating\", \"Rainy day relaxation\", \"Gentle puzzles\"], \"tone\": \"Warm and whimsical\", \"do\": [\"Highlight the gentle lantern-lit village atmosphere\", \"Showcase peaceful decorating and puzzle elements\"], \"dont\": [\"Never use superlative claims like best game ever\", \"Do not reference competitor titles\"], \"best_hours\": \"19:00-22:00 UTC\"}",
+"created_at": "2026-11-07T14:10:34"
+},
+{
+"prompt_hash": "a02949167833a042948af48cca0d73da87dc4c1ba9e1b362b1df7626cb5dd9f9",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Pixel Sprite Crafters\", \"one_liner\": \"A community of 300 creators focused on pixel art, sprites, and animation loops.\", \"interests\": [\"pixel art creation\", \"sprite sheet animation\", \"color palettes\", \"indie game visuals\"], \"tone\": \"Warm, whimsical, and honest appreciation for craft.\", \"do\": [\"Highlight the cozy pixel aesthetics and lighting of Lanternfall\", \"Share honest glimpses of the sprite creation process\"], \"dont\": [\"Use inflated marketing buzzwords or generic hype\", \"Compare visual styles to other titles\"], \"best_hours\": \"18:00-21:00 UTC\"}",
+"created_at": "2026-11-07T14:10:36"
+},
+{
+"prompt_hash": "e712cd9792d8a3b1ea7a1377779eaaf9c740ee7a4b7e18e07de68a65646cb92e",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Late-Night Session Raiders\", \"one_liner\": \"A community of 420 dedicated night owls who dive into indie adventures and late-night gaming sessions.\", \"interests\": [\"Late-night gaming\", \"Indie adventures\", \"Boss fights and raids\"], \"tone\": \"Warm, whimsical, and honest\", \"do\": [\"Highlight the cozy lantern-lit atmosphere for evening play sessions\", \"Share honest development updates and patch notes\"], \"dont\": [\"Use forbidden superlatives like game of the year or best game ever\", \"Mention competing titles directly\"], \"best_hours\": \"21:00-00:00 UTC\"}",
+"created_at": "2026-11-07T14:10:46"
+},
+{
+"prompt_hash": "b9ffb1f59267114cd323e3f9a67bdf9d6d84d10fee1a6b0ec49ee1cc79dca770",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Media Creators\", \"one_liner\": \"A community of 360 content producers focused on video, podcasts, and digital storytelling.\", \"interests\": [\"Video production\", \"Podcasting\", \"Livestreaming\", \"Content planning\"], \"tone\": \"Warm, whimsical, and honest\", \"do\": [\"Share behind-the-scenes glimpses of creating Lanternfall\", \"Highlight the cozy visual art and atmospheric lighting of the game\"], \"dont\": [\"Use exaggerated superlatives or marketing hype\", \"Compare Lanternfall to other indie or mainstream titles\"], \"best_hours\": \"17:00-20:00 UTC\"}",
+"created_at": "2026-11-07T14:10:48"
+},
+{
+"prompt_hash": "e17f0982998b0743bd7cbcb86c811859a12de69caf5985f02f95cfaab9758852",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Cottagecore Decorators\", \"one_liner\": \"A community of 320 players seeking gentle village decoration and comforting virtual spaces.\", \"interests\": [\"village simulation\", \"cottagecore aesthetics\", \"cozy puzzle design\", \"comfort gameplay\"], \"tone\": \"warm and whimsical\", \"do\": [\"focus on the warm and whimsical aspects of Lanternfall\", \"highlight gentle village decorating features\"], \"dont\": [\"use banned hyperbolic phrases like game of the year\", \"mention any competing titles\"], \"best_hours\": \"19:00-22:00 UTC\"}",
+"created_at": "2026-11-07T14:10:49"
+},
+{
+"prompt_hash": "2edc39af208264c27a7f6c03e132205316db6fd82e28fd5a7c6455e1e7cdc229",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Late-Night Creators\", \"one_liner\": \"Independent developers and hobbyists building games during late-night hours.\", \"interests\": [\"game development\", \"level design\", \"playtesting\", \"coding\"], \"tone\": \"warm, whimsical, honest\", \"do\": [\"Highlight the behind-the-scenes creation process\", \"Share honest updates about development milestones\"], \"dont\": [\"Use exaggerated marketing claims\", \"Mention competitor titles\"], \"best_hours\": \"21:00-00:00 UTC\"}",
+"created_at": "2026-11-07T14:10:51"
+},
+{
+"prompt_hash": "0ce0d065f83899c74b3bcaa11d6b4f0a8327e9f767b588409fe9bbc4ec27903a",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Pixel Art Animators\", \"one_liner\": \"A community of 260 digital artists focused on pixel art, animation loops, and sprite sheets.\", \"interests\": [\"Pixel art and design\", \"Animation loops\", \"Sprite sheets and tilesets\", \"Creative commissions\"], \"tone\": \"Warm and appreciative of craft\", \"do\": [\"Highlight the cozy visual style and lantern-lit atmosphere of Lanternfall\", \"Share honest peeks into the art creation process\"], \"dont\": [\"Use forbidden marketing superlatives or mention competitors\", \"Post outside of peak engagement hours\"], \"best_hours\": \"18:00-21:00 UTC\"}",
+"created_at": "2026-11-07T14:10:52"
+},
+{
+"prompt_hash": "3c868e6470df3be02c04298b38000fe77d58e4fd94c2cad1ee49f73bea6600be",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Afternoon Deployers\", \"one_liner\": \"Self-employed software engineers managing side projects, hourly rates, and client contracts.\", \"interests\": [\"software deployment\", \"freelance contracts\", \"hourly billing\", \"debugging\"], \"tone\": \"Clear, friendly, a little dry.\", \"do\": [\"Focus on straightforward invoicing and payment tracking for independent developers.\", \"Mention hourly rates and client contracts clearly.\"], \"dont\": [\"Use exaggerated claims about income or payment collection.\", \"Mention competing accounting platforms.\"], \"best_hours\": \"13:00-17:00 UTC\"}",
+"created_at": "2026-11-07T14:11:04"
+},
+{
+"prompt_hash": "e366cc428361af35e8aa0583e0884121ace85fb00c71514132ac3b9b7a830cf2",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Morning Consultants\", \"one_liner\": \"Solo consultants and small agency operators organizing client workshops and tracking billable hours.\", \"interests\": [\"Client strategy and discovery\", \"Professional workshops\", \"Project proposals\", \"Billable time tracking\"], \"tone\": \"Clear, friendly, a little dry\", \"do\": [\"Focus on straightforward time management for billable hours\", \"Keep messaging practical and direct for small teams\"], \"dont\": [\"Use aggressive sales tactics or exaggerated claims\", \"Mention competing accounting or invoicing platforms\"], \"best_hours\": \"07:00-10:00 UTC\"}",
+"created_at": "2026-11-07T14:11:05"
+},
+{
+"prompt_hash": "708909fdf1fc0a1e24551cbfcef07c1c3997f459cd7ee89bde9e0505046c5ee3",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Design Freelancers\", \"one_liner\": \"Self-employed designers managing client briefs and portfolio updates during morning hours.\", \"interests\": [\"Brand identity and logos\", \"Client projects and briefs\", \"Design files and mockups\"], \"tone\": \"Clear, friendly, a little dry\", \"do\": [\"Focus on straightforward invoicing for design projects\", \"Highlight time saved on administrative tasks\"], \"dont\": [\"Use banned marketing claims like guaranteed payment\", \"Mention competing invoicing platforms\"], \"best_hours\": \"09:00-13:00 UTC\"}",
+"created_at": "2026-11-07T14:11:06"
+},
+{
+"prompt_hash": "0cf83bd0a9762868ff99c185ce4986bcb2ed2687f39337fd700886a782232a81",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Agency Operations Managers\", \"one_liner\": \"Agency owners managing client retention, team cash flow, and monthly operational margins.\", \"interests\": [\"agency cash flow\", \"client retention\", \"monthly margins\", \"team onboarding\"], \"tone\": \"clear, friendly, a little dry\", \"do\": [\"focus on practical administrative efficiency\", \"keep messaging clear and professional\"], \"dont\": [\"use aggressive marketing tropes\", \"mention any competing invoicing platforms\"], \"best_hours\": \"09:00-11:00 UTC\"}",
+"created_at": "2026-11-07T14:11:08"
+},
+{
+"prompt_hash": "3815924782949c1f6e752572fa8fbc234dfb67e6c72ce018ed33ba6b055fb6b9",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Midday Code Shippers\", \"one_liner\": \"Freelance software developers managing hourly rates and client projects during mid-day hours.\", \"interests\": [\"software deployment\", \"hourly billing\", \"client project management\", \"bug fixing\"], \"tone\": \"clear, friendly, a little dry\", \"do\": [\"Focus on straightforward invoicing for hourly work\", \"Keep messaging concise and relevant to independent developers\"], \"dont\": [\"Use banned phrases like get rich or guaranteed payment\", \"Compare your tool to named competitors\"], \"best_hours\": \"13:00-16:00 UTC\"}",
+"created_at": "2026-11-07T14:11:15"
+},
+{
+"prompt_hash": "e919b8f51bb9be87648e43dbcc041b31b41f9df68737b4d252b7669eb5a55542",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Evening Builders\", \"one_liner\": \"Solo founders and indie developers building side projects after hours.\", \"interests\": [\"Software development\", \"Product launches\", \"Bootstrapped business\", \"Pricing strategies\"], \"tone\": \"Clear, friendly, and a little dry\", \"do\": [\"Focus on straightforward billing and invoicing mechanics\", \"Keep messaging practical and grounded\"], \"dont\": [\"Use exaggerated income claims\", \"Mention competing accounting platforms\"], \"best_hours\": \"19:00-22:00 UTC\"}",
+"created_at": "2026-11-07T14:11:16"
+},
+{
+"prompt_hash": "7785ebc8e7da0a0f0c1c0f6a159c98da4a4d1c4930d6b0fc7bafb10eeaec1c79",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Design Freelancers\", \"one_liner\": \"Independent creatives focused on client briefs, branding projects, and portfolio updates.\", \"interests\": [\"Brand identity design\", \"Client management\", \"Portfolio updates\", \"Design workflows\"], \"tone\": \"Clear, friendly, and a little dry\", \"do\": [\"Focus on straightforward invoicing for creative projects\", \"Keep messaging practical and transparent\"], \"dont\": [\"Use exaggerated claims or get rich promises\", \"Mention competing accounting tools\"], \"best_hours\": \"09:00-12:00 UTC\"}",
+"created_at": "2026-11-07T14:11:18"
+},
+{
+"prompt_hash": "78cf6a2e6cabae70cbd96646015311f5643b1a820f9fa600a1ed61b1564487ce",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Weekend Content Creators\", \"one_liner\": \"A community of 450 creators focused on podcasts, livestreams, and visual content production.\", \"interests\": [\"Digital media creation\", \"Podcasting\", \"Live streaming\", \"Visual design\"], \"tone\": \"Energetic, witty, never preachy.\", \"do\": [\"Focus ads on fueling weekend creative sessions\", \"Keep copy lighthearted and punchy\"], \"dont\": [\"Make health claims or use banned terminology\", \"Mention competing beverage brands\"], \"best_hours\": \"18:00-21:00 UTC\"}",
+"created_at": "2026-11-07T14:11:32"
+},
+{
+"prompt_hash": "ca886b74a36cf6d6e09eea5ed24af83855a00d8d2e48e1b1b906c54c2dde7ab1",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Morning Craft Brewers\", \"one_liner\": \"An energetic community of 430 early birds obsessed with the ritual of morning coffee preparation.\", \"interests\": [\"manual brewing\", \"espresso craft\", \"coffee origins\", \"barista techniques\"], \"tone\": \"energetic, witty, never preachy\", \"do\": [\"Highlight the cold-brew format as the ultimate time-saver for busy mornings\", \"Focus on the sharp, premium taste experience\"], \"dont\": [\"Never make health claims or talk about immunity\", \"Do not mention competing beverage brands\"], \"best_hours\": \"07:00-09:00 UTC\"}",
+"created_at": "2026-11-07T14:11:33"
+},
+{
+"prompt_hash": "06af139d5f4635b86a4a4eaa243d68aaea4a016cc0e99019545cb694cb19b935",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Midday Slump Survivors\", \"one_liner\": \"Office workers battling the afternoon wall with humor and caffeine.\", \"interests\": [\"Remote work\", \"Productivity blocks\", \"Office humor\", \"Afternoon breaks\"], \"tone\": \"Energetic, witty, never preachy\", \"do\": [\"Acknowledge the struggle of the afternoon slump with a joke\", \"Keep ad copy witty and relatable to remote or office workers\"], \"dont\": [\"Use any health or immunity claims\", \"Mention competing beverage brands\"], \"best_hours\": \"12:00-15:00 UTC\"}",
+"created_at": "2026-11-07T14:11:35"
+},
+{
+"prompt_hash": "bf1ad5f0115776520f47c9e02af72062cc5c81ffafbe37f58cf2df723d323439",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Late-Night Controllers\", \"one_liner\": \"Gaming enthusiasts fueling up for late-night ranking sessions and indie runs.\", \"interests\": [\"indie games\", \"patch notes\", \"speedruns\", \"controller setups\"], \"tone\": \"energetic, witty, never preachy\", \"do\": [\"focus on late-night gaming grind\", \"keep copy light and witty\"], \"dont\": [\"make health or energy claims\", \"mention competing brands\"], \"best_hours\": \"21:00-00:00 UTC\"}",
+"created_at": "2026-11-07T14:11:36"
+},
+{
+"prompt_hash": "6f68f134f7386bf65ba2cfe611b6ba9d91e1f735b66ee8bd81cf1486effbe12a",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Early Morning Lifters\", \"one_liner\": \"Fitness enthusiasts hitting the gym before sunrise and tracking every lift.\", \"interests\": [\"strength training\", \"gym routines\", \"lifting milestones\", \"morning workouts\"], \"tone\": \"energetic, witty, never preachy\", \"do\": [\"focus ads on morning workout routines\", \"keep the copy punchy and fast\"], \"dont\": [\"use preachy wellness language\", \"mention competitor brands\"], \"best_hours\": \"05:00-08:00 UTC\"}",
+"created_at": "2026-11-07T14:11:37"
+},
+{
+"prompt_hash": "b761322b162d44523854d05c19a8eb8219b96f205460fce84696bbca4a4ece3b",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Late-Night Crammers\", \"one_liner\": \"Night owls powering through deadlines and late-night study sessions.\", \"interests\": [\"Academic projects\", \"Late-night cramming\", \"Procrastination struggles\", \"Exam preparation\"], \"tone\": \"Energetic, witty, never preachy\", \"do\": [\"Acknowledge the pain of late-night deadlines with a witty tone\", \"Target messaging during peak evening hours\"], \"dont\": [\"Make health claims or mention immunity\", \"Name competing coffee brands\"], \"best_hours\": \"21:00-00:00 UTC\"}",
+"created_at": "2026-11-07T14:11:39"
+},
+{
+"prompt_hash": "f16fdd7bc56efb3bec86b6e903528fb7c32c95f8b90ea5e726f1cd56107520b6",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Late-Night Code Crushers\", \"one_liner\": \"Night-owl developers wrangling production bugs and CI pipelines after hours.\", \"interests\": [\"Systems programming\", \"Version control workflows\", \"Infrastructure automation\", \"Debugging complex systems\"], \"tone\": \"energetic, witty, never preachy\", \"do\": [\"Acknowledge the reality of late-night coding sessions\", \"Keep ad copy witty and focused on getting through the workload\"], \"dont\": [\"Make any health claims or mention immunity\", \"Reference any competing beverage brands\"], \"best_hours\": \"21:00-00:00 UTC\"}",
+"created_at": "2026-11-07T14:11:40"
+},
+{
+"prompt_hash": "f2fc1e92cf485cb3d9ae592fa61c0c005462bbedf3e70c6d54de658af12841f4",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Midnight Crammers\", \"one_liner\": \"Students powering through late-night study sessions and looming deadlines.\", \"interests\": [\"campus life\", \"exam prep\", \"late-night productivity\", \"academic projects\"], \"tone\": \"Energetic, witty, never preachy.\", \"do\": [\"Acknowledge the struggle of late-night study sessions with witty humor.\", \"Target messaging around the 21:00-01:00 UTC window when activity peaks.\"], \"dont\": [\"Use any health claims or mention banned phrases like immunity, detox, or miracle.\", \"Reference any competitor brands in the creative.\"], \"best_hours\": \"21:00-01:00 UTC\"}",
+"created_at": "2026-11-07T14:11:49"
+},
+{
+"prompt_hash": "583bb9ff0b7c8229cc5d18ec6157865f277771ca862ba1553ad8e32eee2fb472",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Late-Night Grinders\", \"one_liner\": \"Gamers fueling their late-night sessions with cold brew.\", \"interests\": [\"video games\", \"speedruns\", \"boss fights\", \"co-op\"], \"tone\": \"energetic, witty, never preachy\", \"do\": [\"focus on late-night gaming sessions\", \"use witty, fast-paced humor\"], \"dont\": [\"make health or immunity claims\", \"mention competing brands\"], \"best_hours\": \"20:00-23:00 UTC\"}",
+"created_at": "2026-11-07T14:11:51"
+},
+{
+"prompt_hash": "b26167d661a3baf6911f74849910f9f2095fe59275ba9ef81f0b6a241fe906db",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Early Morning Lifters\", \"one_liner\": \"Dedicated gym-goers tackling heavy lifts before the sun comes up.\", \"interests\": [\"strength training\", \"cardio and conditioning\", \"workout recovery\"], \"tone\": \"energetic, witty, never preachy\", \"do\": [\"focus on the grind of heavy sets and morning routines\", \"keep the creative punchy and humorous\"], \"dont\": [\"use health claims or mention immunity\", \"name competing brands or products\"], \"best_hours\": \"06:00-09:00 UTC\"}",
+"created_at": "2026-11-07T14:11:52"
+},
+{
+"prompt_hash": "1563276ac9d56349b156ec1ea0b00c95c99bd37e5eb9b9fc865e313c1be72e33",
+"task": "community_profile",
+"provider": "gemini",
+"response": "{\"name\": \"Tax-Season Sloggers\", \"one_liner\": \"Small business operators tackling quarterly filings and client receipts during morning hours.\", \"interests\": [\"Tax filing\", \"Expense tracking\", \"Quarterly reviews\", \"Audit trails\"], \"tone\": \"Clear, friendly, and a little dry\", \"do\": [\"Highlight how simple invoicing helps keep year-end records organized\", \"Focus on clear organization for client expenses\"], \"dont\": [\"Use phrases like never chase again or guaranteed payment\", \"Make health claims\"], \"best_hours\": \"09:00-11:00 UTC\"}",
+"created_at": "2026-11-07T14:13:17"
+},
+{
+"prompt_hash": "5c835aa13e873158c0bb6bce65a039650776b7f836f92dc3971f2bceab9e7729",
+"task": "narrate",
+"provider": "gemini",
+"response": "{\"headline\": \"Creative fatigue is the most likely cause for ad A1\", \"explanation\": \"Annoyed comments share reached 54% (+42%) and CTR dropped by -2.3 σ compared to the healthy baseline, while the frequency of 3.5 strongly correlates with ad burnout at -0.60. These figures rule out seasonality and general market trends, pointing directly to audience fatigue with the current study focus angle.\", \"recommended_action\": \"Refresh the creative with a new hook while keeping the energetic tone.\"}",
+"created_at": "2026-11-07T14:13:22"
+},
+{
+"prompt_hash": "5147ec22f374edb9bf9b1d2c4aed8d7fa29569fdd9fc0830340799aff57c937a",
+"task": "narrate",
+"provider": "gemini",
+"response": "{\"headline\": \"Segment saturation for late-night grind ad D2\", \"explanation\": \"Segment saturation is the most likely cause at a probability of 799 percent, supported by CTR dropping minus 61 percent for Late-Night Code Crushers and a minus 2 point 2 sigma drop in CTR. Other alternatives like seasonality at 8 point 8 percent and tracking at 2 point 5 percent are largely ruled out.\", \"recommended_action\": \"Split the campaign by segment to refresh messaging.\"}",
+"created_at": "2026-11-07T14:13:24"
+},
+{
+"prompt_hash": "336f84c7122cb9c8464e6f2fd114e7ec403a4ab5393c9c2f436a3755c8f38c76",
+"task": "narrate",
+"provider": "gemini",
+"response": "{\"headline\": \"Landing page issue is most likely causing the drop for ad B1.\", \"explanation\": \"With a 32% probability, landing page issues lead the diagnosis, supported by a conversion rate drop of -1.5 Δ and a 32% (+20%) annoyed comments share. This rules out ad-specific fatigue at 3.7% and auction pressure at 3.2%.\", \"recommended_action\": \"Audit the landing page experience and fix checkout bottlenecks.\"}",
+"created_at": "2026-11-07T14:13:27"
+},
+{
+"prompt_hash": "d5b3ce0aee3abd751d187f988d877627db44e8ff9aad84a209249279ef08f3e0",
+"task": "narrate",
+"provider": "gemini",
+"response": "{\"headline\": \"Auction pressure is the most likely cause for ad C1.\", \"explanation\": \"The CPM spiked by +7.5 σ and 100% of campaign ads are dropping simultaneously, pointing directly to severe auction pressure. This evidence rules out creative fatigue as CTR drops of -2.0 σ and a modest 10% annoyed comments share are symptoms of broad market competition rather than ad failure.\", \"recommended_action\": \"Rebalance budget across less saturated delivery windows.\"}",
+"created_at": "2026-11-07T14:13:31"
+},
+{
+"prompt_hash": "2b65c96fffbe48c9a91f6c66e83ab02cf1d392cca2e9110a8111be86e409d323",
+"task": "variants",
+"provider": "gemini",
+"response": "{\"variants\": [{\"changed_dimension\": \"hook\", \"hook\": \"Thesis due at 8am?\", \"body\": \"Cold brew that tastes like a 9am lecture you actually enjoyed. Smooth caffeine, zero queue.\", \"cta\": \"Grab a 4-pack\", \"offer\": \"none\", \"hypothesis\": \"Switching the hook to address a more specific deadline will capture the immediate attention of night owls facing urgent submissions.\", \"expected_effect\": \"Increase click-through rate by refreshing the top-of-funnel creative.\"}, {\"changed_dimension\": \"cta\", \"hook\": \"Exam week? Volt has notes.\", \"body\": \"Cold brew that tastes like a 9am lecture you actually enjoyed. Smooth caffeine, zero queue.\", \"cta\": \"Unlock late night\", \"offer\": \"none\", \"hypothesis\": \"A more action-oriented and community-aligned CTA will drive higher intent clicks from students pulling all-nighters.\", \"expected_effect\": \"Improve conversion rate from link click to checkout page.\"}, {\"changed_dimension\": \"benefit\", \"hook\": \"Exam week? Volt has notes.\", \"body\": \"Smooth cold brew that hits fast when your eyes start closing at 3am. Zero queue.\", \"cta\": \"Grab a 4-pack\", \"offer\": \"none\", \"hypothesis\": \"Focusing the benefit on immediate fatigue relief at a specific late hour resonates stronger with the night-owl audience than taste comparisons.\", \"expected_effect\": \"Boost engagement and watch time on the ad body.\"}]}",
+"created_at": "2026-11-07T14:13:35"
+},
+{
+"prompt_hash": "3884c7dcb1f00264df6956b92cbd4d1d4d052380b5c2bda9c649e488c7bf97ed",
+"task": "variants",
+"provider": "gemini",
+"response": "{\"variants\": [{\"changed_dimension\": \"hook\", \"hook\": \"Thesis due tomorrow?\", \"body\": \"Cold brew that tastes like a 9am lecture you actually enjoyed. Smooth caffeine, zero queue.\", \"cta\": \"Grab a 4-pack\", \"offer\": \"none\", \"hypothesis\": \"Swapping the hook to a direct deadline pain point captures late-night crammers scrolling through library sessions.\", \"expected_effect\": \"Increase click-through rate by 15%.\"}, {\"changed_dimension\": \"cta\", \"hook\": \"Exam week? Volt has notes.\", \"body\": \"Cold brew that tastes like a 9am lecture you actually enjoyed. Smooth caffeine, zero queue.\", \"cta\": \"Stock up the dorm\", \"offer\": \"none\", \"hypothesis\": \"Tailoring the call to action specifically to the student living environment makes the purchase intent more relevant.\", \"expected_effect\": \"Improve conversion rate from click to cart.\"}, {\"changed_dimension\": \"benefit\", \"hook\": \"Exam week? Volt has notes.\", \"body\": \"Smooth cold brew that skips the bitterness so you can power through the essay. Zero queue.\", \"cta\": \"Grab a 4-pack\", \"offer\": \"none\", \"hypothesis\": \"Shifting the benefit from lecture nostalgia to taste and smooth focus appeals directly to the sensory needs of late-night study sessions.\", \"expected_effect\": \"Boost engagement rate and comments.\"}]}",
+"created_at": "2026-11-07T14:13:37"
+},
+{
+"prompt_hash": "d0a90ea3f8a93cf470d5a890803df3a0a0402d030b36fc761067ed682ed8ec2b",
+"task": "learning",
+"provider": "gemini",
+"response": "{\"insight\": \"For Late-Night Crammers, Thesis due tomorrow? beat Exam week? Volt has notes. on ctr\", \"evidence\": \"Impressions 26810, clicks 208, rate 0.007758, probability of best 0.5565\", \"community\": \"Late-Night Crammers\", \"dimension\": \"hook\"}",
+"created_at": "2026-11-07T14:13:46"
+},
+{
+"prompt_hash": "0d75078ebbd5090c4f441f295641dbf834a1f6c8f70556055c9047de1ac1ddd8",
+"task": "variants",
+"provider": "gemini",
+"response": "{\"variants\": [{\"changed_dimension\": \"cta\", \"hook\": \"POV: 3am, essay due at 9\", \"body\": \"Crack a Volt, hear the fizz of hope. Cold brew that actually tastes good at 3am.\", \"cta\": \"Get Volt now\", \"offer\": \"none\", \"hypothesis\": \"Changing the call to action from a generic shop now to a more direct get now creates urgency for students during late study sessions.\", \"expected_effect\": \"Click-through rate (CTR) should increase as the action becomes more immediate.\"}, {\"changed_dimension\": \"benefit\", \"hook\": \"POV: 3am, essay due at 9\", \"body\": \"Flashcards flying, eyes heavy. Cold brew in a can that hits faster than your professor's pop quiz.\", \"cta\": \"Shop now\", \"offer\": \"none\", \"hypothesis\": \"Highlighting specific study items like flashcards resonates deeper with the student community experiencing late-night library sessions.\", \"expected_effect\": \"Watch time and engagement rate should improve due to higher relatability.\"}, {\"changed_dimension\": \"emotional_angle\", \"hook\": \"Thesis due tomorrow?\", \"body\": \"Dorm room panic is real. Pop open a Volt and conquer that looming deadline before sunrise.\", \"cta\": \"Shop now\", \"offer\": \"none\", \"hypothesis\": \"Swapping the angle to tackle dorm room panic aligns with previous winning insights for late-night crammers.\", \"expected_effect\": \"Conversion rate and scroll-stopper rate will increase by leveraging a validated emotional hook.\"}]}",
+"created_at": "2026-11-07T14:14:06"
+},
+{
+"prompt_hash": "c187a21d06d5e0e4c9bbc1a92ac133f0388bb0b577ae1db2c94284d92ecfbdba",
+"task": "variants",
+"provider": "gemini",
+"response": "{\"variants\": [{\"changed_dimension\": \"hook\", \"hook\": \"Library lights won't save you.\", \"body\": \"Crack a Volt, hear the fizz of hope. Cold brew that actually tastes good at 3am.\", \"cta\": \"Shop now\", \"offer\": \"none\", \"hypothesis\": \"Switching from a POV hook to a direct challenge will instantly grab tired students in the library.\", \"expected_effect\": \"Increase thumb-stop rate and 3-second video views.\"}, {\"changed_dimension\": \"cta\", \"hook\": \"POV: 3am, essay due at 9\", \"body\": \"Crack a Volt, hear the fizz of hope. Cold brew that actually tastes good at 3am.\", \"cta\": \"Grab yours\", \"offer\": \"none\", \"hypothesis\": \"Using a more casual, urgent CTA fits the late-night study vibe better than standard shop now.\", \"expected_effect\": \"Improve click-through rate to the product page.\"}, {\"changed_dimension\": \"benefit\", \"hook\": \"POV: 3am, essay due at 9\", \"body\": \"Zero crash, pure cold brew focus to get that bibliography finished before sunrise.\", \"cta\": \"Shop now\", \"offer\": \"none\", \"hypothesis\": \"Highlighting the specific benefit of focus and no crash addresses the exact fear of midnight crammers.\", \"expected_effect\": \"Increase conversion rate and add-to-cart actions.\"}]}",
+"created_at": "2026-11-07T14:14:10"
+},
+{
+"prompt_hash": "b4061a7326ead61d163df1e3285d11123487e0b1f0ea0d62f12ee60876da3ea3",
+"task": "learning",
+"provider": "gemini",
+"response": "{\"insight\": \"For Midnight Crammers, emphasizing the core product benefit beat the original hook on ctr.\", \"evidence\": \"16893 impressions, 350 clicks, 18 conversions, 2.0719% rate, 0.9998 p_best\", \"community\": \"Midnight Crammers\", \"dimension\": \"benefit\"}",
+"created_at": "2026-11-07T14:14:14"
+},
+{
+"prompt_hash": "574c66143643567ecffcec242920eee23a588d509f7059e7c22603209d0575c4",
+"task": "narrate",
+"provider": "gemini",
+"response": "{\"headline\": \"Creative fatigue in ad K3 is causing high annoyance and plummeting CTR.\", \"explanation\": \"The probability of creative fatigue has reached 99.1% as annoyed comments surged to 38% (+30%) and CTR dropped by -4.1 sigma compared to the healthy baseline. This rules out broader campaign issues since other ads dropping at the same time represent 80% of all but 0% of the campaign, while the frequency of 4.1 strongly correlates with fatigue at -0.56.\", \"recommended_action\": \"Refresh the creative for ad K3 immediately.\"}",
+"created_at": "2026-11-07T14:14:17"
+},
+{
+"prompt_hash": "ed236e021d1853f1782a2786667bed9d51986b3f66c1309ef1da775d626ae1ea",
+"task": "narrate",
+"provider": "gemini",
+"response": "{\"headline\": \"Segment saturation is the primary issue for ad K5.\", \"explanation\": \"Evidence shows Evening Routine Balancers dropped -68% while Evening and Morning Joggers grew +27%, pointing to audience exhaustion in specific groups. Annoyed comments reached 46% with a +21% increase, and CTR dropped -2.9 sigma from the healthy baseline. These metrics rule out creative fatigue, which sits at only 0.058 probability, while segment saturation is at 0.927.\", \"recommended_action\": \"Split the campaign by segment to target the receptive audiences and pause delivery to saturated groups.\"}",
+"created_at": "2026-11-07T14:14:23"
+},
+{
+"prompt_hash": "5292762b4ea8e44833c2cac6b4c0a3794ca9bc0c223198ece511d765e560ec1d",
+"task": "narrate",
+"provider": "gemini",
+"response": "{\"headline\": \"Landing page issue is the likely cause for your Kinetra long run ad.\", \"explanation\": \"At 49.9 percent probability, the landing page is the primary driver because CTR and conversion rate both dropped by -2.5 sigma while annoyed comments share rose to 37 percent (+16 percent). This rules out lower-probability causes like creative fatigue at 17 percent or auction pressure at 1.7 percent.\", \"recommended_action\": \"Audit the landing page experiencing traffic from this campaign to resolve user friction.\"}",
+"created_at": "2026-11-07T14:14:28"
+},
+{
+"prompt_hash": "f450d5631ed87ae305477a5de666cc8bf3c63915238572ab6f215ab40bb45bc8",
+"task": "narrate",
+"provider": "gemini",
+"response": "{\"headline\": \"Auction pressure is driving up costs for your comfort ad K4.\", \"explanation\": \"Your CPM surged by +11.8 σ in the last 3 days while 100% of campaign ads dropped simultaneously, pointing decisively to a sudden auction spike. Meanwhile, your CTR remained stable at -0.4 σ and annoyed comments rose only marginally by +2%, ruling out creative fatigue or audience rejection.\", \"recommended_action\": \"Rebalance budget across campaigns to mitigate the impact of high auction pressure.\"}",
+"created_at": "2026-11-07T14:14:33"
+},
+{
+"prompt_hash": "066936de3613f9f03110bd308722d8d3bae0ff57d676281356c7fbe723315e1e",
+"task": "variants",
+"provider": "gemini",
+"response": "{\"variants\": [{\"changed_dimension\": \"hook\", \"hook\": \"Conquer technical single tracks.\", \"body\": \"Kinetra Ridge grips where trails get honest. Lugs that bite, uppers that breathe.\", \"cta\": \"Shop Ridge\", \"offer\": \"none\", \"hypothesis\": \"Changing the hook to directly name the community terrain will immediately capture single-track runners scrolling past generic copy.\", \"expected_effect\": \"CTR should increase as the specific terrain callout improves initial relevance.\"}, {\"changed_dimension\": \"cta\", \"hook\": \"Mud, rocks, roots. Bring it.\", \"body\": \"Kinetra Ridge grips where trails get honest. Lugs that bite, uppers that breathe.\", \"cta\": \"Explore Ridge\", \"offer\": \"none\", \"hypothesis\": \"Replacing the transactional shop command with a more exploratory prompt reduces purchase friction for cold trail runners.\", \"expected_effect\": \"Outbound CTR and landing page engagement should improve.\"}, {\"changed_dimension\": \"emotional_angle\", \"hook\": \"Own the vertical gain.\", \"body\": \"Steady endurance on rocky switchbacks. Built with lugs that bite and uppers that breathe.\", \"cta\": \"Shop Ridge\", \"offer\": \"none\", \"hypothesis\": \"Shifting from a pure grit angle to a performance endurance mindset resonates better with committed vertical gainers.\", \"expected_effect\": \"Conversion rate and engagement duration should increase.\"}]}",
+"created_at": "2026-11-07T14:14:39"
+},
+{
+"prompt_hash": "f7152a0ffe145383fc550a917ff6fa5509a10318723b5d5c35504936715497ce",
+"task": "variants",
+"provider": "gemini",
+"response": "{\"variants\": [{\"changed_dimension\": \"hook\", \"hook\": \"Conquer steep switchbacks today.\", \"body\": \"Kinetra Ridge grips where trails get honest. Lugs that bite, uppers that breathe.\", \"cta\": \"Shop Ridge\", \"offer\": \"none\", \"hypothesis\": \"Shifting the hook to focus on switchbacks directly targets the technical vertical aspect of the community.\", \"expected_effect\": \"Increase CTR by addressing specific terrain terminology.\"}, {\"changed_dimension\": \"cta\", \"hook\": \"Mud, rocks, roots. Bring it.\", \"body\": \"Kinetra Ridge grips where trails get honest. Lugs that bite, uppers that breathe.\", \"cta\": \"Explore Trail Gear\", \"offer\": \"none\", \"hypothesis\": \"A broader discovery-oriented call to action reduces friction for users exploring new trail equipment.\", \"expected_effect\": \"Improve outbound click rate and lower cost per click.\"}, {\"changed_dimension\": \"emotional_angle\", \"hook\": \"Find your rhythm on the loop.\", \"body\": \"Steady footing through every rocky descent. Build consistent endurance with Kinetra Ridge.\", \"cta\": \"Shop Ridge\", \"offer\": \"none\", \"hypothesis\": \"Focusing on steady endurance and the emotional reward of completing a loop resonates better with training progression.\", \"expected_effect\": \"Lift engagement and conversion rate among dedicated training runners.\"}]}",
+"created_at": "2026-11-07T14:14:43"
+},
+{
+"prompt_hash": "35ee1f0090c282e03ae409e1b700b83669b65b6ddce7a2aaecbecab6fd518416",
+"task": "learning",
+"provider": "gemini",
+"response": "{\"insight\": \"For Single-Track Ascenders, Find your rhythm on the loop. beat Mud, rocks, roots. Bring it. on ctr.\", \"evidence\": \"Impressions: 6126, Clicks: 242, Rate: 3.95%\", \"community\": \"Single-Track Ascenders\", \"dimension\": \"emotional_angle\"}",
+"created_at": "2026-11-07T14:14:47"
+},
+{
+"prompt_hash": "696d2d087d2b43d1a7e7153ad262e5f4b17531d051ca268253c649f5c6fa7d0f",
+"task": "narrate",
+"provider": "gemini",
+"response": "{\"headline\": \"Creative fatigue is driving down performance for ad H3 at 99.8% probability.\", \"explanation\": \"The CTR dropped by -3.4 σ with a strong negative frequency correlation of -0.72 at a frequency of 4.3, alongside an annoyed comments share of 38% (+34%). This rules out transient platform glitches since 50% of all other ads are dropping at the same time while 0% of the campaign is affected.\", \"recommended_action\": \"Refresh the creative by introducing new visuals and copy variations.\"}",
+"created_at": "2026-11-07T14:14:52"
+},
+{
+"prompt_hash": "7931a726927eeeb56b4744dd848bea74adcb2a7e8078911334f12f4f6217d36a",
+"task": "narrate",
+"provider": "gemini",
+"response": "{\"headline\": \"Creative fatigue leads ad H2 performance drop at 38.7% probability.\", \"explanation\": \"The CTR-frequency correlation sits at -0.42 at frequency 2.0 while CTR drops by -2.1 sigma, pointing directly to creative fatigue. This rules out seasonal shifts and tracking issues, which hold much lower probabilities of 4.2% and 3.4%.\", \"recommended_action\": \"Refresh the creative for ad H2.\"}",
+"created_at": "2026-11-07T14:14:56"
+},
+{
+"prompt_hash": "9058e0ed9b474f13be8905705d270fe122af7d2b479af31ac243281f6a62669f",
+"task": "variants",
+"provider": "gemini",
+"response": "{\"variants\": [{\"changed_dimension\": \"hook\", \"hook\": \"Save 12 hours on admin every month.\", \"body\": \"Retainers, milestones and reminders for every client. One dashboard for what's owed.\", \"cta\": \"Book a demo\", \"offer\": \"none\", \"hypothesis\": \"Focusing on exact time saved appeals directly to operational efficiency without hype.\", \"expected_effect\": \"Click-through rate will increase as professionals engage with specific time metrics.\"}, {\"changed_dimension\": \"cta\", \"hook\": \"Cash flow for agencies, on autopilot.\", \"body\": \"Retainers, milestones and reminders for every client. One dashboard for what's owed.\", \"cta\": \"See how it works\", \"offer\": \"none\", \"hypothesis\": \"A lower-friction call to action reduces perceived commitment for busy managers.\", \"expected_effect\": \"Conversion rate on the button click will improve.\"}, {\"changed_dimension\": \"benefit\", \"hook\": \"Cash flow for agencies, on autopilot.\", \"body\": \"Centralize all client milestones and payment reminders in a single dashboard to protect your margins.\", \"cta\": \"Book a demo\", \"offer\": \"none\", \"hypothesis\": \"Shifting the benefit from general invoicing to margin protection aligns closer to operations management goals.\", \"expected_effect\": \"Lead quality and conversion rate will improve.\"}]}",
+"created_at": "2026-11-07T14:15:01"
+},
+{
+"prompt_hash": "280aad658ab77d26c09ddbcaaafa0851ffeca11f46b6c9dd49520c5d8c9aade8",
+"task": "variants",
+"provider": "gemini",
+"response": "{\"variants\": [{\"changed_dimension\": \"hook\", \"hook\": \"Stop chasing late invoices.\", \"body\": \"Retainers, milestones and reminders for every client. One dashboard for what's owed.\", \"cta\": \"Book a demo\", \"offer\": \"none\", \"hypothesis\": \"A direct problem-aware hook will immediately grab the attention of operations managers experiencing collection friction.\", \"expected_effect\": \"Click-through rate will increase by 15%.\"}, {\"changed_dimension\": \"cta\", \"hook\": \"Cash flow for agencies, on autopilot.\", \"body\": \"Retainers, milestones and reminders for every client. One dashboard for what's owed.\", \"cta\": \"Start free trial\", \"offer\": \"none\", \"hypothesis\": \"Shifting from a high-friction demo request to a lower-commitment trial will capture bottom-of-funnel agency managers.\", \"expected_effect\": \"Conversion rate from click to sign-up will increase.\"}, {\"changed_dimension\": \"benefit\", \"hook\": \"Cash flow for agencies, on autopilot.\", \"body\": \"Manage retainers, milestones and reminders in one dashboard to save 5 hours every month on admin.\", \"cta\": \"Book a demo\", \"offer\": \"none\", \"hypothesis\": \"Highlighting a specific operational time saving appeals directly to the efficiency goals of agency operations managers.\", \"expected_effect\": \"Outbound engagement and click-through rate will improve.\"}]}",
+"created_at": "2026-11-07T14:15:05"
+},
+{
+"prompt_hash": "dfc279d583bbbbfb4051060e656a5a451d7f0aa9cc74a6d96c33edf5bc751c4a",
+"task": "learning",
+"provider": "gemini",
+"response": "{\"insight\": \"For Agency Operations Managers, Stop chasing late invoices. beat Cash flow for agencies, on autopilot. on ctr\", \"evidence\": \"6319 impressions, 76 clicks, 5 conversions, 0.012027 rate, 0.99 p_best\", \"community\": \"Agency Operations Managers\", \"dimension\": \"hook\"}",
+"created_at": "2026-11-07T14:15:11"
+},
+{
+"prompt_hash": "8111aacccc41617b8ded4b5897123bcf25cdbd2b9b20368c6922e23e4af0619c",
+"task": "narrate",
+"provider": "gemini",
+"response": "{\"headline\": \"Segment saturation is the primary cause for ad X1 (\\\"Invoicing that feels like a git push.\\\").\", \"explanation\": \"The probability of 0.981 for segment saturation is supported by a sharp -60% drop in CTR for Evening Builders compared to launch. This contrasts with Midday Code Shippers, who saw a +32% increase, ruling out an overall creative failure and pointing directly to audience fatigue in one specific group.\", \"recommended_action\": \"Split your targeting by segment to shift budget away from saturated audiences.\"}",
+"created_at": "2026-11-07T14:15:14"
+},
+{
+"prompt_hash": "3950ab8b8c92aa0d3963dcb47b3b1dfd1a54e95f7424e100a684e0f84bab8d83",
+"task": "variants",
+"provider": "gemini",
+"response": "{\"variants\": [{\"changed_dimension\": \"hook\", \"hook\": \"Save 12 hours on billing.\", \"body\": \"Tallyhawk: one command, one invoice, automatic reminders. Free for your first 3 clients.\", \"cta\": \"Try it free\", \"offer\": \"none\", \"hypothesis\": \"Focusing on exact time saved directly addresses the evening builders' need for efficiency.\", \"expected_effect\": \"CTR will increase by 15%.\"}, {\"changed_dimension\": \"cta\", \"hook\": \"Invoicing that feels like a git push.\", \"body\": \"Tallyhawk: one command, one invoice, automatic reminders. Free for your first 3 clients.\", \"cta\": \"Start billing now\", \"offer\": \"none\", \"hypothesis\": \"A more action-oriented CTA connects better with developers focused on shipping.\", \"expected_effect\": \"Conversion rate will increase.\"}, {\"changed_dimension\": \"benefit\", \"hook\": \"Invoicing that feels like a git push.\", \"body\": \"Tallyhawk handles automatic reminders so you get paid faster without awkward follow-ups.\", \"cta\": \"Try it free\", \"offer\": \"none\", \"hypothesis\": \"Highlighting the removal of awkward follow-ups appeals to the practical side of solo builders.\", \"expected_effect\": \"Engagement rate will rise.\"}]}",
+"created_at": "2026-11-07T14:15:20"
+},
+{
+"prompt_hash": "4616bcf3ba18e5d8a570bc62368b0cb628717999a138e148c7392a4fba75e44c",
+"task": "variants",
+"provider": "gemini",
+"response": "{\"variants\": [{\"changed_dimension\": \"hook\", \"hook\": \"Stop wasting hours on side project billing.\", \"body\": \"Tallyhawk: one command, one invoice, automatic reminders. Free for your first 3 clients.\", \"cta\": \"Try it free\", \"offer\": \"none\", \"hypothesis\": \"Evening builders value time over clever analogies, so a direct time-saving hook will appeal better.\", \"expected_effect\": \"CTR will increase by focusing on the core pain of time waste.\"}, {\"changed_dimension\": \"cta\", \"hook\": \"Invoicing that feels like a git push.\", \"body\": \"Tallyhawk: one command, one invoice, automatic reminders. Free for your first 3 clients.\", \"cta\": \"Start free setup\", \"offer\": \"none\", \"hypothesis\": \"A more action-oriented and technical CTA reduces friction for developers evaluating tools.\", \"expected_effect\": \"Conversion rate from click to signup will improve.\"}, {\"changed_dimension\": \"benefit\", \"hook\": \"Invoicing that feels like a git push.\", \"body\": \"Send professional invoices in under two minutes with automated payment reminders. Free for your first 3 clients.\", \"cta\": \"Try it free\", \"offer\": \"none\", \"hypothesis\": \"Focusing on concrete speed and automation benefits aligns with builder preferences for efficiency.\", \"expected_effect\": \"Engagement and click-through rates will rise due to clear utility.\"}]}",
+"created_at": "2026-11-07T14:15:24"
+},
+{
+"prompt_hash": "89744760228ccf5e2da0e66ae30f89ac4e4102ec8d93cd0a2ef9834d465482ce",
+"task": "learning",
+"provider": "gemini",
+"response": "{\"insight\": \"For Evening Builders, Stop wasting hours on side project billing. beat Invoicing that feels like a git push. on ctr\", \"evidence\": \"41753 impressions and 498 clicks\", \"community\": \"Evening Builders\", \"dimension\": \"hook\"}",
+"created_at": "2026-11-07T14:15:27"
+},
+{
+"prompt_hash": "3c060bdb9d9039a114d792a00691778e0df8dcc5233b5eb4e864485be0235942",
+"task": "narrate",
+"provider": "gemini",
+"response": "{\"headline\": \"Creative fatigue is driving down performance for ad M1.\", \"explanation\": \"With a 99.7% probability of creative fatigue, the evidence shows significant viewer exhaustion with annoyed comments sharing at 63% (+60%) and a steep CTR drop of -3.6 σ. These figures rule out temporary audience or platform shifts, confirming the ad asset itself has worn out.\", \"recommended_action\": \"Refresh the creative by introducing new lantern-lit adventure visuals.\"}",
+"created_at": "2026-11-07T14:15:30"
+},
+{
+"prompt_hash": "ed6e4f0224a13157897f0f78bd58c7e709eec8c8a6ab0e87b58c699e9db841fd",
+"task": "narrate",
+"provider": "gemini",
+"response": "{\"headline\": \"Segment saturation is the most likely cause for ad M4.\", \"explanation\": \"Pixel Art Animators show a -52% drop in CTR while annoyed comments rose to 30% (+6%), pointing to creative fatigue in this audience. This rules out a general campaign failure since Late-Night Creators actually increased by +35%, and the -2.2 σ drop in recent CTR confirms localized segment burnout rather than a global issue.\", \"recommended_action\": \"Split targeting by segment to exclude fatigued audiences and focus spend on responsive groups.\"}",
+"created_at": "2026-11-07T14:15:35"
+},
+{
+"prompt_hash": "04ad6910462ee67f437a2e3560c01fb1b9453524fbad834cc280008bef9e9b80",
+"task": "narrate",
+"provider": "gemini",
+"response": "{\"headline\": \"Tracking failure halts Lanternfall conversions while clicks remain normal.\", \"explanation\": \"Conversions dropped to zero with 0 conversions in 2 days while clicks stayed normal, and the conversion rate fell by -4.8 ̳σ last 3 days vs baseline. Annoyed comments share reached 33% (+18%), and other ads dropped at the same time (50% of all, 0% of campaign), ruling out creative fatigue.\", \"recommended_action\": \"Check your tracking implementation immediately to resolve the zero-conversion reporting issue.\"}",
+"created_at": "2026-11-07T14:15:39"
+},
+{
+"prompt_hash": "d8183c18e5d5e98775163d206795c217fe18e23a99c31dff04ecba20089a71a8",
+"task": "variants",
+"provider": "gemini",
+"response": "{\"variants\": [{\"changed_dimension\": \"hook\", \"hook\": \"Decorate your woods.\", \"body\": \"Lanternfall: a cozy adventure through a forest that glows back. Wishlist on Steam.\", \"cta\": \"Wishlist now\", \"offer\": \"none\", \"hypothesis\": \"Using a community-specific keyword in the hook directly addresses cottagecore decorators.\", \"expected_effect\": \"Click-through rate should increase as the opening grabs the target audience immediately.\"}, {\"changed_dimension\": \"cta\", \"hook\": \"Light the way home.\", \"body\": \"Lanternfall: a cozy adventure through a forest that glows back. Wishlist on Steam.\", \"cta\": \"Explore the forest\", \"offer\": \"none\", \"hypothesis\": \"A softer, more immersive call to action aligns better with a gentle exploration experience.\", \"expected_effect\": \"Conversion rate from click to wishlist should improve by matching the game's whimsical tone.\"}, {\"changed_dimension\": \"benefit\", \"hook\": \"Light the way home.\", \"body\": \"Design your cozy woodland retreat in Lanternfall. A whimsical world that glows back. Wishlist on Steam.\", \"cta\": \"Wishlist now\", \"offer\": \"none\", \"hypothesis\": \"Highlighting gentle village decoration features appeals directly to the decorating community.\", \"expected_effect\": \"Engagement and video/image dwell time should rise as it matches their specific gameplay desires.\"}]}",
+"created_at": "2026-11-07T14:15:45"
+},
+{
+"prompt_hash": "b87e4442a4206b5acace012069ae41f95f422152b27aaa19370f00ab5a9b1b5d",
+"task": "learning",
+"provider": "gemini",
+"response": "{\"insight\": \"For Cottagecore Decorators, benefit beat original on ctr\", \"evidence\": \"Impressions: 15868, clicks: 159, conversions: 31, rate: 0.01002, p_best: 0.9932\", \"community\": \"Cottagecore Decorators\", \"dimension\": \"benefit\"}",
+"created_at": "2026-11-07T14:15:55"
+},
+{
+"prompt_hash": "599445e43c30e9f77af738003282da24f4f72310e76811ec4b766dc8f7f23c6d",
+"task": "narrate",
+"provider": "gemini",
+"response": "{\"headline\": \"Auction pressure is the primary cause for ad N4, driven by a +11.1 ̶σ CPM spike.\", \"explanation\": \"The evidence strongly points to auction pressure with a CPM increase of +11.1 ̶σ and a CTR drop of -4.1 ̶σ, while ruling out creative fatigue which sits at a low 0.134 probability. Annoyed comments also rose to 39% (+22%) against a modest -3% market demand index.\", \"recommended_action\": \"Rebalance your budget to mitigate the severe auction pressure.\"}",
+"created_at": "2026-11-07T14:15:57"
+},
+{
+"prompt_hash": "fcda4d0a7c4127921a8838e0b6d1e9282a5111bd5c85ff43ec803544a62518fb",
+"task": "narrate",
+"provider": "gemini",
+"response": "{\"headline\": \"Auction pressure is the most likely cause for ad N2, showing a +12.5 σ spike in CPM.\", \"explanation\": \"The evidence points to market-level auction pressure because CPM surged by +12.5 σ over the baseline while 33% of campaign ads dropped simultaneously. This rules out creative fatigue, supported by a healthy CTR increase of +1.4 σ and a low frequency correlation of -0.46 at frequency 1.3.\", \"recommended_action\": \"Rebalance budget away from the heavily inflated auction segments.\"}",
+"created_at": "2026-11-07T14:15:59"
+},
+{
+"prompt_hash": "5eaa5caa1ea81c7d6ad1a7644793b8d8ac98864d343d1d1c1eb1b9b8cd2d21ff",
+"task": "variants",
+"provider": "gemini",
+"response": "{\"variants\": [{\"changed_dimension\": \"cta\", \"hook\": \"Every frame hand-painted\", \"body\": \"Timelapse: one Lanternfall scene from sketch to glow. Wishlist if you like it.\", \"cta\": \"Play on PC\", \"offer\": \"none\", \"hypothesis\": \"Changing the call to action from generic wishlisting to platform specificity will clarify availability and capture high-intent PC users.\", \"expected_effect\": \"Increase click-through rate and lower cost per click.\"}, {\"changed_dimension\": \"benefit\", \"hook\": \"Every frame hand-painted\", \"body\": \"Explore a cozy world lit entirely by glowing lanterns and soft pixel art.\", \"cta\": \"Wishlist now\", \"offer\": \"none\", \"hypothesis\": \"Focusing the body on the core sensory benefit of the art style rather than the dev process aligns better with what cozy gamers desire.\", \"expected_effect\": \"Improve conversion rate to wishlist page.\"}, {\"changed_dimension\": \"emotional_angle\", \"hook\": \"Find your quiet place\", \"body\": \"Step into a gentle world of warm lantern light and soft pixel art made for cozy evenings.\", \"cta\": \"Wishlist now\", \"offer\": \"none\", \"hypothesis\": \"Shifting from a technical art-process angle to a warm emotional refuge angle will resonate more deeply with the community's desire for relaxation.\", \"expected_effect\": \"Increase watch time and emotional engagement metrics.\"}]}",
+"created_at": "2026-11-07T14:16:02"
+},
+{
+"prompt_hash": "5cbc950fef9ab22e0f48670677ff26b4a34ca83456aaa3904f9180323e34e966",
+"task": "learning",
+"provider": "gemini",
+"response": "{\"insight\": \"For Pixel Sprite Crafters, benefit beat original on conversions_per_impression.\", \"evidence\": \"8153 impressions, 348 clicks, 92 conversions, 0.011284 rate, 0.8038 p_best\", \"community\": \"Pixel Sprite Crafters\", \"dimension\": \"benefit\"}",
+"created_at": "2026-11-07T14:16:11"
+}
+]

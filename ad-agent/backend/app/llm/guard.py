@@ -1,23 +1,10 @@
 """Brand guard: done by code, never by the LLM."""
 from __future__ import annotations
 
-import json
 import re
 
-from app.config import SEED
 
-_BRAND = None
-
-
-def brand() -> dict:
-    global _BRAND
-    if _BRAND is None:
-        _BRAND = json.loads((SEED / "brand.json").read_text(encoding="utf-8"))
-    return _BRAND
-
-
-def check(v: dict) -> list[dict]:
-    b = brand()
+def check(v: dict, b: dict) -> list[dict]:
     fails = []
     lim = b["limits"]
     for field, key in (("hook", "headline"), ("body", "body"), ("cta", "cta")):
@@ -28,7 +15,7 @@ def check(v: dict) -> list[dict]:
     for p in b["banned_phrases"]:
         if p.lower() in text:
             fails.append({"rule": "banned phrase", "detail": p})
-    for pat in b["health_claim_patterns"]:
+    for pat in b.get("health_claim_patterns", []):
         if re.search(pat, text):
             fails.append({"rule": "health claim", "detail": pat})
     for c in b["competitors"]:

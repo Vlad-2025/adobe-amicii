@@ -58,13 +58,14 @@ def get_embedder(fresh: bool = False) -> Embedder:
     """Runtime embeddings must live in the same space as the world build, so use the kind
     recorded at build time. `fresh=True` (world build) picks the best available instead."""
     global _EMBEDDER
+    from app import db
+
     if fresh:
         _EMBEDDER = Embedder()
+        db.kv_set("embedder", _EMBEDDER.kind)
         return _EMBEDDER
     if _EMBEDDER is None:
-        from app import db
-
-        built = (db.kv_get("world_meta") or {}).get("embedder")
+        built = db.kv_get("embedder")
         _EMBEDDER = Embedder("hash" if built == "hash" else None)
         if built and _EMBEDDER.kind != built:
             raise RuntimeError(f"World was built with '{built}' embeddings but they are unavailable now; run: python run.py build-world")

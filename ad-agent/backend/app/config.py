@@ -20,7 +20,7 @@ FRONTEND_DIST = ROOT / "frontend" / "dist"
 
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "gemini")  # gemini | ollama | cache-only
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "").strip()
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash-lite")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite")
 OLLAMA_URL = os.getenv("OLLAMA_URL", "http://127.0.0.1:11434")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen3:1.7b")
 LLM_TIMEOUT_S = float(os.getenv("LLM_TIMEOUT_S", "15"))

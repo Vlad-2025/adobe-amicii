@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Checkbox, Flex, Heading, Item, Picker, ProgressCircle, Text } from "@adobe/react-spectrum";
-import { HYPO_LABEL, post, useApi } from "../api";
+import { HYPO_LABEL, post, useApi , C } from "../api";
 import { go } from "../App";
 import { AiTag, Card } from "../components/ui";
 
@@ -23,7 +23,7 @@ function Resonance({ scores }: { scores: Record<string, number> }) {
 }
 
 export default function CreativeStudio({ adId }: { adId?: string }) {
-  const ads = useApi<any[]>("ads", "/api/ads");
+  const ads = useApi<any[]>("ads", C("/ads"));
   const [ad, setAd] = useState<string | undefined>(adId);
   const [res, setRes] = useState<any>(null);
   const [busy, setBusy] = useState(false);
@@ -39,7 +39,7 @@ export default function CreativeStudio({ adId }: { adId?: string }) {
     setBusy(true);
     setRes(null);
     try {
-      const r = await post(`/api/creatives/${ad}/variants`, {});
+      const r = await post(C(`/creatives/${ad}/variants`), {});
       setRes(r);
       setPicked(new Set(r.variants.filter((v: any) => !v.guard.length).map((v: any) => v.ad_id)));
     } finally {
@@ -47,7 +47,7 @@ export default function CreativeStudio({ adId }: { adId?: string }) {
     }
   };
   const start = async () => {
-    const r = await post("/api/experiments", { source_ad_id: ad, variant_ids: Array.from(picked) });
+    const r = await post(C("/experiments"), { source_ad_id: ad, variant_ids: Array.from(picked) });
     go("experiments", String(r.id));
   };
 

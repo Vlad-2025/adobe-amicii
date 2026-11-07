@@ -80,7 +80,7 @@ def setup(args: list[str]) -> None:
 
 
 def build_world(args: list[str]) -> None:
-    pyrun("import logging; logging.basicConfig(level=logging.INFO); from app.world.build import build; print(build())")
+    pyrun("import logging; logging.basicConfig(level=logging.INFO); from app.world.build import build_all; [print(m) for m in build_all()]")
 
 
 def train(args: list[str]) -> None:

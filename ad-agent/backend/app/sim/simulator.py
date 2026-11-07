@@ -34,9 +34,9 @@ PACK_N = np.array([1, 4, 12])
 PRICE = 2.9
 
 
-def _uniq(k: np.ndarray) -> np.ndarray:
-    """Expected unique people reached when k impressions land on a twin of TWIN_SCALE people."""
-    return TWIN_SCALE * (1 - (1 - 1 / TWIN_SCALE) ** k)
+def _uniq(k: np.ndarray, scale: int = TWIN_SCALE) -> np.ndarray:
+    """Expected unique people reached when k impressions land on a twin standing for `scale` people."""
+    return scale * (1 - (1 - 1 / scale) ** k)
 
 
 @dataclass
@@ -69,7 +69,21 @@ class Ad:
 
 
 class Simulator:
-    def __init__(self, world: dict, ad_sets: dict, campaigns: dict, ads: list[dict], seed: int = 7):
+    def __init__(self, world: dict, ad_sets: dict, campaigns: dict, ads: list[dict], seed: int = 7, params: dict | None = None):
+        """params (per channel): base_cpm, b0, lam, weekend, economics{order_values, order_probs, base_cvr, price_factor, price_factor_offer}."""
+        p = params or {}
+        eco = p.get("economics", {})
+        self.scale = int(p.get("twin_scale", TWIN_SCALE))  # real people per twin (bigger audiences = more people per twin)
+        self.p_base_cpm = float(p.get("base_cpm", BASE_CPM))
+        self.p_b0 = float(p.get("b0", B0))
+        self.p_lam = float(p.get("lam", LAM))
+        self.p_weekend = float(p.get("weekend", 1.1))
+        self.p_cvr = float(eco.get("base_cvr", BASE_CVR))
+        self.p_order_values = np.array(eco.get("order_values", PACK_N * PRICE), float)
+        self.p_order_probs = np.array(eco.get("order_probs", PACK_P), float)
+        self.p_order_probs = self.p_order_probs / self.p_order_probs.sum()
+        self.p_price_factor = float(eco.get("price_factor", 0.5))
+        self.p_price_factor_offer = float(eco.get("price_factor_offer", 0.35))
         self.rng = np.random.default_rng(seed)
         self.day = 0
         self.interest = world["interest"]
@@ -147,7 +161,7 @@ class Simulator:
     def step(self) -> list[dict]:
         d = self.day
         rng = self.rng
-        weekly = 1.1 if d % 7 in (5, 6) else 1.0
+        weekly = self.p_weekend if d % 7 in (5, 6) else 1.0
         act = self._mult("activity", d)
         season = weekly * act
         self.market[d] = float(np.clip(act * (1 + rng.normal(0, 0.03)), 0.3, 1.5))
@@ -174,7 +188,7 @@ class Simulator:
                 ad = self.ads[i]
                 budget = s["daily_budget"] * ad.weight / tw * self._mult("budget_multiplier", d, ad)
                 comp = self._mult("competition", d, ad)
-                cpm = BASE_CPM * comp * math.exp(rng.normal(0, CPM_SIGMA)) * (0.92 if act < 1 else 1.0)
+                cpm = self.p_base_cpm * comp * math.exp(rng.normal(0, CPM_SIGMA)) * (0.92 if act < 1 else 1.0)
                 n_imp = int(rng.poisson(budget / cpm * 1000))
                 if n_imp == 0 or not target.any():
                     continue
@@ -188,19 +202,19 @@ class Simulator:
                 cpm_a[i] = cpm
 
                 tone_i = TONES.index(ad.tone) if ad.tone in TONES else 0
-                f_mid = f_eff[:, i] + imps[:, i] / (2.0 * TWIN_SCALE)
-                logit = (B0 + B1 * self.aff[:, i] + B2 * self.tone_pref[self.labels, tone_i] + B3 * self.prime_c
-                         - LAM * np.log1p(np.maximum(f_mid - F0, 0)) + math.log(season))
+                f_mid = f_eff[:, i] + imps[:, i] / (2.0 * self.scale)
+                logit = (self.p_b0 + B1 * self.aff[:, i] + B2 * self.tone_pref[self.labels, tone_i] + B3 * self.prime_c
+                         - self.p_lam * np.log1p(np.maximum(f_mid - F0, 0)) + math.log(act) + 0.3 * math.log(weekly))
                 pc = 1 / (1 + np.exp(-logit))
                 clicks[:, i] = rng.binomial(imps[:, i], pc)
                 landing = self._mult("landing_health", d, ad)
-                price_factor = 0.35 if ad.offer and ad.offer != "none" else 0.5
-                pv = np.clip(BASE_CVR * landing * season * (1 - self.price * price_factor), 0, 1)
+                price_factor = self.p_price_factor_offer if ad.offer and ad.offer != "none" else self.p_price_factor
+                pv = np.clip(self.p_cvr * landing * act * (1 - self.price * price_factor), 0, 1)
                 conv[:, i] = rng.binomial(clicks[:, i], pv)
 
         # update exposure state
         self.n *= FATIGUE_DECAY
-        self.n += imps / TWIN_SCALE
+        self.n += imps / self.scale
         self.hist7.append(imps)
         if len(self.hist7) > 7:
             self.hist7.pop(0)
@@ -213,8 +227,8 @@ class Simulator:
             tracking_off = bool(self._eff("tracking_off", d, ad))
             lab = self.labels
             imp_c = np.bincount(lab, weights=imps[:, i], minlength=self.K)
-            reach_c = np.bincount(lab, weights=_uniq(imps[:, i]), minlength=self.K)
-            reach7_c = np.bincount(lab, weights=_uniq(h7[:, i]), minlength=self.K)
+            reach_c = np.bincount(lab, weights=_uniq(imps[:, i], self.scale), minlength=self.K)
+            reach7_c = np.bincount(lab, weights=_uniq(h7[:, i], self.scale), minlength=self.K)
             imp7_c = np.bincount(lab, weights=h7[:, i], minlength=self.K)
             clk_c = np.bincount(lab, weights=clicks[:, i], minlength=self.K)
             cv_c = np.bincount(lab, weights=conv[:, i], minlength=self.K)
@@ -227,8 +241,8 @@ class Simulator:
                 p_ann = float(np.clip(0.04 + 0.06 * mean_f, 0, 0.9))
                 n_ann = rng.binomial(n_com, p_ann)
                 n_conv = int(cv_c[c])
-                packs = rng.choice(PACK_N, size=n_conv, p=PACK_P) if n_conv else np.array([])
-                revenue = float(packs.sum() * PRICE)
+                orders = rng.choice(self.p_order_values, size=n_conv, p=self.p_order_probs) if n_conv else np.array([])
+                revenue = float(orders.sum())
                 rows.append({
                     "day": d, "ad_id": ad.ad_id, "community_id": int(c),
                     "impressions": float(real_imp), "reach": float(reach_c[c]),

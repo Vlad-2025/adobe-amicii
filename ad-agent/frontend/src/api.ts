@@ -5,6 +5,22 @@ export const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnWindowFocus: false, staleTime: 1000 } },
 });
 
+/** The channel every channel-scoped screen talks to (set by App from the URL). */
+let currentChannel = "";
+export const setChannel = (ch: string) => {
+  currentChannel = ch;
+};
+export const currentCh = () => currentChannel;
+/** Channel-scoped API path. */
+export const C = (path: string) => `/api/ch/${currentChannel}${path}`;
+
+export const PLATFORM_LABEL: Record<string, string> = {
+  instagram: "Instagram", facebook: "Facebook", tiktok: "TikTok", x: "X", linkedin: "LinkedIn", bluesky: "Bluesky", listening: "Social listening",
+};
+export const PLATFORM_COLOR: Record<string, string> = {
+  instagram: "#d6249f", facebook: "#1877f2", tiktok: "#25f4ee", x: "#e7e7e7", linkedin: "#0a66c2", bluesky: "#1185fe", listening: "#9aa5b1",
+};
+
 export async function get<T = any>(path: string): Promise<T> {
   const r = await fetch(path);
   if (!r.ok) throw new Error(`${r.status} ${await r.text()}`);

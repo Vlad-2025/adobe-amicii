@@ -1,0 +1,514 @@
+{
+ "company_id": "mosslight",
+ "name": "Mosslight Games",
+ "industry": "Indie game studio (Steam wishlists)",
+ "fictional": true,
+ "description": "Fictional 6-person studio marketing its cozy adventure game 'Lanternfall'. A conversion is a Steam wishlist, worth ~€2.50.",
+ "brand": {
+  "name": "Mosslight Games",
+  "product": "Lanternfall, a cozy lantern-lit adventure game for PC",
+  "price_eur": 19.99,
+  "target_age": "16-40",
+  "tone": "warm, whimsical, honest",
+  "banned_phrases": [
+   "game of the year",
+   "best game ever",
+   "AAA quality"
+  ],
+  "health_claim_patterns": [],
+  "competitors": [
+   "Stardew Valley",
+   "Hollow Knight",
+   "Nintendo"
+  ],
+  "limits": {
+   "headline": 60,
+   "body": 150,
+   "cta": 20
+  }
+ },
+ "economics": {
+  "order_values": [
+   2.5
+  ],
+  "order_probs": [
+   1.0
+  ],
+  "base_cvr": 0.28,
+  "price_factor": 0.1,
+  "price_factor_offer": 0.05,
+  "conversion_name": "Steam wishlist"
+ },
+ "memory": [
+  {
+   "insight": "Cozy gamers wishlist after seeing the world, not the mechanics.",
+   "evidence": "Scenery clip CVR 31% vs crafting clip 22%",
+   "applies_to": {
+    "pack": "cozy_gamers",
+    "dimension": "hook"
+   },
+   "winner": true,
+   "created_day": -30
+  },
+  {
+   "insight": "Dev-log style ads saturate game-dev audiences within a week.",
+   "evidence": "CTR halved after 6 days at frequency 4+",
+   "applies_to": {
+    "pack": "game_dev",
+    "dimension": "emotional_angle"
+   },
+   "winner": false,
+   "created_day": -14
+  }
+ ],
+ "variant_bank": {
+  "hook": [
+   {
+    "hook": "A lantern, a moth, and a very old forest.",
+    "hypothesis": "World-first hook fits cozy gamers."
+   },
+   {
+    "hook": "No timers. No fail states. Just light.",
+    "hypothesis": "Stress-free promise is new information."
+   }
+  ],
+  "cta": [
+   {
+    "cta": "Wishlist on Steam",
+    "hypothesis": "Explicit platform CTA reduces confusion."
+   },
+   {
+    "cta": "Play the demo",
+    "hypothesis": "Demo CTA attracts higher-intent players."
+   }
+  ],
+  "benefit": [
+   {
+    "body": "Hand-painted forests, a soundtrack recorded with real lanterns, and a moth who refuses to leave.",
+    "hypothesis": "Craft details create curiosity."
+   }
+  ],
+  "emotional_angle": [
+   {
+    "hook": "For the evenings you need something gentle.",
+    "body": "Lanternfall is a 6-hour cozy adventure about finding your way home.",
+    "hypothesis": "Comfort angle differs from the adventure angle."
+   }
+  ],
+  "offer": [
+   {
+    "offer": "free demo + soundtrack sampler",
+    "hypothesis": "A bonus increases wishlist intent."
+   }
+  ]
+ },
+ "audience_sources": [
+  {
+   "source_id": "ml-bsky",
+   "platform": "bluesky",
+   "handle": "@mosslight.games",
+   "mode": "simulated",
+   "packs": [
+    "gaming",
+    "cozy_gamers",
+    "game_dev",
+    "pixel_artists",
+    "creators"
+   ]
+  }
+ ],
+ "channels": [
+  {
+   "channel_id": "ml-x",
+   "platform": "x",
+   "name": "X Ads",
+   "handle": "@mosslightgames",
+   "mode": "simulated",
+   "report_lag_days": 1,
+   "audience": {
+    "type": "bluesky",
+    "source": "ml-bsky",
+    "packs": {
+     "gaming": 420,
+     "cozy_gamers": 320,
+     "game_dev": 300,
+     "pixel_artists": 260,
+     "creators": 360
+    }
+   },
+   "sim": {
+    "base_cpm": 4.0,
+    "b0": -4.3,
+    "lam": 0.6,
+    "twin_scale": 90
+   },
+   "campaigns": [
+    {
+     "campaign_id": "m_wish",
+     "name": "Lanternfall wishlist push",
+     "objective": "conversions",
+     "max_cpa": 2.2,
+     "min_roas": 1.1,
+     "total_budget": 95.0
+    },
+    {
+     "campaign_id": "m_demo",
+     "name": "Demo launch",
+     "objective": "conversions",
+     "max_cpa": 2.2,
+     "min_roas": 1.1,
+     "total_budget": 40.0
+    }
+   ],
+   "ad_sets": [
+    {
+     "ad_set_id": "mx_cozy",
+     "campaign_id": "m_wish",
+     "name": "Cozy gamers",
+     "daily_budget": 22.0,
+     "target_packs": [
+      "cozy_gamers"
+     ]
+    },
+    {
+     "ad_set_id": "mx_gaming",
+     "campaign_id": "m_wish",
+     "name": "Gamers",
+     "daily_budget": 40.0,
+     "target_packs": [
+      "gaming"
+     ]
+    },
+    {
+     "ad_set_id": "mx_devs",
+     "campaign_id": "m_wish",
+     "name": "Game devs + pixel artists",
+     "daily_budget": 48.0,
+     "target_packs": [
+      "game_dev",
+      "pixel_artists"
+     ]
+    },
+    {
+     "ad_set_id": "mx_creators",
+     "campaign_id": "m_demo",
+     "name": "Creators + gamers",
+     "daily_budget": 40.0,
+     "target_packs": [
+      "creators",
+      "gaming"
+     ]
+    }
+   ],
+   "creatives": [
+    {
+     "ad_id": "M1",
+     "ad_set_id": "mx_cozy",
+     "hook": "Light the way home.",
+     "body": "Lanternfall: a cozy adventure through a forest that glows back. Wishlist on Steam.",
+     "cta": "Wishlist now",
+     "offer": "none",
+     "tone": "chill",
+     "angle": "cozy world"
+    },
+    {
+     "ad_id": "M2",
+     "ad_set_id": "mx_gaming",
+     "hook": "Puzzles lit by your lantern.",
+     "body": "Bend light, wake old machines, befriend a moth. Lanternfall is coming to PC.",
+     "cta": "Wishlist now",
+     "offer": "none",
+     "tone": "energetic",
+     "angle": "puzzles"
+    },
+    {
+     "ad_id": "M3",
+     "ad_set_id": "mx_gaming",
+     "hook": "6 people, 3 years, 1 lantern.",
+     "body": "We're a tiny studio making the game we wanted to play. Wishlisting helps more than you think.",
+     "cta": "Wishlist on Steam",
+     "offer": "none",
+     "tone": "informative",
+     "angle": "indie story"
+    },
+    {
+     "ad_id": "M4",
+     "ad_set_id": "mx_devs",
+     "hook": "Our lighting shader, explained.",
+     "body": "How we made every leaf in Lanternfall catch lantern light. Dev log + wishlist link.",
+     "cta": "Read the dev log",
+     "offer": "none",
+     "tone": "informative",
+     "angle": "dev log"
+    },
+    {
+     "ad_id": "M5",
+     "ad_set_id": "mx_creators",
+     "hook": "Free demo. Big cozy energy.",
+     "body": "Stream it, clip it, wishlist it. The Lanternfall demo is live on Steam.",
+     "cta": "Play the demo",
+     "offer": "free demo",
+     "tone": "witty",
+     "angle": "creators"
+    }
+   ],
+   "scenarios": {
+    "A": {
+     "name": "Creative fatigue",
+     "description": "M1 budget x2.5 into the small cozy-gamer community",
+     "label": "creative_fatigue",
+     "target": {
+      "ad": "M1"
+     },
+     "effect": {
+      "type": "budget_multiplier",
+      "value": 2.9
+     },
+     "history": {
+      "start_day": 12,
+      "end_day": null
+     },
+     "eval_ad": "M1",
+     "live_duration": null,
+     "live_effect": {
+      "type": "budget_multiplier",
+      "value": 5.0
+     }
+    },
+    "E": {
+     "name": "Segment saturation",
+     "description": "M4 delivery skewed into pixel artists",
+     "label": "segment_saturation",
+     "target": {
+      "ad": "M4",
+      "pack": "pixel_artists"
+     },
+     "effect": {
+      "type": "delivery_skew",
+      "value": 10.0
+     },
+     "history": {
+      "start_day": 0,
+      "end_day": null
+     },
+     "eval_ad": "M4",
+     "live_duration": null
+    },
+    "F": {
+     "name": "Steam UTM tracking broke",
+     "description": "Demo launch wishlists report 0",
+     "label": "tracking",
+     "target": {
+      "campaign": "m_demo"
+     },
+     "effect": {
+      "type": "tracking_off",
+      "value": 0
+     },
+     "history": {
+      "start_day": 27,
+      "end_day": null
+     },
+     "eval_ad": "M5",
+     "live_duration": null
+    },
+    "L2": {
+     "name": "Seasonal dip (live)",
+     "description": "All activity x0.75 for 4 days",
+     "label": "seasonality",
+     "target": {
+      "all": true
+     },
+     "effect": {
+      "type": "activity",
+      "value": 0.75
+     },
+     "history": null,
+     "eval_ad": "M3",
+     "live_duration": 4
+    }
+   }
+  },
+  {
+   "channel_id": "ml-tt",
+   "platform": "tiktok",
+   "name": "TikTok Ads",
+   "handle": "@mosslightgames",
+   "mode": "simulated",
+   "report_lag_days": 1,
+   "audience": {
+    "type": "segments",
+    "packs": {
+     "cozy_gamers": 520,
+     "gaming": 600,
+     "pixel_artists": 300
+    },
+    "labels": {
+     "cozy_gamers": "Interest: cozy games, Animal Crossing-likes · 16-34",
+     "gaming": "Interest: PC gaming, Steam · 16-34",
+     "pixel_artists": "Interest: pixel art, indie dev · 18-34"
+    }
+   },
+   "sim": {
+    "base_cpm": 4.5,
+    "b0": -4.1,
+    "lam": 0.75,
+    "twin_scale": 70
+   },
+   "campaigns": [
+    {
+     "campaign_id": "n_clips",
+     "name": "Lanternfall clips",
+     "objective": "conversions",
+     "max_cpa": 2.2,
+     "min_roas": 1.1,
+     "total_budget": 95.0
+    }
+   ],
+   "ad_sets": [
+    {
+     "ad_set_id": "nt_cozy",
+     "campaign_id": "n_clips",
+     "name": "Cozy gamers",
+     "daily_budget": 30.0,
+     "target_packs": [
+      "cozy_gamers"
+     ]
+    },
+    {
+     "ad_set_id": "nt_gaming",
+     "campaign_id": "n_clips",
+     "name": "PC gamers",
+     "daily_budget": 40.0,
+     "target_packs": [
+      "gaming"
+     ]
+    },
+    {
+     "ad_set_id": "nt_art",
+     "campaign_id": "n_clips",
+     "name": "Pixel art fans",
+     "daily_budget": 15.0,
+     "target_packs": [
+      "pixel_artists"
+     ]
+    }
+   ],
+   "creatives": [
+    {
+     "ad_id": "N1",
+     "ad_set_id": "nt_cozy",
+     "hook": "This forest glows when you're kind to it",
+     "body": "Lanternfall: cozy, gentle, 100% moth-approved. Wishlist on Steam.",
+     "cta": "Wishlist now",
+     "offer": "none",
+     "tone": "chill",
+     "angle": "cozy world"
+    },
+    {
+     "ad_id": "N2",
+     "ad_set_id": "nt_gaming",
+     "hook": "Light puzzles that click",
+     "body": "Bend the beam, open the gate. 40 hand-made puzzles in a glowing forest.",
+     "cta": "Wishlist now",
+     "offer": "none",
+     "tone": "energetic",
+     "angle": "puzzles"
+    },
+    {
+     "ad_id": "N3",
+     "ad_set_id": "nt_gaming",
+     "hook": "We made a moth your best friend",
+     "body": "Meet Pip. Pip follows your lantern everywhere. Pip is coming to Steam.",
+     "cta": "Meet Pip",
+     "offer": "none",
+     "tone": "witty",
+     "angle": "character"
+    },
+    {
+     "ad_id": "N4",
+     "ad_set_id": "nt_art",
+     "hook": "Every frame hand-painted",
+     "body": "Timelapse: one Lanternfall scene from sketch to glow. Wishlist if you like it.",
+     "cta": "Wishlist now",
+     "offer": "none",
+     "tone": "informative",
+     "angle": "art process"
+    }
+   ],
+   "scenarios": {
+    "A": {
+     "name": "Creative fatigue",
+     "description": "N4 budget x2.5 into the small pixel-art segment",
+     "label": "creative_fatigue",
+     "target": {
+      "ad": "N4"
+     },
+     "effect": {
+      "type": "budget_multiplier",
+      "value": 3.5
+     },
+     "history": {
+      "start_day": 6,
+      "end_day": null
+     },
+     "eval_ad": "N4",
+     "live_duration": null,
+     "eval_day": 20,
+     "live_effect": {
+      "type": "budget_multiplier",
+      "value": 5.0
+     }
+    },
+    "C": {
+     "name": "Auction pressure",
+     "description": "Competition x1.7 (big release week)",
+     "label": "auction_pressure",
+     "target": {
+      "campaign": "n_clips"
+     },
+     "effect": {
+      "type": "competition",
+      "value": 1.7
+     },
+     "history": {
+      "start_day": 22,
+      "end_day": null
+     },
+     "eval_ad": "N2",
+     "live_duration": null
+    },
+    "L2": {
+     "name": "Seasonal dip (live)",
+     "description": "All activity x0.75 for 4 days",
+     "label": "seasonality",
+     "target": {
+      "all": true
+     },
+     "effect": {
+      "type": "activity",
+      "value": 0.75
+     },
+     "history": null,
+     "eval_ad": "N3",
+     "live_duration": 4
+    },
+    "L3": {
+     "name": "Tracking broke (live)",
+     "description": "Conversions report 0",
+     "label": "tracking",
+     "target": {
+      "campaign": "n_clips"
+     },
+     "effect": {
+      "type": "tracking_off",
+      "value": 0
+     },
+     "history": null,
+     "eval_ad": "N3",
+     "live_duration": null
+    }
+   }
+  }
+ ]
+}

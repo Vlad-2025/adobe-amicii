@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { Button, Flex, Heading, ProgressCircle, Text, Grid } from "@adobe/react-spectrum";
 import { Area, AreaChart, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { pct, post, postStream, queryClient, useApi } from "../api";
+import { pct, post, postStream, queryClient, useApi , C } from "../api";
 import { go } from "../App";
 import { AiTag, Card, chartTheme, td, th } from "../components/ui";
 
 const ARM_COLORS = ["#9aa5b1", "#f5a623", "#5aa9e6", "#7fc8a9", "#c58fe6"];
 
 export default function Experiments({ expId }: { expId?: string }) {
-  const list = useApi<any[]>("experiments", "/api/experiments");
+  const list = useApi<any[]>("experiments", C("/experiments"));
   const exp = list.data?.find((e) => String(e.id) === expId) ?? list.data?.[0];
   const [days, setDays] = useState<any[]>([]);
   const [result, setResult] = useState<any>(null);
@@ -36,7 +36,7 @@ export default function Experiments({ expId }: { expId?: string }) {
     setRunning(true);
     setDays([]);
     setResult(null);
-    await postStream(`/api/experiments/${exp.id}/run`, (ev, d) => {
+    await postStream(C(`/experiments/${exp.id}/run`), (ev, d) => {
       if (ev === "day") setDays((x) => [...x, d]);
       if (ev === "done") setResult(d);
     });
@@ -44,7 +44,7 @@ export default function Experiments({ expId }: { expId?: string }) {
     queryClient.invalidateQueries({ queryKey: ["experiments"] });
   };
   const apply = async () => {
-    const r = await post(`/api/experiments/${exp.id}/apply`);
+    const r = await post(C(`/experiments/${exp.id}/apply`));
     setApplied(r.applied);
     queryClient.invalidateQueries();
   };

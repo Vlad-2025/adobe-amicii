@@ -63,19 +63,23 @@ def evidence(ctx: Ctx, ad_id: str, day: int) -> dict:
     else:
         ev["freq_corr"] = 0.0
     ev["frequency"] = float(me["frequency"].iloc[-1]) if len(me) else 0.0
-    ctr3 = me["ctr"].rolling(3, min_periods=3).mean()
-    ev["ctr_vs_peak"] = float(ctr3.iloc[-1] / ctr3.max()) if ctr3.notna().any() and ctr3.max() > 0 else 1.0
+    from app.analytics.fatigue import pooled_ctr
+
+    c3, c7 = pooled_ctr(me, 3), pooled_ctr(me, 7)
+    ev["ctr_vs_peak"] = float(c3.iloc[-1] / c7.max()) if len(me) >= 7 and c7.max() > 0 else 1.0
     r, b = window(me["frequency"], day, gap=GAP)
     ev["freq_change"] = float(np.mean(r) - np.mean(b)) if len(r) and len(b) else 0.0
 
     # segment split: CTR change per community
     mine = allc[allc.ad_id == ad_id]
     ratios = {}
+    first_day = int(me.index.min()) if len(me) else 0
     for c, g in mine.groupby("community_id"):
-        g = with_rates(g.set_index("day").sort_index())
-        rr, bb = window(g["ctr"], day, gap=GAP)
-        if len(rr) and len(bb) and np.mean(bb) > 0 and g["impressions"].tail(3).sum() > 300:
-            ratios[int(c)] = float(np.mean(rr) / np.mean(bb))
+        g = g.set_index("day").sort_index()
+        recent = g[g.index > day - 3]
+        launch = g[g.index < first_day + 5]  # the ad's first 5 days in this segment: fresh audience
+        if recent["impressions"].sum() > 300 and launch["impressions"].sum() > 300 and launch["clicks"].sum() > 0:
+            ratios[int(c)] = float((recent["clicks"].sum() / recent["impressions"].sum()) / (launch["clicks"].sum() / launch["impressions"].sum()))
     ev["segment_ratios"] = ratios
     if len(ratios) >= 2:
         vals = np.array(list(ratios.values()))
@@ -99,7 +103,9 @@ def evidence(ctx: Ctx, ad_id: str, day: int) -> dict:
     # conversions to zero with normal clicks
     rc = me[me.index > day - 2]
     bc = me[(me.index <= day - 2) & (me.index > day - 16)]
-    ev["conv_zero"] = bool(len(rc) and rc["conversions"].sum() == 0 and bc["conversions"].mean() > 2 and ev["z_ctr"] > -2.5)
+    base_cvr = bc["conversions"].sum() / max(bc["clicks"].sum(), 1)
+    expected = base_cvr * rc["clicks"].sum()  # conversions we should have seen in the last 2 days
+    ev["conv_zero"] = bool(len(rc) and rc["conversions"].sum() == 0 and expected >= 12 and ev["z_ctr"] > -2.5)
     return ev
 
 
@@ -108,19 +114,22 @@ def score(ev: dict) -> dict[str, float]:
     d_cvr = np.clip(-ev["z_cvr"], 0, 8) / 2
     up_cpm = np.clip(ev["z_cpm"], 0, 8) / 2
     fcorr = np.clip(-ev["freq_corr"], 0, 1)
-    seg = float(np.clip((ev["segment_spread"] - 0.2) / 0.2, 0, 1)) * float(ev["segment_max"] > 0.85 and ev["segment_min"] < 0.8)
+    seg = float(np.clip((ev["segment_spread"] - 0.2) / 0.2, 0, 1)) * float(ev["segment_max"] > 0.75 and ev["segment_min"] < 0.7)
     mkt = np.clip(-ev["market_change"] / 0.1, 0, 3)
-    broad = float(np.clip((ev["breadth_all"] - 0.4) / 0.5, 0, 1))
+    broad = float(np.clip((ev["breadth_all"] - 0.5) / 0.4, 0, 1))
     camp = ev["breadth_campaign"]
     camp_hi = float(np.clip((camp - 0.5) * 2, 0, 1))
     peak_drop = float(np.clip((0.8 - ev["ctr_vs_peak"]) / 0.3, 0, 1.5))
+    # "everything dropped at once" only counts as market-wide when this ad does not carry its own
+    # fatigue signature (CTR falling as frequency rises): gradual parallel fatigue is not a seasonal step
+    broad_step = broad * (1 - 0.8 * fcorr)
     s = {
         "creative_fatigue": 0.7 * d_ctr + 1.8 * peak_drop + 1.2 * fcorr + 4 * max(ev["annoyed_change"], 0)
-                            - 3.0 * broad - 2.5 * seg - 1.5 * mkt - 0.4 * d_cvr - 0.4 * up_cpm - 1.2 * camp_hi,
-        "segment_saturation": 0.6 * d_ctr + 3.2 * seg + 0.6 * fcorr - 2.0 * broad - 1.5 * mkt,
+                            - 3.0 * broad_step - 2.5 * seg - 1.5 * mkt - 0.4 * d_cvr - 0.4 * up_cpm - 1.2 * camp_hi,
+        "segment_saturation": 0.6 * d_ctr + 3.2 * seg + 0.6 * fcorr - 2.0 * broad_step - 1.5 * mkt,
         "auction_pressure": 1.4 * up_cpm + 0.6 * camp - 0.5 * d_ctr - 0.5 * d_cvr - 1.0 * mkt,
-        "landing_page": 1.5 * d_cvr + 1.2 * camp_hi - 0.3 * d_ctr - 2.0 * broad - 1.0 * mkt - 0.4 * up_cpm,
-        "seasonality": 2.5 * broad + 1.6 * mkt + 0.2 * d_ctr + 0.2 * d_cvr - 0.8 * seg,
+        "landing_page": 1.5 * d_cvr + 1.2 * camp_hi - 0.3 * d_ctr - 2.0 * broad_step - 1.0 * mkt - 0.4 * up_cpm,
+        "seasonality": 1.8 * broad_step + 1.8 * mkt + 0.2 * d_ctr + 0.2 * d_cvr - 0.8 * seg - 1.2 * peak_drop * fcorr,
         "tracking": 8.0 * float(ev["conv_zero"]),
         "no_issue": 1.6 - 0.8 * max(d_ctr, d_cvr, up_cpm),
     }
@@ -143,7 +152,7 @@ def evidence_items(ev: dict, community_names: dict[int, str] | None = None) -> l
         {"key": "cpm", "label": "CPM, last 3 days vs baseline", "value": f"{ev['z_cpm']:+.1f} σ", "strength": abs(ev["z_cpm"]), "points_to": "auction_pressure" if ev["z_cpm"] > 0 else None},
         {"key": "freq", "label": "CTR-frequency correlation (14 d)", "value": f"{ev['freq_corr']:+.2f} (freq {ev['frequency']:.1f})", "strength": 3 * max(-ev["freq_corr"], 0), "points_to": "creative_fatigue"},
         {"key": "breadth", "label": "Other ads dropping at the same time", "value": f"{ev['breadth_all']:.0%} of all, {ev['breadth_campaign']:.0%} of campaign", "strength": 4 * ev["breadth_all"] + 2 * ev["breadth_campaign"], "points_to": "seasonality" if ev["breadth_all"] > 0.5 else "landing_page"},
-        {"key": "segments", "label": "CTR change by community", "value": ", ".join(f"{names.get(c, f'C{c}')}: {r - 1:+.0%}" for c, r in sorted(ev["segment_ratios"].items(), key=lambda x: x[1])) or "n/a", "strength": 5 * ev["segment_spread"], "points_to": "segment_saturation"},
+        {"key": "segments", "label": "CTR by segment, now vs launch", "value": ", ".join(f"{names.get(c, f'C{c}')}: {r - 1:+.0%}" for c, r in sorted(ev["segment_ratios"].items(), key=lambda x: x[1])) or "n/a", "strength": 5 * ev["segment_spread"], "points_to": "segment_saturation"},
         {"key": "comments", "label": "Annoyed comments share", "value": f"{ev['annoyed_now']:.0%} ({ev['annoyed_change']:+.0%})", "strength": 20 * max(ev["annoyed_change"], 0), "points_to": "creative_fatigue"},
         {"key": "market", "label": "Market demand index (Trends-style)", "value": f"{ev['market_change']:+.0%}", "strength": 20 * max(-ev["market_change"], 0), "points_to": "seasonality"},
     ]
